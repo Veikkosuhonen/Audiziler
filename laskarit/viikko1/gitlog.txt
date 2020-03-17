@@ -1,0 +1,142 @@
+commit b7508b808a7288921fb1c332f4e1e5176d08db77
+Author: Veikkosuhonen <veikko@suhonen.net>
+Date:   Tue Mar 17 22:05:15 2020 +0200
+
+    harjoittelua
+
+ tiedostoja/file1             | 1 -
+ tiedostoja/{file2 => file22} | 0
+ 2 files changed, 1 deletion(-)
+
+commit 00a2e0e0125364f3e6518aed01a34fda47314e50
+Author: Veikkosuhonen <veikko@suhonen.net>
+Date:   Tue Mar 17 22:00:53 2020 +0200
+
+    tiedostoja
+
+ tiedostoja/file1 | 1 +
+ tiedostoja/file2 | 0
+ tiedostoja/file3 | 0
+ 3 files changed, 1 insertion(+)
+
+commit 9585ecab9883db9b081d3b85aaa3084622906d7f
+Author: Veikkosuhonen <veikko@suhonen.net>
+Date:   Tue Mar 17 21:58:49 2020 +0200
+
+    tiedostoja
+
+ file1 | 0
+ file2 | 0
+ file3 | 0
+ 3 files changed, 0 insertions(+), 0 deletions(-)
+
+commit 08bd39526d0bf763c946140e966d17852eee9bf5
+Author: Veikkosuhonen <veikko@suhonen.net>
+Date:   Tue Mar 17 21:58:22 2020 +0200
+
+    poistettiin tiedostoja
+
+ tiedostoja/file1 | 1 -
+ tiedostoja/file2 | 0
+ tiedostoja/file3 | 0
+ toinen.txt       | 1 +
+ 4 files changed, 1 insertion(+), 1 deletion(-)
+
+commit ccf5701b21707e166671f4b0cffd6ae484c589d3
+Author: Veikkosuhonen <veikko@suhonen.net>
+Date:   Tue Mar 17 21:48:04 2020 +0200
+
+    tiedostoja
+
+ tiedostoja/file1             | 1 +
+ tiedostoja/{file1, => file2} | 0
+ tiedostoja/file2,            | 0
+ 3 files changed, 1 insertion(+)
+
+commit 72ba59c77253ed0ae0e53be9c136f412622edccb
+Author: Veikkosuhonen <veikko@suhonen.net>
+Date:   Tue Mar 17 21:46:28 2020 +0200
+
+    tiedostoja
+
+ tiedosto.txt => eka.txt | 0
+ kolmas.txt              | 3 ++-
+ tiedostoja/file1,       | 0
+ tiedostoja/file2,       | 0
+ tiedostoja/file3        | 0
+ 5 files changed, 2 insertions(+), 1 deletion(-)
+
+commit 1d94ecf1c25a242da153746c7659766eafc413d1
+Author: Veikkosuhonen <veikko@suhonen.net>
+Date:   Tue Mar 17 21:30:29 2020 +0200
+
+    poistettiin toinen.txt
+
+ toinen.txt | 1 -
+ 1 file changed, 1 deletion(-)
+
+commit 264629aaf1ff219f3e526932723f0307175a55a5
+Author: Veikkosuhonen <veikko@suhonen.net>
+Date:   Tue Mar 17 21:27:38 2020 +0200
+
+    muutos
+
+ tiedosto.txt | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
+
+commit 6cecacd5b5c770e970788059bea159432d1650c0
+Author: Veikkosuhonen <veikko@suhonen.net>
+Date:   Tue Mar 17 21:20:59 2020 +0200
+
+    lisättiin tekstiä
+
+ tiedosto.txt | 1411 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 1411 insertions(+)
+
+commit d74b58a316c845f6fbfb23ada35705b7e17dd21e
+Author: Veikkosuhonen <veikko@suhonen.net>
+Date:   Tue Mar 17 15:41:47 2020 +0200
+
+    lisättiin stuff
+
+ stuff/stuff1 | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit d92d00f09008e0f048e0012211906e119009c809
+Author: Veikkosuhonen <veikko@suhonen.net>
+Date:   Tue Mar 17 15:41:04 2020 +0200
+
+    muutos toinen.txt ja kolmas.txt
+
+ kolmas.txt | 1 +
+ toinen.txt | 1 +
+ 2 files changed, 2 insertions(+)
+
+commit 20183af79407abf340edafa6d15e1b690f1e5cac
+Author: Veikkosuhonen <veikko@suhonen.net>
+Date:   Tue Mar 17 15:40:22 2020 +0200
+
+    kolmas.txt
+
+ kolmas.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 81b5c96dba204655336cab4ab4c712b383fcbeb6
+Author: Veikkosuhonen <veikko@suhonen.net>
+Date:   Tue Mar 17 15:38:31 2020 +0200
+
+    muutos ja lisäys
+
+ tiedosto.txt | 1 +
+ toinen.txt   | 0
+ 2 files changed, 1 insertion(+)
+
+commit 76672e622259e2e95710e6543469b7ee241769f8
+Author: Veikkosuhonen <veikko@suhonen.net>
+Date:   Tue Mar 17 15:36:19 2020 +0200
+
+    tiedosto.txt luotu
+
+ tiedosto.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
