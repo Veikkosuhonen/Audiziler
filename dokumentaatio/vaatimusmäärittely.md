@@ -10,4 +10,5 @@ Valinnan jälkeen siirrytään visualisaationäkymään, jossa keskelle piirret�
 Käyttöliittymän sivupalkeista voidaan palata äänilähteen valintaan, 
 muuttaa visualisoinnin parametreja ja tallentaa parametrivalinnat.
 ### Perusversio
+Perusversiossa toteutetaan vain kaikkein keskeisimmät toiminnot. Aluksi valitaan äänitiedosto, jonka soittoa voidaan kontrolloida mediapainikkeilla. Samaan näkymään piirretään äänilähteen hetkellinen taajuusspektri.
 ### Jatkokehittely
