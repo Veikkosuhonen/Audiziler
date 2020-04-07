@@ -39,7 +39,23 @@ and open the template in the editor.
     -fx-border-width: 2px;
     -fx-border-radius: 8px;
 }
-.vBox{
+.toggle-button{
+    -fx-text-fill: #e6efff;
+    -fx-background-color: #0b2021;
+    -fx-border-color: #2b7a58;
+    -fx-display: inline-block;
+    -fx-cursor: hand;
+}
+.toggle-button:selected{
+    -fx-border-color: #29418f;
+    -fx-border-width: 2px;
+}
+.toggle-button:hover{
+    -fx-background-color: #2aa36f;
+}
+.opener{
+    -fx-background-color: #113638;
+    -fx-border-color: #125357;
 }
 
 
