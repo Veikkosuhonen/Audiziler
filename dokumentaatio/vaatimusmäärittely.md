@@ -14,7 +14,7 @@ Sovelluksessa on yksi päänäkymä, jonka keskelle piirretään visualisaatio. 
   Oikealla: visualisaation hallinta. Tästä voidaan valita eri visualisaatiomalleja ja hallita slidereilla jotain niiden parametreista.
   Ylhäällä: sovelluksen käyttöohje
 
-Lisäksi äänentoistoa voi hallita klikkaamalla näkymää ja kokonäytön tilaan voidaan siirtyä painamalla f-näppäintä.
+Lisäksi äänentoistoa voi hallita klikkaamalla näkymää ja kokonäytön tilaan voidaan siirtyä painamalla f-näppäintä. (tehty)
 
 #### Visualisaatio
 Visualisaatio toteutetaan JavaFX:n MediaPlayer-olion audioSpectrumListener-observerilla. Tämä tarkkailee äänilähteen taajuuskanavien magnitudeja, joiden perusteella voidaan piirtää erilaisia visualisaatioita. Yksinkertainen visualisaatio piirtää rivin suorakulmioita, joiden korkeutta päivitetään jatkuvasti vastaamaan magnitudeja. (tehty)
