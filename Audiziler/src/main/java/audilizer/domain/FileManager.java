@@ -20,6 +20,9 @@ public class FileManager {
         files = new ArrayList();
     }
     public boolean add(File file) {
+        if (getFile(file.getName()) == file) {
+            return false;
+        }
         if (isSupported(file)) {
             files.add(file);
         } else {

@@ -5,6 +5,7 @@
  */
 package audilizer.media;
 
+import javafx.beans.binding.DoubleBinding;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
@@ -12,26 +13,29 @@ import javafx.scene.shape.Rectangle;
  *
  * @author vesuvesu
  */
+
 public class BarGroup {
     Rectangle[] rects;
     int length;
-    BarGroup(int length) {
+    BarGroup(int length, DoubleBinding width, DoubleBinding height) {
         this.length = length;
         rects = new Rectangle[length];
         
         for (int i = 0; i < length; i++) {
-            Rectangle rect = new Rectangle();
-            rect.setWidth(2);
-            rect.setHeight(0);
-            rect.setFill(Color.RED);
+            Rectangle rect = new Rectangle(i*4, 0, 4, 0);
+            rect.translateXProperty().bind(width);
+            rect.translateYProperty().bind(height);
             rects[i] = rect;
         }
     }
     Rectangle[] update(float[] magnitudes) {
-        System.out.println(magnitudes[100]);
+        //System.out.println(magnitudes[100]);
         for (int i = 0; i < length; i++) {
-            rects[i].setHeight(positive(magnitudes[i] + 90) * 4);
-            rects[i].setFill(Color.hsb(i * 1.0 / length * 255, 1.0, normalized(magnitudes[i])));
+            float newHeight = (float) rects[i].getHeight() - ((float) rects[i].getHeight() - height(magnitudes[i]))/3;
+            
+            rects[i].setY(320 - newHeight);
+            rects[i].setHeight(newHeight);
+            rects[i].setFill(Color.hsb(i * 1.0 / length * 64 + 128, 1.0, normalized(magnitudes[i])));
         }
         return rects;
     }
@@ -47,5 +51,8 @@ public class BarGroup {
             n = 1.0f;
         }
         return n;
+    }
+    private float height(float magnitude) {
+        return (float) Math.pow(magnitude + 90, 2) / 10;
     }
 }

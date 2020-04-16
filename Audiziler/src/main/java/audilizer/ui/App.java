@@ -7,8 +7,6 @@ package audilizer.ui;
 
 import audilizer.domain.FileManager;
 import javafx.application.Application;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
@@ -23,18 +21,19 @@ public class App extends Application {
     }    
     @Override
     public void start(Stage stage) throws Exception {
+        Window window = new Window();
         FileManager filemanager = new FileManager();
-        Player player = new Player(stage, filemanager);
+        Player player = new Player(stage, filemanager, window);
         
         player.getScene().setOnKeyPressed((KeyEvent e) -> {
             if (e.getCode() == KeyCode.F)
                 stage.setFullScreen(true);
         });
         
-        
         stage.setTitle("Audilizer");
         stage.setScene(player.getScene());
         
         stage.show();
+        window.bind(stage);
     }
 }

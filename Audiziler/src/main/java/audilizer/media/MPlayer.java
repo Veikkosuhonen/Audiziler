@@ -44,21 +44,24 @@ public class MPlayer {
     }
     public void stop() {
         player.stop();
+        player.dispose();
+    }
+    public void toStart() {
+        player.seek(Duration.ZERO);
     }
     public void setOnEndOfMedia(Runnable e) {
         player.setOnEndOfMedia(() -> {
             e.run();
-            player.seek(Duration.ZERO);
-            player.pause();
+            player.stop();
         });
     }
     public int getBands() {
         return player.getAudioSpectrumNumBands();
     }
     public void setAudioSpectrumListener(AudioSpectrumListener listener) {
-        player.setAudioSpectrumNumBands(1024);
+        player.setAudioSpectrumNumBands(1025);
         player.setAudioSpectrumInterval(1.0 / 60);
-        player.setAudioSpectrumThreshold(-100);
+        player.setAudioSpectrumThreshold(-90);
         player.setAudioSpectrumListener(listener);
     }
 }
