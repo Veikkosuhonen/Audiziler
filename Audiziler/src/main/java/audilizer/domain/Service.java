@@ -8,7 +8,6 @@ package audilizer.domain;
 import audilizer.media.MPlayer;
 import audilizer.media.Visualizer;
 import java.io.File;
-import javafx.beans.property.DoubleProperty;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 

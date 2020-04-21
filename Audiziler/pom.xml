@@ -36,6 +36,9 @@
         </dependency>
     </dependencies>
     <build>
+        <resources>
+            
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.jacoco</groupId>

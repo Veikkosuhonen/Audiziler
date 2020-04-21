@@ -48,7 +48,7 @@ public class Player {
     Scene scene;
     BorderPane borderLayout;
     StackPane finalLayout;
-    Button fileSelect;
+    Button addFile;
     Button play;
     Button previous;
     ImageView playIcon;
@@ -68,19 +68,17 @@ public class Player {
         finalLayout.setAlignment(Pos.CENTER);
         
         //Controls
-        fileSelect = new Button("Add file");
+        addFile = new Button("Add file");
         play = new Button();
         previous = new Button();
         play.setDisable(true);
         previous.setDisable(true);
         
-        try {
-            playIcon = new ImageView(new Image(new File("src/main/java/audilizer/ui/icons/play-icon.png").toURI().toURL().toString()));
-            pauseIcon = new ImageView(new Image(new File("src/main/java/audilizer/ui/icons/pause-icon.png").toURI().toURL().toString()));
-            previousIcon = new ImageView(new Image(new File("src/main/java/audilizer/ui/icons/previous-icon.png").toURI().toURL().toString()));
-        } catch (MalformedURLException mue) {
-            System.out.println("mue: "+mue.getMessage());
-        }
+        
+        playIcon = new ImageView(new Image(getClass().getResource("/icons/play-icon.png").toExternalForm()));
+        pauseIcon = new ImageView(new Image(getClass().getResource("/icons/pause-icon.png").toExternalForm()));        
+        previousIcon = new ImageView(new Image(getClass().getResource("/icons/previous-icon.png").toExternalForm()));        
+        
         play.setGraphic(playIcon);
         previous.setGraphic(previousIcon);
         
@@ -93,7 +91,7 @@ public class Player {
         //--SidePanes--
         //-Left-
         SidePane leftPane = new SidePane(Pos.CENTER_LEFT);
-        leftPane.add(fileSelect);
+        leftPane.add(addFile);
         VBox fileItems = new VBox();
         leftPane.add(fileItems);
         
@@ -138,12 +136,13 @@ public class Player {
         
         //------Scene------
         scene = new Scene(finalLayout, 1280,720);
-        File stylesheet = new File("src/main/java/audilizer/ui/style/UIStyle1.css");
-        try {
-            URL styleUrl = stylesheet.toURI().toURL();
-            scene.getStylesheets().add(styleUrl.toString());
-        }
-        catch (MalformedURLException mue) {System.out.println("could not find stylesheet");}
+        
+        
+
+            String style = getClass().getResource("/style/UIStyle1.css").toExternalForm();
+            System.out.println(style);
+            scene.getStylesheets().add(style);
+        
         Camera camera = new PerspectiveCamera(false);
         scene.setCamera(camera);
         
@@ -171,7 +170,7 @@ public class Player {
         
         previous.setOnAction((ActionEvent e) -> {playbackService.toStart();});
         
-        fileSelect.setOnAction((ActionEvent e) -> {
+        addFile.setOnAction((ActionEvent e) -> {
             File file = filechooser.showOpenDialog(stage);
             if (file == null) {
                 return;
