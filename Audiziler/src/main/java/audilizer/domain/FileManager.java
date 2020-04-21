@@ -33,9 +33,7 @@ public class FileManager {
     public ArrayList<File> getAll() {
         return files;
     }
-    public File getFile(String name) {
-        //returns a file with matching name and null if no file has matching name
-        
+    public File getFile(String name) {        
         Optional<File> answer =
             files.stream()
             .filter(f -> f.getName().equals(name))
@@ -46,16 +44,22 @@ public class FileManager {
             return null;
         }
     }
+    public void remove(String name) {        
+        Optional<File> answer =
+            files.stream()
+            .filter(f -> f.getName().equals(name))
+            .findAny();
+        if (answer.isPresent()) {
+            files.remove(answer.get());
+        }
+    }
     private boolean isSupported(File file) {
         if (file == null) {
             return false;
         }
         String name = file.getName();
         String extension = getExtension(name);
-        if (extension.equals(".mp3") || extension.equals(".wav") || extension.equals(".aiff")) {
-            return true;
-        }
-        return false;
+        return extension.equals(".mp3") || extension.equals(".wav") || extension.equals(".aiff");
     }
     private String getExtension(String name) {
         int indexOfExtension = name.lastIndexOf(".");

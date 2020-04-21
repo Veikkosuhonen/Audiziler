@@ -8,6 +8,7 @@ package audilizer.domain;
 import audilizer.media.MPlayer;
 import audilizer.media.Visualizer;
 import java.io.File;
+import javafx.beans.property.DoubleProperty;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 
@@ -17,22 +18,33 @@ import javafx.scene.layout.Pane;
  */
 public class Service {
     FileManager manager;
+    Settings settings;
     MPlayer mediaplayer;
     Visualizer visualizer;
     File file;
     public Service() {
         manager = new FileManager();
+        settings = new Settings();
     }
     public boolean add(File file) {
         return manager.add(file);
+    }
+    public void remove(String name) {
+        manager.remove(name);
+    }
+    public boolean isSelected(String name) {
+        if (file == null) {
+            return false;
+        }
+        return file.getName().equals(name);
     }
     public boolean selectFile(String name) {
         file = manager.getFile(name);
         return file != null;
     }
     public void initializeMedia(Scene scene) {
-        mediaplayer = new MPlayer(file);
-        visualizer = new Visualizer();
+        mediaplayer = new MPlayer(file, settings);
+        visualizer = new Visualizer(settings);
         mediaplayer.setAudioSpectrumListener(
             visualizer.createListener(
                 mediaplayer.getBands()
@@ -58,5 +70,8 @@ public class Service {
         if (visualizer != null) {
             visualizer.clear();
         }
+    }
+    public Setting getSetting(String name) {
+        return settings.get(name);
     }
 }

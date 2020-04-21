@@ -107,4 +107,11 @@ public class SidePane extends StackPane{
         super.setVisible(true);
         openerShowingTime.playFromStart();
     }
+    public void remove(Node node) {
+        if (vertical) {
+            vbox.getChildren().remove(node);
+        } else {
+            hbox.getChildren().remove(node);
+        }
+    }
 }

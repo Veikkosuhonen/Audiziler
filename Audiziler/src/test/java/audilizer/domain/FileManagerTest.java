@@ -60,14 +60,12 @@ public class FileManagerTest {
      * Test of getAll method, of class FileManager.
      */
     @Test
-    public void canAddMultipleFiles() {
+    public void cantAddDuplicateFiles() {
         filemanager.add(file);
         filemanager.add(file);
-        filemanager.add(unsupportedFile);
         ArrayList<File> files = filemanager.getAll();
-        assertEquals(2, files.size());
+        assertEquals(1, files.size());
         assertTrue(files.contains(file));
-        assertTrue(!files.contains(unsupportedFile));
     }
 
     /**

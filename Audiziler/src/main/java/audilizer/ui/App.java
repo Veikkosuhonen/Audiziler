@@ -7,8 +7,14 @@ package audilizer.ui;
 
 import audilizer.domain.FileManager;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.VBox;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 /**
  *
@@ -21,9 +27,8 @@ public class App extends Application {
     }    
     @Override
     public void start(Stage stage) throws Exception {
-        Window window = new Window();
         FileManager filemanager = new FileManager();
-        Player player = new Player(stage, filemanager, window);
+        Player player = new Player(stage, filemanager);
         
         player.getScene().setOnKeyPressed((KeyEvent e) -> {
             if (e.getCode() == KeyCode.F)
@@ -34,6 +39,22 @@ public class App extends Application {
         stage.setScene(player.getScene());
         
         stage.show();
-        window.bind(stage);
+        
+        Popup helpPopup = new Popup();
+        helpPopup.setX(300);
+        helpPopup.setY(200);
+        Label helptext = new Label("Hover mouse over left opener to access file manager and select an audiofile to be played"
+                + "\nPress f to go fullscreen"
+                + "\nControl playback from bottom opener or click screen"
+                + "\nControl parameters from left opener");
+        Button closebutton = new Button("close");
+        closebutton.setOnAction((ActionEvent ae) -> {
+           helpPopup.hide();
+        });
+        VBox box = new VBox(helptext, closebutton);
+        box.setAlignment(Pos.CENTER);
+        helpPopup.getContent().add(box);
+        helpPopup.show(stage);
+        
     }
 }

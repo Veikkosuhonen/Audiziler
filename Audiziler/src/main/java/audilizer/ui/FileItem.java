@@ -21,19 +21,25 @@ public class FileItem extends HBox{
     String name;
     ToggleButton selectButton;
     Button remove;
-    EventHandler handler;
     
-    FileItem(String name, ToggleGroup group, EventHandler handler) {
+    FileItem(String name, ToggleGroup group) {
         super();
         this.name = name;
         this.selectButton = new ToggleButton(name);
         selectButton.setToggleGroup(group);
-        selectButton.setOnAction((ActionEvent ae) -> {
-            handler.handle(ae);
-            selectButton.setEffect(null);
-        });
         remove = new Button("remove");
         super.setSpacing(2);
         super.getChildren().addAll(selectButton, remove);
+    }
+    public void setSelectHandler(EventHandler selectHandler) {
+        selectButton.setOnAction((ActionEvent ae) -> {
+            selectHandler.handle(ae);
+            selectButton.setEffect(null);
+        });
+    }
+    public void setRemoveHandler(EventHandler removeHandler) {
+        remove.setOnAction((ActionEvent ae) -> {
+            removeHandler.handle(ae);
+        });
     }
 }

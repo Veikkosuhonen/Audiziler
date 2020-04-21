@@ -5,12 +5,13 @@
  */
 package audilizer.media;
 
+import audilizer.domain.Settings;
 import java.io.File;
 import java.net.MalformedURLException;
-import javafx.event.Event;
 import javafx.scene.media.AudioSpectrumListener;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaPlayer.Status;
 import javafx.util.Duration;
 
 /**
@@ -20,17 +21,18 @@ import javafx.util.Duration;
 public class MPlayer {
     MediaPlayer player;
     boolean isPlaying;
-    public MPlayer(File file) {
+    public MPlayer(File file, Settings settings) {
         isPlaying = false;
         try {
             player = new MediaPlayer(new Media(file.toURI().toURL().toString()));
         } catch (MalformedURLException mue) {
-            mue.printStackTrace();
-            System.exit(-1);
+            System.out.println(mue.getMessage());
         }
         player.setOnEndOfMedia(() -> {
             isPlaying = false;
         });
+        
+        player.audioSpectrumThresholdProperty().bind(settings.get("threshold").getProperty());
     }
     public boolean toggle() {
         if (isPlaying) {
@@ -43,7 +45,9 @@ public class MPlayer {
         return isPlaying;
     }
     public void stop() {
-        player.stop();
+        if (player.getStatus() == Status.PLAYING) {
+            player.stop();
+        }
         player.dispose();
     }
     public void toStart() {
@@ -59,9 +63,9 @@ public class MPlayer {
         return player.getAudioSpectrumNumBands();
     }
     public void setAudioSpectrumListener(AudioSpectrumListener listener) {
-        player.setAudioSpectrumNumBands(1025);
+        player.setAudioSpectrumNumBands(1024);
         player.setAudioSpectrumInterval(1.0 / 60);
-        player.setAudioSpectrumThreshold(-90);
+        //player.setAudioSpectrumThreshold(-90);
         player.setAudioSpectrumListener(listener);
     }
 }

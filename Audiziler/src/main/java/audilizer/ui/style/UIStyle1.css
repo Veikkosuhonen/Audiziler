@@ -36,8 +36,8 @@ and open the template in the editor.
     -fx-text-fill: #e6efff;
     /*-fx-background-color: #113436;*/
     -fx-border-color: #133c3d;
-    -fx-border-width: 2px;
-    -fx-border-radius: 8px;
+    -fx-border-width: 1px;
+    -fx-border-radius: 4px;
 }
 .toggle-button{
     -fx-text-fill: #e6efff;

@@ -5,7 +5,9 @@
  */
 package audilizer.media;
 
-import javafx.beans.property.DoubleProperty;
+import audilizer.domain.Settings;
+import javafx.scene.effect.Bloom;
+import javafx.scene.effect.Reflection;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.AudioSpectrumListener;
 
@@ -19,13 +21,20 @@ public class Visualizer {
     AudioSpectrumListener listener;
     Pane visualizer;
     Type type;
-    public Visualizer() {
+    Bloom bloom;
+    Reflection reflection;
+    public Visualizer(Settings settings) {
+        
+        bloom = new Bloom();
         type = Type.BARS;
         visualizer = new Pane();
+        visualizer.setEffect(bloom);
         visualizer.setViewOrder(10);
-        bars = new BarGroup(256, visualizer.widthProperty().divide(2).subtract(512), visualizer.heightProperty().divide(4));
+        bars = new BarGroup(225, visualizer.widthProperty().divide(2).subtract(512), visualizer.heightProperty().add(0), settings);
         cube = new LightCube(visualizer.widthProperty().add(0), visualizer.heightProperty().add(0));
         System.out.println("visualizer constructed");
+        
+        bloom.thresholdProperty().bind(settings.get("bloom").getProperty());
     }
     public AudioSpectrumListener createListener(int bands) {
         listener = new AudioSpectrumListener() {
