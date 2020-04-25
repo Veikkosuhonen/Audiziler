@@ -9,10 +9,9 @@ Visualisointia ohjaavia parametreja voi muuttaa käyttöliittymästä.
 #### Käyttöliittymä
 Sovelluksessa on yksi päänäkymä, jonka keskelle piirretään visualisaatio. Ikkunan neljällä sivulla on aukeavat valikot:
   
-  Vasemmalla: äänitiedostojen hallinta. Tästä voi lisätä valikkoon uusia äänitiedostoja (tehty), valita soitettava äänitiedosto (tehty) ja poistaa valikosta tiedostoja.
+  Vasemmalla: äänitiedostojen hallinta. Tästä voi lisätä valikkoon uusia äänitiedostoja (tehty), valita soitettava äänitiedosto (tehty) ja poistaa valikosta tiedostoja (tehty).
   Alhaalla: äänentoiston hallinta. Toistonappi (tehty) ja volyymislideri.
-  Oikealla: visualisaation hallinta. Tästä voidaan valita eri visualisaatiomalleja ja hallita slidereilla jotain niiden parametreista.
-  Ylhäällä: sovelluksen käyttöohje
+  Oikealla: visualisaation hallinta. Tästä voidaan valita eri visualisaatiomalleja ja hallita slidereilla jotain niiden parametreista (tehty). 
 
 Lisäksi äänentoistoa voi hallita klikkaamalla näkymää ja kokonäytön tilaan voidaan siirtyä painamalla f-näppäintä. (tehty)
 
@@ -23,4 +22,4 @@ Visualisaatio toteutetaan JavaFX:n MediaPlayer-olion audioSpectrumListener-obser
 Perusversiossa toteutetaan vain kaikkein keskeisimmät toiminnot. Sovellukseen valitaan äänitiedostoja, joista valitaan yksi soitettavaksi. Näkymän keskiöön piirretään yksinkertainen visualisaatio.
 
 ### Jatkokehittely
-Useita erilaisia visualisaatioita, joista voidaan valita sivupalkin valikolla. Visualisaatioiden parametreja voidaan säätää sivupalkista.
+Useita erilaisia visualisaatioita, joista voidaan valita sivupalkin valikolla. Visualisaatio reagoi hetkittäisten frekvenssien magnitudien lisäksi magnitudien muutoksiin eri tavoin, sekä vaihtaa tyyliä frekvenssijakauman periaatteella (esimerkiksi eri taustaväritys frekvenssijakauman muuttuvan keskiarvon perusteella).
