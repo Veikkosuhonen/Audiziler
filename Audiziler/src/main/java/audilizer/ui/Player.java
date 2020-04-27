@@ -7,7 +7,6 @@ package audilizer.ui;
 
 import audilizer.media.MPlayer;
 import audilizer.media.Visualizer;
-import audilizer.domain.FileManager;
 import audilizer.domain.Service;
 import audilizer.domain.Setting;
 import audilizer.domain.SettingsService;
@@ -58,7 +57,7 @@ public class Player {
     SidePane rightPane;
     
     Label help;
-    Player(Service service, SettingsService settingsService, FileManager filemanager) {
+    Player(Service service, SettingsService settingsService) {
         
         this.settingsService = settingsService;
         this.playbackService = service;
@@ -118,7 +117,6 @@ public class Player {
         scene = new Scene(finalLayout, 1280,720);
         
         String style = getClass().getResource("/style/UIStyle1.css").toExternalForm();
-        System.out.println(style);
         scene.getStylesheets().add(style);
         
 

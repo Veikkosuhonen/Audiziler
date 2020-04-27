@@ -5,7 +5,6 @@
  */
 package audilizer.domain;
 
-import static audilizer.domain.SettingsServiceTest.settingdao;
 import audiziler.dao.FileSettingDao;
 import audiziler.dao.SettingDao;
 import java.io.File;
@@ -27,6 +26,7 @@ public class ServiceTest {
         Service service;
         static SettingDao settingdao;
         static SettingsService settingsService;
+        static FileManager filemanager;
         static File file;
         static File unsupportedFile;
         public ServiceTest() {
@@ -59,7 +59,8 @@ public class ServiceTest {
     @Before
     public void setUp() {
         
-        service = new Service(settingsService);
+        filemanager = new FileManager();
+        service = new Service(settingsService, filemanager);
         
     }
     

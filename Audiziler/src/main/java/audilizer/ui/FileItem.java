@@ -10,7 +10,6 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.effect.Bloom;
 import javafx.scene.layout.HBox;
 
 /**

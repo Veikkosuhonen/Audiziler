@@ -7,7 +7,6 @@ package audilizer.ui;
 
 import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
@@ -95,12 +94,20 @@ public class SidePane extends StackPane{
         }
     }
     private void determineAlignment(Pos pos) {
-        if (pos == Pos.CENTER_LEFT || pos == Pos.CENTER_RIGHT) {
-            vertical = true;
-        } else if (pos == Pos.TOP_CENTER || pos == Pos.BOTTOM_CENTER) {
-            vertical = false;
-        } else {
+        if (null == pos) {
             System.out.println("Illegal alignment for SidePane: " + pos);
+        } else switch (pos) {
+            case CENTER_LEFT:
+            case CENTER_RIGHT:
+                vertical = true;
+                break;
+            case TOP_CENTER:
+            case BOTTOM_CENTER:
+                vertical = false;
+                break;
+            default:
+                System.out.println("Illegal alignment for SidePane: " + pos);
+                break;
         }
     }
     public void setVisible() {

@@ -40,9 +40,9 @@ public class App extends Application {
         
         settingdao = new FileSettingDao(settingsFile);
         settingsService = new SettingsService(settingdao);
-        service = new Service(settingsService);
         filemanager = new FileManager();
-        player = new Player(service, settingsService, filemanager);
+        service = new Service(settingsService, filemanager);
+        player = new Player(service, settingsService);
     }
     @Override
     public void start(Stage stage) throws Exception {

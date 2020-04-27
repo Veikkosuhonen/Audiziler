@@ -65,7 +65,7 @@ public class MPlayer {
     public void setAudioSpectrumListener(AudioSpectrumListener listener) {
         player.setAudioSpectrumNumBands(1024);
         player.setAudioSpectrumInterval(1.0 / 60);
-        //player.setAudioSpectrumThreshold(-90);
         player.setAudioSpectrumListener(listener);
+        
     }
 }
