@@ -48,9 +48,4 @@ public class SettingsTest {
         settings.add("setting", setting);
         assertEquals(setting, settings.get("setting"));
     }
-    
-    @Test
-    public void testSettingsContainPredefinedSetting() {
-        assertTrue(settings.get("threshold").getName().equals("threshold"));
-    }
 }

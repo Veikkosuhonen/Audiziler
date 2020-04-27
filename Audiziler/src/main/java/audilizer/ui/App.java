@@ -6,6 +6,12 @@
 package audilizer.ui;
 
 import audilizer.domain.FileManager;
+import audilizer.domain.Service;
+import audilizer.domain.SettingsService;
+import audiziler.dao.FileSettingDao;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
@@ -21,15 +27,26 @@ import javafx.stage.Stage;
  * @author vesuvesu
  */
 public class App extends Application {
-    
-    public static void main(String[] args) {
-        launch(args);
-    }    
+    FileSettingDao settingdao;
+    SettingsService settingsService;
+    Service service;
+    FileManager filemanager;
+    Player player;
+    @Override
+    public void init() throws IOException{
+        Properties properties = new Properties();
+        properties.load(new FileInputStream("config.properties"));
+        String settingsFile = properties.getProperty("settingsFile");
+        
+        settingdao = new FileSettingDao(settingsFile);
+        settingsService = new SettingsService(settingdao);
+        service = new Service(settingsService);
+        filemanager = new FileManager();
+        player = new Player(service, settingsService, filemanager);
+    }
     @Override
     public void start(Stage stage) throws Exception {
-        FileManager filemanager = new FileManager();
-        Player player = new Player(stage, filemanager);
-        
+        player.setStage(stage);
         player.getScene().setOnKeyPressed((KeyEvent e) -> {
             if (e.getCode() == KeyCode.F)
                 stage.setFullScreen(true);
@@ -57,4 +74,15 @@ public class App extends Application {
         helpPopup.show(stage);
         
     }
+    @Override
+    public void stop() {
+        try {
+            settingdao.save();
+        } catch (IOException ioe) {
+            System.out.println("Could not save settings: " + ioe.getMessage());
+        }
+    }
+    public static void main(String[] args) {
+        launch(args);
+    }    
 }

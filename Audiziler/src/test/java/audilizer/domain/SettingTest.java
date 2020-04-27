@@ -72,4 +72,13 @@ public class SettingTest {
         assertTrue(setting.getProperty().isBound());
         assertTrue(setting.getProperty().get() == binding.get());
     }    
+    
+    @Test
+    public void getValues() {
+        assertEquals("setting", setting.getName());
+        assertEquals("a setting", setting.getDescription());
+        assertTrue(1.0 == setting.getValue());
+        assertTrue(0.0 == setting.getMin());
+        assertTrue(3.0 == setting.getMax());
+    }
 }

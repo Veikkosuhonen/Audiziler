@@ -1,0 +1,32 @@
+slot;0
+threshold;spectrum threshold;-90.0;-110;-60
+color offset;how much color is offset;0;0;360
+frequency color offset;how much color is offset based on frequency;144;0;360
+magnitude color offset;how much color is offset based on magnitude;86;0;360
+acceleration;how fast bars move;4;1;10
+height;height of bars;1;0.5;8
+bloom;bloom strength;0.3;0;1
+slot;1
+threshold;spectrum threshold;-90.0;-110;-60
+color offset;how much color is offset;0;0;360
+frequency color offset;how much color is offset based on frequency;144;0;360
+magnitude color offset;how much color is offset based on magnitude;86;0;360
+acceleration;how fast bars move;4;1;10
+height;height of bars;1;0.5;8
+bloom;bloom strength;0.3;0;1
+slot;2
+threshold;spectrum threshold;-90.0;-110;-60
+color offset;how much color is offset;0;0;360
+frequency color offset;how much color is offset based on frequency;144;0;360
+magnitude color offset;how much color is offset based on magnitude;86;0;360
+acceleration;how fast bars move;4;1;10
+height;height of bars;1;0.5;8
+bloom;bloom strength;0.3;0;1
+slot;3
+threshold;spectrum threshold;-90.0;-110;-60
+color offset;how much color is offset;0;0;360
+frequency color offset;how much color is offset based on frequency;144;0;360
+magnitude color offset;how much color is offset based on magnitude;86;0;360
+acceleration;how fast bars move;4;1;10
+height;height of bars;1;0.5;8
+bloom;bloom strength;0.3;0;1

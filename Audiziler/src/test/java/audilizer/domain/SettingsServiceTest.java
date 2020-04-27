@@ -5,10 +5,8 @@
  */
 package audilizer.domain;
 
-import static audilizer.domain.SettingsServiceTest.settingdao;
 import audiziler.dao.FileSettingDao;
 import audiziler.dao.SettingDao;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
@@ -23,13 +21,10 @@ import static org.junit.Assert.*;
  *
  * @author vesuvesu
  */
-public class ServiceTest {
-        Service service;
+public class SettingsServiceTest {
         static SettingDao settingdao;
-        static SettingsService settingsService;
-        static File file;
-        static File unsupportedFile;
-        public ServiceTest() {
+        static SettingsService service;
+        public SettingsServiceTest() {
     }
     
     @BeforeClass
@@ -47,9 +42,6 @@ public class ServiceTest {
         } catch (IOException ioe) {
             fail("Could not read settings file");
         }
-        settingsService = new SettingsService(settingdao);
-        file = new File("src/test/java/audilizer/domain/399801__johansmithi__lata-refresco.aiff");
-        unsupportedFile = new File("src/test/java/audilizer/domain/unsupportedFile");
     }
     
     @AfterClass
@@ -58,9 +50,7 @@ public class ServiceTest {
     
     @Before
     public void setUp() {
-        
-        service = new Service(settingsService);
-        
+        service = new SettingsService(settingdao);
     }
     
     @After
@@ -68,25 +58,43 @@ public class ServiceTest {
     }
 
     /**
-     * Test of add method, of class Service.
+     * Test of setSettings method, of class SettingsService.
      */
     @Test
-    public void canAddSupportedFile() {
-        assertTrue(service.add(file));
-    }
-    @Test
-    public void cantAddUnsupportedFile() {
-        assertTrue(!service.add(unsupportedFile));
+    public void testSetSettings() {
+        int slot = 0;
+        service.setSettings(slot);
     }
 
     /**
-     * Test of selectFile method, of class Service.
+     * Test of getSetting method, of class SettingsService.
      */
     @Test
-    public void testSelectFile() {
-        System.out.println("selectFile");
-        assertTrue(!service.selectFile(file.getName()));
-        service.add(file);
-        assertTrue(service.selectFile(file.getName()));
+    public void testGetSetting() {
+        try {
+            String expectedName = "threshold";
+            String result = service.getSetting(expectedName).getName();
+            assertEquals(expectedName, result);
+        } catch (NullPointerException npe) {
+            fail("setting was not found");
+        }
     }
+
+    /**
+     * Test of getSettings method, of class SettingsService.
+     */
+    @Test
+    public void testGetSettings() {
+        
+        String expectedToContain = "color offset";
+        Setting[] settingArray = service.getSettings().getAll();
+        boolean found = false;
+        for (Setting setting : settingArray) {
+            if (setting.getName().equals(expectedToContain)) {
+                found = true;
+            }
+        }
+        assertTrue(found);
+    }
+    
 }

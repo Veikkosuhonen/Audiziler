@@ -17,7 +17,6 @@ import javafx.scene.media.AudioSpectrumListener;
  */
 public class Visualizer {
     BarGroup bars;
-    LightCube cube;
     AudioSpectrumListener listener;
     Pane visualizer;
     Type type;
@@ -31,7 +30,6 @@ public class Visualizer {
         visualizer.setEffect(bloom);
         visualizer.setViewOrder(10);
         bars = new BarGroup(225, visualizer.widthProperty().divide(2).subtract(512), visualizer.heightProperty().add(0), settings);
-        cube = new LightCube(visualizer.widthProperty().add(0), visualizer.heightProperty().add(0));
         System.out.println("visualizer constructed");
         
         bloom.thresholdProperty().bind(settings.get("bloom").getProperty());
@@ -48,7 +46,6 @@ public class Visualizer {
                     }
                     case CUBE: {
                         visualizer.getChildren().clear();
-                        visualizer.getChildren().addAll(cube.update(magnitudes));
                         break;
                     }
                 }

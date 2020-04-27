@@ -114,4 +114,11 @@ public class SidePane extends StackPane{
             hbox.getChildren().remove(node);
         }
     }
+    public void clearAdditionalChildren() {
+        if (vertical) {
+            vbox.getChildren().clear();
+        } else {
+            hbox.getChildren().clear();
+        }
+    }
 }

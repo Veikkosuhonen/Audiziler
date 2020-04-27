@@ -16,14 +16,14 @@ import javafx.scene.layout.Pane;
  * @author vesuvesu
  */
 public class Service {
+    SettingsService settingsService;
     FileManager manager;
-    Settings settings;
     MPlayer mediaplayer;
     Visualizer visualizer;
     File file;
-    public Service() {
+    public Service(SettingsService settingsService) {
         manager = new FileManager();
-        settings = new Settings();
+        this.settingsService = settingsService;
     }
     public boolean add(File file) {
         return manager.add(file);
@@ -41,9 +41,9 @@ public class Service {
         file = manager.getFile(name);
         return file != null;
     }
-    public void initializeMedia(Scene scene) {
-        mediaplayer = new MPlayer(file, settings);
-        visualizer = new Visualizer(settings);
+    public void initializeMedia() {
+        mediaplayer = new MPlayer(file, settingsService.getSettings());
+        visualizer = new Visualizer(settingsService.getSettings());
         mediaplayer.setAudioSpectrumListener(
             visualizer.createListener(
                 mediaplayer.getBands()
@@ -69,8 +69,5 @@ public class Service {
         if (visualizer != null) {
             visualizer.clear();
         }
-    }
-    public Setting getSetting(String name) {
-        return settings.get(name);
     }
 }

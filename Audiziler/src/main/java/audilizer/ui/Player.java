@@ -9,15 +9,13 @@ import audilizer.media.MPlayer;
 import audilizer.media.Visualizer;
 import audilizer.domain.FileManager;
 import audilizer.domain.Service;
+import audilizer.domain.Setting;
+import audilizer.domain.SettingsService;
 import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-import javafx.scene.Camera;
-import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -38,6 +36,7 @@ import javafx.stage.Stage;
  */
 public class Player {
     
+    SettingsService settingsService;
     Service playbackService;
     MPlayer mediaplayer;
     Visualizer visualizer;
@@ -45,6 +44,7 @@ public class Player {
     File file;
     FileChooser filechooser;
     
+    Stage stage;
     Scene scene;
     BorderPane borderLayout;
     StackPane finalLayout;
@@ -55,11 +55,13 @@ public class Player {
     ImageView pauseIcon;
     ImageView previousIcon;
     EventHandler playBackControl;
+    SidePane rightPane;
     
     Label help;
-    Player(Stage stage, FileManager filemanager) {
+    Player(Service service, SettingsService settingsService, FileManager filemanager) {
         
-        this.playbackService = new Service();
+        this.settingsService = settingsService;
+        this.playbackService = service;
         
         // --------------Layout----------
         
@@ -106,49 +108,20 @@ public class Player {
         borderLayout.setBottom(bottomPane);
         
         //-Right-
-        SidePane rightPane = new SidePane(Pos.CENTER_RIGHT);
+        rightPane = new SidePane(Pos.CENTER_RIGHT);
         
-        //Settings
-        SettingSlider thresholdSlider = new SettingSlider(playbackService.getSetting("threshold"));
-        rightPane.add(thresholdSlider);
-        
-        SettingSlider colorOffsetSlider = new SettingSlider(playbackService.getSetting("color offset"));
-        rightPane.add(colorOffsetSlider);
-        
-        SettingSlider frequencyColorOffsetSlider = new SettingSlider(playbackService.getSetting("frequency color offset"));
-        rightPane.add(frequencyColorOffsetSlider);
-        
-        SettingSlider magnitudeColorOffsetSlider = new SettingSlider(playbackService.getSetting("magnitude color offset"));
-        rightPane.add(magnitudeColorOffsetSlider);
-        
-        SettingSlider accelerationSlider = new SettingSlider(playbackService.getSetting("acceleration"));
-        rightPane.add(accelerationSlider);
-        
-        SettingSlider heightSlider = new SettingSlider(playbackService.getSetting("height"));
-        rightPane.add(heightSlider);
-        
-        SettingSlider bloomSlider = new SettingSlider(playbackService.getSetting("bloom"));
-        rightPane.add(bloomSlider);
-        
+        //Settings        
+        updateSettings();
         borderLayout.setRight(rightPane);
-        
-        
         
         //------Scene------
         scene = new Scene(finalLayout, 1280,720);
         
+        String style = getClass().getResource("/style/UIStyle1.css").toExternalForm();
+        System.out.println(style);
+        scene.getStylesheets().add(style);
         
 
-            String style = getClass().getResource("/style/UIStyle1.css").toExternalForm();
-            System.out.println(style);
-            scene.getStylesheets().add(style);
-        
-        Camera camera = new PerspectiveCamera(false);
-        scene.setCamera(camera);
-        
-        
-        
-        
         //-------Event Handling---------
         
         playBackControl = (EventHandler) (Event e) -> {
@@ -186,7 +159,7 @@ public class Player {
                     removeVisualizer();
                     playbackService.stop();
                     playbackService.selectFile(filename);
-                    playbackService.initializeMedia(scene);
+                    playbackService.initializeMedia();
                     playbackService.setOnEndOfMedia(() -> play.setGraphic(playIcon));
                     finalLayout.getChildren().add(playbackService.getVisualization());
                     play.setDisable(false);
@@ -207,12 +180,22 @@ public class Player {
             leftPane.add(item);
         });
     }
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
     public Scene getScene() {
         return scene;
     }
     private void removeVisualizer() {
         if (finalLayout.getChildren().size() == 2) {
             finalLayout.getChildren().remove(1);
+        }
+    }
+    private void updateSettings() {
+        rightPane.clearAdditionalChildren();
+        for (Setting setting : settingsService.getSettings().getAll()) {
+            SettingSlider settingSlider = new SettingSlider(setting);
+            rightPane.add(settingSlider);
         }
     }
 }
