@@ -11,4 +11,7 @@ Sovelluslogiikan testien luontia: **4 h**
 #### 8.4 - 21.4
 Sovelluksen laajentamista ja rakenteen parantelua: **10 h**
 
-## 21.4 yhteensä: 30 h
+#### 21.4 - 28.4
+Sovellukseen lisätty tietojen pysyväistalletus, testausta laajennettu ja javadoc aloitettu: **8 h**
+
+## 28.4 yhteensä: 38 h
