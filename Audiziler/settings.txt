@@ -1,10 +1,10 @@
 slot;0
-magnitude color offset;how much color is offset based on magnitude;163.58620689655172;0.0;360.0
+magnitude color offset;how much color is offset based on magnitude;100.0;0.0;360.0
 acceleration;how fast bars move;10.0;1.0;10.0
 bloom;bloom strength;0.0;0.0;1.0
-color offset;how much color is offset;192.41379310344826;0.0;360.0
-threshold;spectrum threshold;-78.5344827586207;-110.0;-60.0
-frequency color offset;how much color is offset based on frequency;134.13793103448276;0.0;360.0
+color offset;how much color is offset;100.0;0.0;360.0
+threshold;spectrum threshold;-60.0;-110.0;-60.0
+frequency color offset;how much color is offset based on frequency;100.0;0.0;360.0
 height;height of bars;8.0;0.5;8.0
 slot;1
 magnitude color offset;how much color is offset based on magnitude;86.0;0.0;360.0

@@ -5,8 +5,6 @@
  */
 package audilizer.ui;
 
-import audilizer.media.MPlayer;
-import audilizer.media.Visualizer;
 import audilizer.domain.Service;
 import audilizer.domain.Setting;
 import audilizer.domain.SettingsService;
@@ -37,8 +35,6 @@ public class Player {
     
     SettingsService settingsService;
     Service playbackService;
-    MPlayer mediaplayer;
-    Visualizer visualizer;
 
     File file;
     FileChooser filechooser;
