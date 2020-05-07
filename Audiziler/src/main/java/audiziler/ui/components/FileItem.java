@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package audilizer.ui;
+package audiziler.ui.components;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -17,18 +17,19 @@ import javafx.scene.layout.HBox;
  * @author vesuvesu
  */
 public class FileItem extends HBox{
-    String name;
-    ToggleButton selectButton;
-    Button remove;
+    private final ToggleButton selectButton;
+    private final Button remove;
     
-    FileItem(String name, ToggleGroup group) {
+    public FileItem(String name, ToggleGroup group) {
         super();
-        this.name = name;
         this.selectButton = new ToggleButton(name);
         selectButton.setToggleGroup(group);
         remove = new Button("remove");
         super.setSpacing(2);
         super.getChildren().addAll(selectButton, remove);
+        
+        //Disable button when it is selected
+        selectButton.disableProperty().bind(selectButton.selectedProperty());
     }
     public void setSelectHandler(EventHandler selectHandler) {
         selectButton.setOnAction((ActionEvent ae) -> {

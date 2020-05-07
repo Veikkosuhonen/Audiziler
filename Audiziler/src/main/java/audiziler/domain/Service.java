@@ -3,10 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package audilizer.domain;
+package audiziler.domain;
 
-import audilizer.media.MPlayer;
-import audilizer.media.Visualizer;
+import audiziler.media.MPlayer;
+import audiziler.media.visualizer.VisualizationType;
+import audiziler.media.Visualizer;
+import audiziler.ui.WindowSize;
 import java.io.File;
 import javafx.scene.layout.Pane;
 
@@ -16,29 +18,15 @@ import javafx.scene.layout.Pane;
  */
 public class Service {
     private final SettingsService settingsService;
-    private final FileManager manager;
+    private final WindowSize windowSize;
     private MPlayer mediaplayer;
     private Visualizer visualizer;
     private File file;
     
-    public Service(SettingsService settingsService, FileManager manager) {
-        this.manager = manager;
+    public Service(SettingsService settingsService, WindowSize windowSize) {
         this.settingsService = settingsService;
-    }
-    /**
-     * Adds a file to FileManager's list
-     * @param file to be added
-     * @return a Boolean indicating whether file was valid and added successfully
-     */
-    public boolean add(File file) {
-        return manager.add(file);
-    }
-    /**
-     * Removes a file with the given name if it exists
-     * @param name 
-     */
-    public void remove(String name) {
-        manager.remove(name);
+        this.windowSize = windowSize;
+        
     }
     /**
      * 
@@ -52,21 +40,14 @@ public class Service {
         return file.getName().equals(name);
     }
     /**
-     * retrieves a file with a matching name from FileManager and selects it
-     * @param name
-     * @return a Boolean indicating whether the file was found
+     * Constructs the <code>MPlayer</code> with given file, 
+     * the <code>Visualizer</code> with windowSize and sets the selected file to the one given.
+     * @param file
      */
-    public boolean selectFile(String name) {
-        file = manager.getFile(name);
-        return file != null;
-    }
-    /**
-     * Constructs an MPlayer with the currently selected file and settings, and constructs a Visualizer.
-     * Creates an AudioSpectrumListener from the Visualizer and sets it to the MPlayer.
-     */
-    public void initializeMedia() {
-        mediaplayer = new MPlayer(file, settingsService.getSettings());
-        visualizer = new Visualizer(settingsService.getSettings());
+    public void initializeMedia(File file) {
+        this.file = file;
+        mediaplayer = new MPlayer(file);
+        visualizer = new Visualizer(windowSize);
         mediaplayer.setAudioSpectrumListener(
             visualizer.createListener(
                 mediaplayer.getBands()
@@ -74,11 +55,28 @@ public class Service {
         );
     }
     /**
+     * Sets the type of the of the visualization displayed by the <code>Visualizer</code>, 
+     * sets the currently active settings to the settings of that type
+     * and (re)binds the settings of the <code>MPlayer</code> and the <code>Visualizer</code>
+     * to the newly selected settings
+     * @param type 
+     */
+    public void selectVisualization(VisualizationType type) {
+        visualizer.setType(type);
+        settingsService.setSettings(type);
+        mediaplayer.bindSettings(settingsService.getSettings());
+        visualizer.bindSettings(settingsService.getSettings());
+    }
+    /**
      * Toggles the playback of the audio file. 
      * @return a Boolean indicating whether the MPlayer is playing audio after the toggle
      */
     public boolean togglePlayback() {
-        return mediaplayer.toggle();
+        if (mediaplayer != null) {
+            return mediaplayer.toggle();
+        } else {
+            return false;
+        }
     }
     public void toStart() {
         mediaplayer.toStart();

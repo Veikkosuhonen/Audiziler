@@ -3,12 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package audilizer.domain;
+package audiziler.domain;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
- *
+ * Stores a group of <code>Setting</code> objects to be used for different visualization types.
  * @author vesuvesu
  */
 public class Settings {
@@ -16,20 +18,17 @@ public class Settings {
     
     public Settings() {
         settings = new HashMap();
-        
-        //Default settings defined here (name, desc, defaultvalue, min, max)
-        
-        
     }
+    
     public void add(String name,Setting setting) {
         settings.put(name, setting);
     }
+    
     public Setting get(String name) {
         return settings.get(name);
     }
-    public Setting[] getAll() {
-        Setting[] array = new Setting[settings.size()];
-        settings.values().toArray(array);
-        return array;
+    
+    public List<Setting> getAll() {
+        return new ArrayList(settings.values());
     }
 }

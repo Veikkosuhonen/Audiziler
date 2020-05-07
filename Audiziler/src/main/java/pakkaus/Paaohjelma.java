@@ -1,6 +1,6 @@
 package pakkaus;
 
-import audilizer.ui.App;
+import audiziler.ui.App;
 
 /**
  *

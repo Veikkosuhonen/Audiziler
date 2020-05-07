@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package audilizer.ui;
+package audiziler.ui.components;
 
 import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
@@ -17,21 +17,25 @@ import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 /**
- *
+ * UI-component class
  * @author vesuvesu
  */
 public class SidePane extends StackPane{
-    Pos pos;
-    Rectangle opener;
-    VBox vbox;
-    HBox hbox;
+    private final Pos pos;
+    private Rectangle opener;
+    private VBox vbox;
+    private HBox hbox;
     
-    boolean vertical;
+    private boolean vertical;
     
-    PauseTransition openerShowingTime;
-    PauseTransition menuShowingTime;
-    
-    SidePane(Pos pos) {
+    private final PauseTransition openerShowingTime;
+    private PauseTransition menuShowingTime;
+    /**
+     * Creates the component with different layout depending on the <code>Pos</code> given.
+     * Can be Left, Right, Bottom or Top.
+     * @param pos 
+     */
+    public SidePane(Pos pos) {
         super();
         determineAlignment(pos);
         this.pos = pos;
@@ -86,6 +90,11 @@ public class SidePane extends StackPane{
                 hbox.setVisible(true);
         });
     }
+    /**
+     * Adds a child <code>Node</code> to the <code>VBox</code> or to the <code>HBox</code> layout,
+     * depending whether the <code>SidePane</code> will be rendered to the side or to the top or the bottom.
+     * @param node 
+     */
     public void add(Node node) {
         if (vertical) {
             vbox.getChildren().add(node);
@@ -93,6 +102,10 @@ public class SidePane extends StackPane{
             hbox.getChildren().add(node);
         }
     }
+    /**
+     * Determines whether the child nodes should be rendered vertically or horizontally.
+     * @param pos 
+     */
     private void determineAlignment(Pos pos) {
         if (null == pos) {
             System.out.println("Illegal alignment for SidePane: " + pos);

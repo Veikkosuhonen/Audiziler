@@ -46,7 +46,10 @@
                 <version>0.8.3</version>
                 <configuration>
                     <excludes>
-                        <exclude>treeniapp/ui/*</exclude>
+                        <exclude>audiziler/ui/*</exclude>
+                        <exclude>audiziler/ui/components/*</exclude>
+                        <exclude>audiziler/media/*</exclude>
+                        <exclude>audiziler/media/visualizer/*</exclude>
                     </excludes>
                 </configuration>
                 <executions>

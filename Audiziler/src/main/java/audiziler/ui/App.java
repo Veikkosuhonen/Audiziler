@@ -3,11 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package audilizer.ui;
+package audiziler.ui;
 
-import audilizer.domain.FileManager;
-import audilizer.domain.Service;
-import audilizer.domain.SettingsService;
+import audiziler.dao.FileAudioFileDao;
+import audiziler.domain.FileService;
+import audiziler.domain.Service;
+import audiziler.domain.SettingsService;
 import audiziler.dao.FileSettingDao;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -30,22 +31,29 @@ public class App extends Application {
     FileSettingDao settingdao;
     SettingsService settingsService;
     Service service;
-    FileManager filemanager;
+    FileAudioFileDao audioFileDao;
+    FileService filemanager;
     Player player;
+    WindowSize windowSize;
     @Override
     public void init() throws IOException{
         Properties properties = new Properties();
         properties.load(new FileInputStream("config.properties"));
-        String settingsFile = properties.getProperty("settingsFile");
-        
-        settingdao = new FileSettingDao(settingsFile);
+        String settingsFilePath = properties.getProperty("settingsFile");
+        String audioFilePath = properties.getProperty("audioFiles");
+        settingdao = new FileSettingDao(settingsFilePath);
         settingsService = new SettingsService(settingdao);
-        filemanager = new FileManager();
-        service = new Service(settingsService, filemanager);
-        player = new Player(service, settingsService);
+        audioFileDao = new FileAudioFileDao(audioFilePath);
+        filemanager = new FileService(audioFileDao);
+        windowSize = new WindowSize();
+        service = new Service(settingsService, windowSize);
+        player = new Player(service, settingsService, filemanager);
+        
     }
     @Override
     public void start(Stage stage) throws Exception {
+        windowSize.bind(stage.widthProperty(), stage.heightProperty());
+        
         player.setStage(stage);
         player.getScene().setOnKeyPressed((KeyEvent e) -> {
             if (e.getCode() == KeyCode.F)
@@ -57,6 +65,7 @@ public class App extends Application {
         
         stage.show();
         
+        //TODO: move out of App
         Popup helpPopup = new Popup();
         helpPopup.setX(300);
         helpPopup.setY(200);
@@ -77,9 +86,10 @@ public class App extends Application {
     @Override
     public void stop() {
         try {
-            settingdao.save();
+            settingsService.save();
+            filemanager.save();
         } catch (IOException ioe) {
-            System.out.println("Could not save settings: " + ioe.getMessage());
+            System.out.println("Failed to save some data: " + ioe.getMessage());
         }
     }
     public static void main(String[] args) {

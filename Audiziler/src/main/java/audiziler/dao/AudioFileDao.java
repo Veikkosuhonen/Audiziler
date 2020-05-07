@@ -5,17 +5,19 @@
  */
 package audiziler.dao;
 
-import audiziler.domain.Settings;
-import audiziler.media.visualizer.VisualizationType;
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
- * DAO interface for classes handling the storing of <code>Settings</code> objects data
+ *
  * @author vesuvesu
  */
-public interface SettingDao {
+public interface AudioFileDao {
     
-    public Settings getSettings(VisualizationType type);
+    public ArrayList<File> getFiles();
     
     public void save() throws IOException;
+    
+    public void setFiles(ArrayList<File> files);
 }

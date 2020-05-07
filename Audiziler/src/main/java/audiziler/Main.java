@@ -1,6 +1,6 @@
-package audilizer;
+package audiziler;
 
-import audilizer.ui.App;
+import audiziler.ui.App;
 
 /**
  *

@@ -5,8 +5,9 @@
  */
 package audiziler.dao;
 
-import audilizer.domain.Setting;
-import audilizer.domain.Settings;
+import audiziler.domain.Setting;
+import audiziler.domain.Settings;
+import audiziler.media.visualizer.VisualizationType;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -25,6 +26,8 @@ import static org.junit.Assert.*;
 public class FileSettingDaoTest {
     SettingDao settingdao;
     static String settingsFile;
+    static VisualizationType bars;
+    
     public FileSettingDaoTest() {
     }
     
@@ -37,6 +40,7 @@ public class FileSettingDaoTest {
             fail("Could not load properties");
         }
         settingsFile = properties.getProperty("testSettingsFile");
+        bars = VisualizationType.BARS;
     }
     
     @AfterClass
@@ -73,30 +77,12 @@ public class FileSettingDaoTest {
      */
     @Test
     public void testGetSettings() {
-        Settings settings = settingdao.getSettings(3);
+        Settings settings = settingdao.getSettings(bars);
         String expected = "magnitude color offset";
         String result = settings.get(expected).getName();
         assertEquals(expected, result);
     }
-    @Test
-    public void testGetSettingsFromInvalidSlot() {
-        Settings settings = settingdao.getSettings(-1);
-        String expected = "frequency color offset";
-        String result = settings.get(expected).getName();
-        assertEquals(expected, result);
-    }
-
-    /**
-     * Test of setSettings method, of class FileSettingDao.
-     */
-    @Test
-    public void testSetSettings() {
-        Settings settings = new Settings();
-        settings.add("setting", new Setting("setting", "a setting", 1.0, 0.0, 3.0));
-        int slot = 1;
-        settingdao.setSettings(slot, settings);
-        assertEquals(settings, settingdao.getSettings(slot));
-    }
+    
     /**
      * Test of save method, of class FileSettingDao.
      */
@@ -111,17 +97,17 @@ public class FileSettingDaoTest {
         } catch (IOException ioe) {
             fail("failed construction when no file existed: " + ioe.getMessage());
         }
-        Settings settings = settingdao.getSettings(1);
+        Settings settings = settingdao.getSettings(bars);
         Setting setting = settings.get("threshold");
         System.out.println("setting "+ setting.getName() + " received");
         double value = 69.42;
         setting.set(value);
-        assertEquals(settings, settingdao.getSettings(1));
+        assertEquals(settings, settingdao.getSettings(bars));
         assertTrue(value == setting.getValue());
         settingdao.save();
         System.out.println("Reading file after save");
         settingdao = new FileSettingDao(settingsFile);
-        settings = settingdao.getSettings(1);
+        settings = settingdao.getSettings(bars);
         setting = settings.get("threshold");
         if (value != setting.getValue()) {
             fail("Expected "+value+ " but was "+ setting.getValue());

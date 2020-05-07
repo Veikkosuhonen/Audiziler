@@ -3,11 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package audilizer.media;
+package audiziler.media;
 
-import audilizer.domain.Settings;
+import audiziler.domain.Settings;
 import java.io.File;
 import java.net.MalformedURLException;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.media.AudioSpectrumListener;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -21,18 +22,18 @@ import javafx.util.Duration;
 public class MPlayer {
     MediaPlayer player;
     boolean isPlaying;
-    public MPlayer(File file, Settings settings) {
+    public MPlayer(File file) {
         isPlaying = false;
         try {
-            player = new MediaPlayer(new Media(file.toURI().toURL().toString()));
+            Media media = new Media(file.toURI().toURL().toString());
+            System.out.println(media.getMetadata().toString());
+            player = new MediaPlayer(media);
         } catch (MalformedURLException mue) {
             System.out.println(mue.getMessage());
         }
         player.setOnEndOfMedia(() -> {
             isPlaying = false;
         });
-        
-        player.audioSpectrumThresholdProperty().bind(settings.get("threshold").getProperty());
     }
     public boolean toggle() {
         if (isPlaying) {
@@ -64,8 +65,11 @@ public class MPlayer {
     }
     public void setAudioSpectrumListener(AudioSpectrumListener listener) {
         player.setAudioSpectrumNumBands(1024);
-        player.setAudioSpectrumInterval(1.0 / 60);
         player.setAudioSpectrumListener(listener);
         
+    }
+    public void bindSettings(Settings settings) {
+        player.audioSpectrumThresholdProperty().bind(settings.get("threshold").getProperty());
+        player.audioSpectrumIntervalProperty().bind(new SimpleDoubleProperty(1).divide(settings.get("analyzer rate").getProperty()));
     }
 }

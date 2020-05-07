@@ -3,32 +3,37 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package audilizer.domain;
+package audiziler.domain;
 
+import audiziler.domain.Service;
+import audiziler.domain.SettingsService;
 import audiziler.dao.FileSettingDao;
 import audiziler.dao.SettingDao;
+import audiziler.ui.WindowSize;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
+import javafx.beans.property.ReadOnlyDoubleWrapper;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- *
+ * A test class for testing <code>Service</code>. Why does this not contain any tests?
+ * The <code>Service</code>-class controls <code>MPlayer</code> and <code>Visualizer</code>, which both require a JavaFX application context to run.
+ * The methods would therefore require a framework for testing JavaFX applications, which is why the testing is skipped for now.
  * @author vesuvesu
  */
 public class ServiceTest {
         Service service;
         static SettingDao settingdao;
         static SettingsService settingsService;
-        static FileManager filemanager;
         static File file;
         static File unsupportedFile;
+        static WindowSize windowSize;
         public ServiceTest() {
     }
     
@@ -42,12 +47,17 @@ public class ServiceTest {
         }
         String settingsFile = properties.getProperty("testSettingsFile");
         
+        //Construct settingdao...
         try {
             settingdao = new FileSettingDao(settingsFile);
         } catch (IOException ioe) {
             fail("Could not read settings file");
         }
         settingsService = new SettingsService(settingdao);
+        
+        
+        windowSize = new WindowSize();
+        windowSize.bind(new ReadOnlyDoubleWrapper(1280), new ReadOnlyDoubleWrapper(720));
         file = new File("src/test/java/audilizer/domain/399801__johansmithi__lata-refresco.aiff");
         unsupportedFile = new File("src/test/java/audilizer/domain/unsupportedFile");
     }
@@ -59,35 +69,11 @@ public class ServiceTest {
     @Before
     public void setUp() {
         
-        filemanager = new FileManager();
-        service = new Service(settingsService, filemanager);
+        service = new Service(settingsService, windowSize);
         
     }
     
     @After
     public void tearDown() {
-    }
-
-    /**
-     * Test of add method, of class Service.
-     */
-    @Test
-    public void canAddSupportedFile() {
-        assertTrue(service.add(file));
-    }
-    @Test
-    public void cantAddUnsupportedFile() {
-        assertTrue(!service.add(unsupportedFile));
-    }
-
-    /**
-     * Test of selectFile method, of class Service.
-     */
-    @Test
-    public void testSelectFile() {
-        System.out.println("selectFile");
-        assertTrue(!service.selectFile(file.getName()));
-        service.add(file);
-        assertTrue(service.selectFile(file.getName()));
     }
 }

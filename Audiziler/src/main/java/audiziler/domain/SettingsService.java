@@ -3,12 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package audilizer.domain;
+package audiziler.domain;
 
 import audiziler.dao.SettingDao;
+import audiziler.media.visualizer.VisualizationType;
+import java.io.IOException;
 
 /**
- *
+ * Abstracts the handling of <code>Settings</code> objects and interfaces with <code>SettingDao</code>
  * @author vesuvesu
  */
 public class SettingsService {
@@ -17,10 +19,13 @@ public class SettingsService {
     
     public SettingsService(SettingDao settingdao) {
         this.settingsdao = settingdao;
-        settings = settingdao.getSettings(0);
+        settings = settingdao.getSettings(VisualizationType.BARS);
     }
-    public void setSettings(int slot) {
-        settings = settingsdao.getSettings(slot);
+    public void save() throws IOException {
+        settingsdao.save();
+    }
+    public void setSettings(VisualizationType type) {
+        settings = settingsdao.getSettings(type);
     }
     public Setting getSetting(String name) {
         return settings.get(name);

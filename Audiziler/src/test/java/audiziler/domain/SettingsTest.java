@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package audilizer.domain;
+package audiziler.domain;
 
+import audiziler.domain.Settings;
+import audiziler.domain.Setting;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -46,6 +48,24 @@ public class SettingsTest {
     @Test
     public void testAdd() {
         settings.add("setting", setting);
+    }
+    @Test
+    public void testGet() {
+        settings.add("setting", setting);
         assertEquals(setting, settings.get("setting"));
+    }
+    @Test
+    public void testGetWithUnkownKey() {
+        assertTrue(null == settings.get("setting of awesome"));
+    }
+    @Test
+    public void testGetAllContainsAddedSetting() {
+        settings.add("setting", setting);
+        assertTrue(settings.getAll().contains(setting));
+    }
+    @Test
+    public void testGetAllSizeOfListIsCorrect() {
+        settings.add("setting", setting);
+        assertTrue(settings.getAll().size() == 1);
     }
 }

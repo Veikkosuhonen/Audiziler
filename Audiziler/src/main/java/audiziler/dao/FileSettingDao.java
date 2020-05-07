@@ -5,34 +5,36 @@
  */
 package audiziler.dao;
 
-import audilizer.domain.Setting;
-import audilizer.domain.Settings;
+import audiziler.domain.Setting;
+import audiziler.domain.Settings;
+import audiziler.media.visualizer.VisualizationType;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
- *
+ * Reads and writes the <code>Settings</code> objects data from and to a text file
  * @author vesuvesu
  */
 public class FileSettingDao implements SettingDao {
     private String filepath;
-    private List<Settings> settingsList;
-    private final int SETTINGS_SLOTS = 4;
-    
+    private Map<VisualizationType, Settings> settingsList;
+    /**
+     * Attempts to parse a settings file and create a Map containing the <code>Settings</code> objects
+     * @param filepath to the settings file
+     * @throws IOException 
+     */
     public FileSettingDao(String filepath) throws IOException {
         //System.out.println(filepath);
         this.filepath = filepath;
-        settingsList = new ArrayList();
+        settingsList = new HashMap();
         
-        int i = 0;
-        while (i<SETTINGS_SLOTS) {
-            settingsList.add(new Settings());
-            i++;
+        for (VisualizationType type : VisualizationType.values()) {
+            settingsList.put(type, new Settings());
         }
         
         try {
@@ -57,45 +59,48 @@ public class FileSettingDao implements SettingDao {
             }
         }
     }
-    
+    /**
+     * Writes the settings data to the settings file in a somewhat readable format
+     * @throws IOException 
+     */
     @Override
     public void save() throws IOException {
         try (FileWriter writer = new FileWriter(new File(filepath))) {
-            int slot = 0;
-            for (Settings settings : settingsList) {
-                writer.write("slot;" + slot + "\n");
+            for (VisualizationType type : VisualizationType.values()) {
+                writer.write("type;" + type + "\n");
+                
+                Settings settings = settingsList.get(type);
+                
                 for (Setting setting : settings.getAll()) {
                     writer.write(setting.getName() + ";" +setting.getDescription() + ";" + setting.getValue() + ";" + setting.getMin() + ";" + setting.getMax() + "\n");
                 }
-                slot++;
             }
         }
     }
-    
+    /**
+     * 
+     * @param type
+     * @return <code>Settings</code> for the given type
+     */
     @Override
-    public Settings getSettings(int slot) {
-        if (slot < 0 || slot >= SETTINGS_SLOTS) {
-            System.out.println("invalid settings slot requested: " + slot + ", returning default");
-            return settingsList.get(0);
-        }
-        return settingsList.get(slot);
+    public Settings getSettings(VisualizationType type) {
+        return settingsList.get(type);
     }
-
-    @Override
-    public void setSettings(int slot, Settings settings) {
-        settingsList.set(slot, settings);
-    }
+    /**
+     * Reads the settings file, creates the <code>Settings</code> objects and puts them into the HashMap
+     * @throws Exception 
+     */
     private void readSettings() throws Exception {
         Scanner reader = new Scanner(new File(filepath));
-        int slot = 0;
+        VisualizationType type = VisualizationType.BARS;
         if (!reader.hasNextLine()) {
             System.out.println("settings file seems empty");
             throw new Exception();
         }
         while (reader.hasNextLine()) {
             String parts[] = reader.nextLine().split(";");
-            if (parts[0].equals("slot")) {
-                slot = Integer.valueOf(parts[1]);
+            if (parts[0].equals("type")) {
+                type = VisualizationType.valueOf(parts[1]);
                 continue;
             }
             String name = parts[0];
@@ -104,9 +109,13 @@ public class FileSettingDao implements SettingDao {
             double min = Double.valueOf(parts[3]);
             double max = Double.valueOf(parts[4]);
             Setting setting = new Setting(name, description, value, min, max);
-            settingsList.get(slot).add(name, setting);
+            settingsList.get(type).add(name, setting);
         }
     }
+    /**
+     * Writes the program default settings data to a new settings file. 
+     * Should be called whenever the settings file cannot be found or is fatally malformed
+     */
     private void writeDefaultSettings() {
         File file = new File(filepath);
         try {
@@ -115,12 +124,11 @@ public class FileSettingDao implements SettingDao {
             System.out.println(e.getMessage());
         }
         try (FileWriter writer = new FileWriter(filepath)) {
-            int slot = 0;
             
-            while (slot < SETTINGS_SLOTS) {
+            for (VisualizationType type : VisualizationType.values()) {
                 
                 //DEFAULT SETTINGS
-                writer.write("slot;" + slot + "\n");
+                writer.write("type;" + type + "\n");
                 writer.write("threshold;spectrum threshold;-90.0;-110;-60\n");
                 writer.write("color offset;how much color is offset;0;0;360\n");
                 writer.write("frequency color offset;how much color is offset based on frequency;144;0;360\n");
@@ -128,7 +136,7 @@ public class FileSettingDao implements SettingDao {
                 writer.write("acceleration;how fast bars move;4;1;10\n");
                 writer.write("height;height of bars;1;0.5;8\n");
                 writer.write("bloom;bloom strength;0.3;0;1\n");
-                slot++;
+                writer.write("analyzer rate;controls the spectrum analyzer interval;41.1;41;41.2\n");
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());

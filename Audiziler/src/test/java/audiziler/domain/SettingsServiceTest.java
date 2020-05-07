@@ -3,12 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package audilizer.domain;
+package audiziler.domain;
 
+import audiziler.domain.SettingsService;
+import audiziler.domain.Setting;
 import audiziler.dao.FileSettingDao;
 import audiziler.dao.SettingDao;
+import audiziler.media.visualizer.VisualizationType;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.Properties;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -62,8 +66,8 @@ public class SettingsServiceTest {
      */
     @Test
     public void testSetSettings() {
-        int slot = 0;
-        service.setSettings(slot);
+        VisualizationType type = VisualizationType.BARS;
+        service.setSettings(type);
     }
 
     /**
@@ -87,7 +91,7 @@ public class SettingsServiceTest {
     public void testGetSettings() {
         
         String expectedToContain = "color offset";
-        Setting[] settingArray = service.getSettings().getAll();
+        List<Setting> settingArray = service.getSettings().getAll();
         boolean found = false;
         for (Setting setting : settingArray) {
             if (setting.getName().equals(expectedToContain)) {
