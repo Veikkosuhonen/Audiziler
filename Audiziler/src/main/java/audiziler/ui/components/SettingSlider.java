@@ -18,7 +18,7 @@ import javafx.scene.layout.VBox;
  * 
  * @author vesuvesu
  */
-public class SettingSlider extends VBox{
+public class SettingSlider extends VBox {
     private final Slider slider;
     private final Label nameLabel;
     private final Label valueLabel;
@@ -36,7 +36,7 @@ public class SettingSlider extends VBox{
             @Override
             public void changed(ObservableValue ov, Object t, Object t1) {
                 double value = (double) ov.getValue();
-                valueLabel.setText( formattedStringValue( value ) );
+                valueLabel.setText(formattedStringValue(value));
             }            
         });
         
@@ -61,8 +61,8 @@ public class SettingSlider extends VBox{
             return raw;
         }
         if (raw.startsWith("-")) {
-            return raw.substring(0,5);
+            return raw.substring(0, 5);
         }
-        return raw.substring(0,4);
+        return raw.substring(0, 4);
     }
 }

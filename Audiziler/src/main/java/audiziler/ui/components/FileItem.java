@@ -16,7 +16,7 @@ import javafx.scene.layout.HBox;
  *
  * @author vesuvesu
  */
-public class FileItem extends HBox{
+public class FileItem extends HBox {
     private final ToggleButton selectButton;
     private final Button remove;
     

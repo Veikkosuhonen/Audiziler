@@ -67,17 +67,14 @@ public class Visualizer {
         flame.setVisible(false);
         phase.setVisible(false);
         switch (type) {
-            case BARS: {
+            case BARS: 
                 bars.setVisible(true);
                 break;
-            }
-            case FLAME: {
+            case FLAME: 
                 flame.setVisible(true);
                 break;
-            }
-            case PHASE: {
+            case PHASE: 
                 phase.setVisible(true);
-            }
         }
     }
     public void bindSettings(Settings settings) {

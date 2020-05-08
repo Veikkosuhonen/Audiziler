@@ -16,7 +16,7 @@ import java.util.Scanner;
  *
  * @author vesuvesu
  */
-public class FileAudioFileDao implements AudioFileDao{
+public class FileAudioFileDao implements AudioFileDao {
     private File src;
     private Scanner reader;
     private FileWriter writer;

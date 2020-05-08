@@ -81,12 +81,6 @@ public class Service {
     public void toStart() {
         mediaplayer.toStart();
     }
-    public Pane getVisualization() {
-        return visualizer.getVisualizer();
-    }
-    public void setOnEndOfMedia(Runnable e) {
-        mediaplayer.setOnEndOfMedia(e);
-    }
     public void stop() {
         if (mediaplayer != null) {
             mediaplayer.stop();
@@ -94,5 +88,14 @@ public class Service {
         if (visualizer != null) {
             visualizer.clear();
         }
+    }
+    public void setOnEndOfMedia(Runnable e) {
+        mediaplayer.setOnEndOfMedia(e);
+    }
+    public Settings getSettings() {
+        return settingsService.getSettings();
+    }
+    public Pane getVisualization() {
+        return visualizer.getVisualizer();
     }
 }

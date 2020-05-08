@@ -16,7 +16,7 @@ import javafx.scene.layout.HBox;
  *
  * @author vesuvesu
  */
-public class VisualizationSelector extends HBox{
+public class VisualizationSelector extends HBox {
     
     private final ComboBox selector;
     private final Label label;

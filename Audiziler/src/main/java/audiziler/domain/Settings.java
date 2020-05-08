@@ -20,7 +20,7 @@ public class Settings {
         settings = new HashMap();
     }
     
-    public void add(String name,Setting setting) {
+    public void add(String name, Setting setting) {
         settings.put(name, setting);
     }
     

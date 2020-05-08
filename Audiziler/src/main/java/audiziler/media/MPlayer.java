@@ -26,7 +26,6 @@ public class MPlayer {
         isPlaying = false;
         try {
             Media media = new Media(file.toURI().toURL().toString());
-            System.out.println(media.getMetadata().toString());
             player = new MediaPlayer(media);
         } catch (MalformedURLException mue) {
             System.out.println(mue.getMessage());

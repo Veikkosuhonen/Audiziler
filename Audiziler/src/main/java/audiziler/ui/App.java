@@ -35,8 +35,9 @@ public class App extends Application {
     FileService filemanager;
     Player player;
     WindowSize windowSize;
+    
     @Override
-    public void init() throws IOException{
+    public void init() throws IOException {
         Properties properties = new Properties();
         properties.load(new FileInputStream("config.properties"));
         String settingsFilePath = properties.getProperty("settingsFile");
@@ -47,22 +48,15 @@ public class App extends Application {
         filemanager = new FileService(audioFileDao);
         windowSize = new WindowSize();
         service = new Service(settingsService, windowSize);
-        player = new Player(service, settingsService, filemanager);
-        
+        player = new Player(service, filemanager);
     }
+    
     @Override
     public void start(Stage stage) throws Exception {
         windowSize.bind(stage.widthProperty(), stage.heightProperty());
-        
         player.setStage(stage);
-        player.getScene().setOnKeyPressed((KeyEvent e) -> {
-            if (e.getCode() == KeyCode.F)
-                stage.setFullScreen(true);
-        });
-        
         stage.setTitle("Audilizer");
         stage.setScene(player.getScene());
-        
         stage.show();
         
         //TODO: move out of App
@@ -75,13 +69,12 @@ public class App extends Application {
                 + "\nControl parameters from left opener");
         Button closebutton = new Button("close");
         closebutton.setOnAction((ActionEvent ae) -> {
-           helpPopup.hide();
+            helpPopup.hide();
         });
         VBox box = new VBox(helptext, closebutton);
         box.setAlignment(Pos.CENTER);
         helpPopup.getContent().add(box);
         helpPopup.show(stage);
-        
     }
     @Override
     public void stop() {

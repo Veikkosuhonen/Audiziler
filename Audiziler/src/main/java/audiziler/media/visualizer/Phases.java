@@ -20,7 +20,7 @@ import javafx.scene.paint.Color;
  *
  * @author vesuvesu
  */
-public class Phases implements Visualization{
+public class Phases implements Visualization {
     WindowSize windowSize;
     Settings settings;
     
@@ -39,15 +39,11 @@ public class Phases implements Visualization{
     
     public Phases(WindowSize windowSize) {
         this.windowSize = windowSize;
-        
         canvas = new Canvas();
         canvas.widthProperty().setValue(1280);
         canvas.heightProperty().setValue(720);
-        
         group = new Group(canvas);
-        
         gc = canvas.getGraphicsContext2D();
-        
         visible = false;
         rootHeight = (float) windowSize.getHeight() / 2;
         bars = 32;

@@ -37,7 +37,7 @@ public class FileService {
         
         if (!isSupported(file)) {
             return false;
-        } else if (getFile(file.getName()) != null){
+        } else if (getFile(file.getName()) != null) {
             return false;
         }
         files.add(file);

@@ -20,7 +20,7 @@ import javafx.util.Duration;
  * UI-component class
  * @author vesuvesu
  */
-public class SidePane extends StackPane{
+public class SidePane extends StackPane {
     private final Pos pos;
     private Rectangle opener;
     private VBox vbox;
@@ -42,22 +42,24 @@ public class SidePane extends StackPane{
         
         openerShowingTime = new PauseTransition(Duration.seconds(4));
         openerShowingTime.setOnFinished((ActionEvent e) -> {
-            if (opener.isVisible())
-                super.setVisible(false); 
+            if (opener.isVisible()) {
+                super.setVisible(false);
+            }
         });
         menuShowingTime = new PauseTransition(Duration.seconds(2));
         menuShowingTime.setOnFinished((ActionEvent e) -> {
             if (!this.isHover()) {
                 opener.setVisible(true);
-                if (vertical)
+                if (vertical) {
                     vbox.setVisible(false);
-                else 
+                } else {
                     hbox.setVisible(false);
+                }
             }
         });
         
         if (vertical) {
-            opener = new Rectangle(40,100);
+            opener = new Rectangle(40, 100);
             vbox = new VBox();
             vbox.setAlignment(pos);
             vbox.setSpacing(4);
@@ -84,10 +86,11 @@ public class SidePane extends StackPane{
         
         opener.setOnMouseEntered((MouseEvent e) -> {
             opener.setVisible(false);
-            if (vertical)
+            if (vertical) {
                 vbox.setVisible(true);
-            else
+            } else {
                 hbox.setVisible(true);
+            }
         });
     }
     /**
@@ -107,9 +110,7 @@ public class SidePane extends StackPane{
      * @param pos 
      */
     private void determineAlignment(Pos pos) {
-        if (null == pos) {
-            System.out.println("Illegal alignment for SidePane: " + pos);
-        } else switch (pos) {
+        switch (pos) {
             case CENTER_LEFT:
             case CENTER_RIGHT:
                 vertical = true;

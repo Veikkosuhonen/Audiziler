@@ -11,7 +11,6 @@ import audiziler.ui.components.SettingSlider;
 import audiziler.ui.components.VisualizationSelector;
 import audiziler.domain.FileService;
 import audiziler.domain.Service;
-import audiziler.domain.SettingsService;
 import audiziler.media.visualizer.VisualizationType;
 import java.io.File;
 import javafx.beans.value.ChangeListener;
@@ -26,6 +25,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
@@ -40,7 +41,6 @@ import javafx.stage.Stage;
  */
 public class Player {
     
-    SettingsService settingsService;
     Service playbackService;
     FileService fileService;
     
@@ -67,9 +67,8 @@ public class Player {
     VisualizationSelector selector;
     
     Label help;
-    Player(Service service, SettingsService settingsService, FileService fileService) {
+    Player(Service service, FileService fileService) {
         this.fileService = fileService;
-        this.settingsService = settingsService;
         this.playbackService = service;
         
         // --------------Layout----------
@@ -95,7 +94,7 @@ public class Player {
         
         //Filechooser
         filechooser = new FileChooser();
-        ExtensionFilter filter = new ExtensionFilter("AIFF, MP3, WAV","*.wav", "*.aiff", "*.mp3");
+        ExtensionFilter filter = new ExtensionFilter("AIFF, MP3, WAV", "*.wav", "*.aiff", "*.mp3");
         filechooser.getExtensionFilters().add(filter);
         
         //--SidePanes--
@@ -124,7 +123,7 @@ public class Player {
         borderLayout.setRight(rightPane);
         
         //------Scene------
-        scene = new Scene(finalLayout, 1280,720);
+        scene = new Scene(finalLayout, 1280, 720);
         
         String style = getClass().getResource("/style/UIStyle1.css").toExternalForm();
         scene.getStylesheets().add(style);
@@ -133,19 +132,20 @@ public class Player {
         //-------Event Handling---------
         
         playBackControl = (EventHandler) (Event e) -> {
-            if (playbackService.togglePlayback())
+            if (playbackService.togglePlayback()) {
                 playButton.setGraphic(pauseIcon);
-            else
+            } else {
                 playButton.setGraphic(playIcon);
+            }
         };
 
         playButton.setOnAction(playBackControl);
-        previousButton.setOnAction((ActionEvent e) -> {playbackService.toStart();});
+        previousButton.setOnAction((ActionEvent e) -> playbackService.toStart());
         
         selector.valueProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue ov, Object t, Object t1) {
-                playbackService.selectVisualization( (VisualizationType) ov.getValue() );
+                playbackService.selectVisualization((VisualizationType) ov.getValue());
                 redrawSettings();
             }
         });
@@ -172,7 +172,7 @@ public class Player {
     private void handleFileSelection(String filename) {
         playbackService.stop();
         playbackService.initializeMedia(fileService.getFile(filename));
-        playbackService.selectVisualization( (VisualizationType) selector.valueProperty().getValue());
+        playbackService.selectVisualization((VisualizationType) selector.valueProperty().getValue());
         playbackService.setOnEndOfMedia(() -> playButton.setGraphic(playIcon));
         removeVisualizer();
         redrawSettings();
@@ -209,7 +209,7 @@ public class Player {
     private void redrawSettings() {
         rightPane.clearAdditionalChildren();
         rightPane.add(selector);
-        settingsService.getSettings().getAll().forEach(setting -> 
+        playbackService.getSettings().getAll().forEach(setting -> 
             rightPane.add(new SettingSlider(setting))
         );
     }
@@ -238,14 +238,12 @@ public class Player {
         
         FileItem item = new FileItem(file.getName(), fileButtonsGroup);
         
-        item.setSelectHandler(
-            (EventHandler) (Event t) -> {
-                handleFileSelection(file.getName());
+        item.setSelectHandler((EventHandler) (Event t) -> {
+            handleFileSelection(file.getName());
         });
 
-        item.setRemoveHandler(
-            (EventHandler) (Event t) -> {
-                handleFileRemove(file.getName());
+        item.setRemoveHandler((EventHandler) (Event t) -> {
+            handleFileRemove(file.getName());
         });
         
         return item;
@@ -257,8 +255,14 @@ public class Player {
         rightPane.clearAdditionalChildren();
         rightPane.add(new Label("Select a file"));
     }
-        public void setStage(Stage stage) {
+    public void setStage(Stage stage) {
         this.stage = stage;
+        //Fullscreen event handler
+        this.scene.setOnKeyPressed((KeyEvent e) -> {
+            if (e.getCode() == KeyCode.F) {
+                stage.setFullScreen(true);
+            }
+        });
     }
     public Scene getScene() {
         return scene;

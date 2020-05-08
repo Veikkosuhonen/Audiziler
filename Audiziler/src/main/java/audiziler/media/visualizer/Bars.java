@@ -17,7 +17,7 @@ import javafx.scene.paint.Color;
  * @author vesuvesu
  */
 
-public class Bars implements Visualization{
+public class Bars implements Visualization {
     WindowSize windowSize;
     Group group;
     Canvas canvas;
@@ -33,20 +33,16 @@ public class Bars implements Visualization{
         canvas.heightProperty().setValue(720);
         group = new Group(canvas);
         gc = canvas.getGraphicsContext2D();
-        
         visible = false;
-        
         length = 128;
         this.windowSize = windowSize;
-        
         bars = new Bar[length];
         float width = 8;
         float barWidth = 6;
         rootHeight = 0.8f * (float) canvas.getHeight();
-        
         canvas.translateXProperty().bind(windowSize.widthProperty().subtract(width * length).divide(2));
         canvas.translateYProperty().bind(windowSize.heightProperty().subtract(720).divide(2));
-        for (int i = 0; i<length; i++) {
+        for (int i = 0; i < length; i++) {
             bars[i] = new Bar(
                     new Vector2D(width * i, rootHeight),
                     new Vector2D(barWidth, 0)
@@ -55,7 +51,6 @@ public class Bars implements Visualization{
     }
     @Override
     public void update(float[] magnitudes) {
-        //System.out.println(magnitudes[100]);
         if (!visible) {
             return;
         }
@@ -63,19 +58,18 @@ public class Bars implements Visualization{
         gc.setFill(Color.WHITE);
         for (int i = 0; i < length; i++) {
             float oldHeight = bars[i].getSize().y;
-            float newHeight = oldHeight - (oldHeight - height(magnitudes[i]))/ (float) settings.get("acceleration").getValue();
+            float newHeight = oldHeight - (oldHeight - height(magnitudes[i])) / (float) settings.get("acceleration").getValue();
             bars[i].setHeight(newHeight);
             float normalHeight = normalized(newHeight);
             newHeight *= settings.get("height").getValue() / 2;
             
-            //System.out.println(newHeight);
             
             gc.setFill(
                     Color.hsb(
                             i * 1.0 / length * settings.get("frequency color offset").getValue() + 
                             settings.get("magnitude color offset").getValue() * normalHeight +
                             settings.get("color offset").getValue()
-                            , 1.0, normalHeight+0.1));
+                            , 1.0, normalHeight + 0.1));
             float x = bars[i].getPos().x;
             float y = rootHeight - newHeight;
             gc.fillRect(x, y, bars[i].getSize().x, newHeight);
