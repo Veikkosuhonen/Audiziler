@@ -102,13 +102,11 @@ public class Player {
         leftPane = new SidePane(Pos.CENTER_LEFT);
         fileItems = new VBox();
         addFileButton = new Button("Add file");
+        fileButtonsGroup = new ToggleGroup();
         //Updates fileItems and adds fileItems and addFileButton
         redrawFiles();
-        
-        
         borderLayout.setLeft(leftPane);
-        //ToggleGroup for file item buttons
-        fileButtonsGroup = new ToggleGroup();
+        
         
         //-Bottom-
         SidePane bottomPane = new SidePane(Pos.BOTTOM_CENTER);
@@ -255,6 +253,7 @@ public class Player {
         rightPane.clearAdditionalChildren();
         rightPane.add(new Label("Select a file"));
     }
+    
     public void setStage(Stage stage) {
         this.stage = stage;
         //Fullscreen event handler

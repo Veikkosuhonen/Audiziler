@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
+import javafx.scene.effect.Bloom;
 import javafx.scene.transform.Scale;
 
 /**
@@ -23,6 +23,7 @@ public class FlameParticle implements Visualization {
     Group group;
     Canvas canvas;
     GraphicsContext gc;
+    Bloom bloom;
     boolean visible;
     ArrayList<Particle> particles;
     float rootHeight;
@@ -36,7 +37,8 @@ public class FlameParticle implements Visualization {
         canvas = new Canvas(1280, 720);
         group = new Group(canvas);
         gc = canvas.getGraphicsContext2D();
-        gc.setFill(Color.WHITE);
+        bloom = new Bloom();
+        canvas.setEffect(bloom);
         visible = false;
         particles = new ArrayList();
         rootHeight = 0.8f * (float) canvas.getHeight();
@@ -59,6 +61,7 @@ public class FlameParticle implements Visualization {
                 );
             }
         }
+        bloom.setThreshold(settings.get("bloom").getValue());
         for (int i = 0; i < particles.size(); i++) {
             Particle particle = particles.get(i);
             particle.update();
@@ -68,6 +71,7 @@ public class FlameParticle implements Visualization {
                 particles.remove(i);
             }
         }
+        
     }
 
     @Override

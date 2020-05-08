@@ -85,6 +85,10 @@ public class FileSettingDao implements SettingDao {
     public Settings getSettings(VisualizationType type) {
         return settingsList.get(type);
     }
+    @Override
+    public void setSettings(VisualizationType type, Settings settings) {
+        settingsList.replace(type, settings);
+    }
     /**
      * Reads the settings file, creates the <code>Settings</code> objects and puts them into the HashMap
      * @throws Exception 

@@ -15,6 +15,8 @@ import java.io.IOException;
  */
 public interface SettingDao {
     
+    public void setSettings(VisualizationType type, Settings settings);
+    
     public Settings getSettings(VisualizationType type);
     
     public void save() throws IOException;

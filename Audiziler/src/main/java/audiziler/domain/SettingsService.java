@@ -16,15 +16,18 @@ import java.io.IOException;
 public class SettingsService {
     Settings settings;
     SettingDao settingsdao;
-    
+    VisualizationType type;
     public SettingsService(SettingDao settingdao) {
         this.settingsdao = settingdao;
-        settings = settingdao.getSettings(VisualizationType.BARS);
+        type = VisualizationType.BARS;
+        settings = settingdao.getSettings(type);
     }
     public void save() throws IOException {
         settingsdao.save();
     }
     public void setSettings(VisualizationType type) {
+        settingsdao.setSettings(this.type, settings);
+        this.type = type;
         settings = settingsdao.getSettings(type);
     }
     public Setting getSetting(String name) {

@@ -14,6 +14,7 @@ import java.util.List;
 import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.effect.Bloom;
 import javafx.scene.paint.Color;
 
 /**
@@ -27,6 +28,7 @@ public class Phases implements Visualization {
     Group group;
     Canvas canvas;
     GraphicsContext gc;
+    Bloom bloom;
     
     boolean visible;
     int bars;
@@ -44,6 +46,8 @@ public class Phases implements Visualization {
         canvas.heightProperty().setValue(720);
         group = new Group(canvas);
         gc = canvas.getGraphicsContext2D();
+        bloom = new Bloom();
+        canvas.setEffect(bloom);
         visible = false;
         rootHeight = (float) windowSize.getHeight() / 2;
         bars = 32;
@@ -70,6 +74,7 @@ public class Phases implements Visualization {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         gc.setStroke(Color.WHITE);
         for (int j = 0; j < lines; j++) {
+            bloom.setThreshold(settings.get("bloom").getValue());
             ArrayDeque<Float> queue = phaseQueues.get(j);
             gc.beginPath();
             Iterator<Float> iterator = queue.iterator();

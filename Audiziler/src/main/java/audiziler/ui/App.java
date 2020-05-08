@@ -18,8 +18,6 @@ import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
@@ -37,12 +35,23 @@ public class App extends Application {
     WindowSize windowSize;
     
     @Override
-    public void init() throws IOException {
+    public void init() {
         Properties properties = new Properties();
-        properties.load(new FileInputStream("config.properties"));
+        try {
+            properties.load(new FileInputStream("config.properties"));
+        } catch (IOException ioe) {
+            System.out.println("ERROR: Could not find config.properties.\n"
+                    + "Please make sure a valid config file is located under the parent directory of the executable");
+            System.exit(0);
+        }
         String settingsFilePath = properties.getProperty("settingsFile");
         String audioFilePath = properties.getProperty("audioFiles");
-        settingdao = new FileSettingDao(settingsFilePath);
+        try {
+            settingdao = new FileSettingDao(settingsFilePath);
+        } catch (IOException ioe) {
+            System.out.println("Failed to load settings from settings file");
+            System.exit(0);
+        }
         settingsService = new SettingsService(settingdao);
         audioFileDao = new FileAudioFileDao(audioFilePath);
         filemanager = new FileService(audioFileDao);

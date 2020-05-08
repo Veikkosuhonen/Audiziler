@@ -10,6 +10,7 @@ import audiziler.ui.WindowSize;
 import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.effect.Bloom;
 import javafx.scene.paint.Color;
 
 /**
@@ -22,6 +23,7 @@ public class Bars implements Visualization {
     Group group;
     Canvas canvas;
     GraphicsContext gc;
+    Bloom bloom;
     boolean visible;
     Settings settings;
     Bar[] bars;
@@ -33,6 +35,8 @@ public class Bars implements Visualization {
         canvas.heightProperty().setValue(720);
         group = new Group(canvas);
         gc = canvas.getGraphicsContext2D();
+        bloom = new Bloom();
+        canvas.setEffect(bloom);
         visible = false;
         length = 128;
         this.windowSize = windowSize;
@@ -62,8 +66,7 @@ public class Bars implements Visualization {
             bars[i].setHeight(newHeight);
             float normalHeight = normalized(newHeight);
             newHeight *= settings.get("height").getValue() / 2;
-            
-            
+            bloom.setThreshold(settings.get("bloom").getValue());
             gc.setFill(
                     Color.hsb(
                             i * 1.0 / length * settings.get("frequency color offset").getValue() + 
