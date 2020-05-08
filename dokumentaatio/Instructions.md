@@ -17,7 +17,7 @@ _I recommend running any pre-release version from the command line as some error
 **Important**: make sure to have a valid config.properties file located in the same directory as the executable. 
 It can be found in the attachments of every release. The app will exit if it cannot find the config file.
 
-**Very important**: the app is under active development and probably contains many bugs I have yet to notice. **Please report** any problems you encounter by submitting an issue or by contacting me on Discord.
+**Very important**: the app is under active development and probably contains many bugs I have yet to notice. **Please report** any serious problems you encounter by submitting an issue or by contacting me on Discord.
 
 ## How to use
 
