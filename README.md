@@ -5,7 +5,7 @@ Repositorio sisältää Helsingin yliopiston ohjelmistotekniikan kurssin harjoit
 ![](https://github.com/Veikkosuhonen/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/visualisaatio.png)
 
 ## Harjoitustyö
-[INSTRUCTIONS](https://github.com/Veikkosuhonen/ot-harjoitustyo/blob/master/dokumentaatio/instructions.md)
+[INSTRUCTIONS](https://github.com/Veikkosuhonen/ot-harjoitustyo/blob/master/dokumentaatio/Instructions.md)
 
 Harjoitustyö on äänen visualisointisovellus. Sovellukseen valitaan äänitiedosto ja sovellus piirtää äänen taajuusmagnitudeihin reagoivan visualisaation.
 
