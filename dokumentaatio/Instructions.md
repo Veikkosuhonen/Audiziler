@@ -2,6 +2,8 @@
 
 ## Launching the App
 
+[Download](https://github.com/Veikkosuhonen/ot-harjoitustyo/releases/tag/v0.1-alpha) the latest (pre-)release and the config.properties-file. I recommend moving them to a new folder.
+
 To run the executable, you can run it from the command line by navigating to the parent directory and entering
 
 `java -jar Audiziler.jar`. 
