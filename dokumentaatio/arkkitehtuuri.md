@@ -1,7 +1,7 @@
 # Arkkitehtuuri
 
 ## Pakkausrakenne
-Sovelluksen pakkausrakenne on kolmitasoinen lukuunottamatta media-pakkausta:
+Sovelluksen pakkausrakenne jakaa sovelluksen neljään loogiseen kokonaisuuteen.
 
 ![](https://github.com/Veikkosuhonen/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/Pakkausrakenne.png)
 
@@ -105,5 +105,7 @@ Sovelluksen rakenteessa on muutamia kehitystä vaativia heikkouksia.
 
 Käyttöliittymän on haluttu kommunikoivan mahdollisimman harvan sovelluslogiikkaluokan kanssa, minkä takia PlaybackService-luokka hieman epäloogisesti palauttaa käyttöliittymälle Settings-olion, sen sijaan että käyttöliittymä kutsuisi suoraan SettingServiceä. Toisaalta käyttöliittymä kommunikoi suoraan äänitiedostojen käsittelyn tekevän FileServicen kanssa, eikä sitä relaatiota voi millään änkeä PlaybackServiceen. Tulisi ehkä joko luoda sovelluslogiikan ylimmäinen Service-luokka, joka hoitaisi yksinään käyttöliittymän kanssa kommunikoinnin, tai sitten antaa käyttöliittymän kutsua kolmea eri sovelluslogiikkaluokkaa.
 
-MPlayer- eli mediasoitinluokan ja Visualizer-luokan erottaminen niitä kutsuvasta PlaybackServicestä olisi järkevämpää hoitaa jonkinlaisen rajapinnan kautta, sillä tällä hetkellä PlaybackService on riippuvainen JavaFX-sovelluskontekstin olemassaolosta, eli sen metodeja ei voida suorittaa ilman tätä, koska luokka kutsuu suoraan medialuokkia. Tämä ongelma tulee vahvimmin ilmi testauksessa: PlaybackService-luokalla ei ole testejä, koska testauksen suorittamiseksi tarvittaisiin JavaFX-testausympäristö.
+MPlayer- eli mediasoitinluokan ja Visualizer-luokan erottaminen niitä kutsuvasta PlaybackServicestä olisi järkevämpää hoitaa jonkinlaisen rajapinnan kautta, sillä tällä hetkellä PlaybackService on riippuvainen JavaFX-sovelluskontekstin olemassaolosta, eli sen metodeja ei voida suorittaa ilman tätä, koska luokka kutsuu suoraan medialuokkia. Tämä ongelma tulee vahvimmin ilmi testauksessa: PlaybackService-luokalla ei ole testejä, koska testauksen suorittamiseksi tarvittaisiin JavaFX-testausympäristö. Jos kommunikointi tapahtuisi rajapinnan kautta, voitaisiin testejä varten luoda rajapinnan toteuttava testausluokka.
+
+Sovelluksen virheiden (lue: poikkeusten) käsittely on lievästi sanottuna kömpelöä: tällä hetkellä napattuihin virhetilanteisiin reagoidaan tulostamalla konsoliin virheviesti ja mahdollisesti sulkemalla sovellus. Esimerkiksi jos konfiguraatiotiedostoa ei löydy, sovellus sulkeutuu. Mikäli käyttäjä käynnisti sovelluksen avaamalla sen GUI:sta, virheviestiä ei näy. Virheiden käsittely tapahtuu myös vähän siellä täällä: esimerkiksi jos Settings-tiedosto on virheellinen, virhe käsitellään heti dao-luokassa, kun taas tiedostoja tallentaessa virhe käsitellään App-luokassa. Jonkinlainen keskitetty ja yhtenäinen virheenkäsittely olisi tarpeen.
 
