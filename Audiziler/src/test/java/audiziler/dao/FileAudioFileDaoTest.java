@@ -7,6 +7,7 @@ package audiziler.dao;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Properties;
@@ -24,7 +25,6 @@ import static org.junit.Assert.*;
 public class FileAudioFileDaoTest {
     AudioFileDao audioFileDao;
     static String filepath;
-    static File audiosFile;
     static File file1;
     static File file2;
     static ArrayList<File> files;
@@ -40,7 +40,6 @@ public class FileAudioFileDaoTest {
             fail("Could not load properties");
         }
         filepath = properties.getProperty("testAudioFiles");
-        audiosFile = new File(filepath);
         
         //Doesn't matter if these File-objects don't represent any actual file
         file1 = new File("file1");
@@ -56,8 +55,14 @@ public class FileAudioFileDaoTest {
     
     @Before
     public void setUp() {
-        //Always start with no file present
-        audiosFile.delete();
+        //Clear the file before each test.
+        try {
+            FileWriter writer = new FileWriter(new File(filepath));
+            writer.write("");
+            writer.close();
+        } catch (IOException ioe) {
+            //its fine
+        }
         audioFileDao = new FileAudioFileDao(filepath);
     }
     

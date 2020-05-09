@@ -26,6 +26,7 @@ import static org.junit.Assert.*;
 public class FileSettingDaoTest {
     SettingDao settingdao;
     static String settingsFile;
+    static String defaultSettingNames;
     static VisualizationType bars;
     
     public FileSettingDaoTest() {
@@ -40,6 +41,7 @@ public class FileSettingDaoTest {
             fail("Could not load properties");
         }
         settingsFile = properties.getProperty("testSettingsFile");
+        defaultSettingNames = properties.getProperty("defaultSettingNames");
         bars = VisualizationType.BARS;
     }
     
@@ -50,7 +52,7 @@ public class FileSettingDaoTest {
     @Before
     public void setUp() {
         try {
-            settingdao = new FileSettingDao(settingsFile);
+            settingdao = new FileSettingDao(settingsFile, defaultSettingNames);
         } catch (IOException ioe) {
             fail(ioe.getMessage());
         }
@@ -65,7 +67,7 @@ public class FileSettingDaoTest {
         File file = new File(settingsFile);
         file.delete();
         try {
-            settingdao = new FileSettingDao(settingsFile);
+            settingdao = new FileSettingDao(settingsFile, defaultSettingNames);
         } catch (IOException ioe) {
             fail("failed construction when no file existed: " + ioe.getMessage());
         }
@@ -93,7 +95,7 @@ public class FileSettingDaoTest {
         file.delete();
         try {
             System.out.println("Creating settings file");
-            settingdao = new FileSettingDao(settingsFile);
+            settingdao = new FileSettingDao(settingsFile, defaultSettingNames);
         } catch (IOException ioe) {
             fail("failed construction when no file existed: " + ioe.getMessage());
         }
@@ -106,7 +108,7 @@ public class FileSettingDaoTest {
         assertTrue(value == setting.getValue());
         settingdao.save();
         System.out.println("Reading file after save");
-        settingdao = new FileSettingDao(settingsFile);
+        settingdao = new FileSettingDao(settingsFile, defaultSettingNames);
         settings = settingdao.getSettings(bars);
         setting = settings.get("threshold");
         if (value != setting.getValue()) {

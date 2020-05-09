@@ -28,6 +28,7 @@ import static org.junit.Assert.*;
 public class SettingsServiceTest {
         static SettingDao settingdao;
         static SettingsService service;
+        static String defaultSettingNames;
         public SettingsServiceTest() {
     }
     
@@ -40,9 +41,9 @@ public class SettingsServiceTest {
             fail("Could not load properties");
         }
         String settingsFile = properties.getProperty("testSettingsFile");
-        
+        defaultSettingNames = properties.getProperty("defaultSettingNames");
         try {
-            settingdao = new FileSettingDao(settingsFile);
+            settingdao = new FileSettingDao(settingsFile, defaultSettingNames);
         } catch (IOException ioe) {
             fail("Could not read settings file");
         }

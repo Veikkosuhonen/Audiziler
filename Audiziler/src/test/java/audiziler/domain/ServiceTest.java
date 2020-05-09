@@ -34,6 +34,7 @@ public class ServiceTest {
         static File file;
         static File unsupportedFile;
         static WindowSize windowSize;
+        static String defaultSettingNames;
         public ServiceTest() {
     }
     
@@ -46,10 +47,10 @@ public class ServiceTest {
             fail("Could not load properties");
         }
         String settingsFile = properties.getProperty("testSettingsFile");
-        
+        defaultSettingNames = properties.getProperty("defaultSettingNames");
         //Construct settingdao...
         try {
-            settingdao = new FileSettingDao(settingsFile);
+            settingdao = new FileSettingDao(settingsFile, defaultSettingNames);
         } catch (IOException ioe) {
             fail("Could not read settings file");
         }

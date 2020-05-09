@@ -9,6 +9,7 @@ import audiziler.dao.AudioFileDao;
 import audiziler.dao.FileAudioFileDao;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Properties;
@@ -53,12 +54,16 @@ public class FileServiceTest {
     
     @Before
     public void setUp() {
-        File toBeDeleted = new File(audioFiles);
-        //Delete the file before each test.
-        if (toBeDeleted.exists()) {
-            toBeDeleted.delete();
+        File toBeCleared = new File(audioFiles);
+        //Clear the file before each test.
+        try {
+            FileWriter writer = new FileWriter(toBeCleared);
+            writer.write("");
+            writer.close();
+        } catch (IOException ioe) {
+            //its fine
         }
-        //The audioFileDao cannot find the file and thus does not load any File-objects to memory.
+        //The file is empty or does not exist so no filepaths will be loaded.
         audioFileDao = new FileAudioFileDao(audioFiles);
         //The tests are started with fileService having an empty list of files.
         fileService = new FileService(audioFileDao);

@@ -12,9 +12,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import static java.util.stream.Collectors.toList;
 
 /**
  * Reads and writes the <code>Settings</code> objects data from and to a text file
@@ -23,39 +27,39 @@ import java.util.Scanner;
 public class FileSettingDao implements SettingDao {
     private String filepath;
     private Map<VisualizationType, Settings> settingsList;
+    private ArrayList<String> defaultSettingNames;
     /**
      * Attempts to parse a settings file and create a Map containing the <code>Settings</code> objects
      * @param filepath to the settings file
      * @throws IOException 
      */
-    public FileSettingDao(String filepath) throws IOException {
+    public FileSettingDao(String filepath, String defaultNames) throws IOException {
         this.filepath = filepath;
         settingsList = new HashMap();
-        
+        defaultSettingNames = parseDefaultNames(defaultNames);
         for (VisualizationType type : VisualizationType.values()) {
             settingsList.put(type, new Settings());
         }
-        
-        try {
-            readSettings();
-        } catch (FileNotFoundException e) {
-            System.out.println("file '" + filepath + "' does not exist,");
-            System.out.println("writing default settings");
-            writeDefaultSettings();
+        int counter = 0;
+        while (true) {
             try {
                 readSettings();
-            } catch (Exception e2) {
-                System.out.println("Something went wrong while writing default settings");
+                validate(settingsList.values());
+                break;
+            } catch (FileNotFoundException e) {
+                System.out.println("file '" + filepath + "' does not exist, creating");
+                System.out.println("writing default settings");
+                writeDefaultSettings();
+            } catch (Exception e) {
+                System.out.println("Exception: " + e.getMessage());
+                System.out.println("writing default settings");
+                writeDefaultSettings();
             }
-        } catch (Exception e) {
-            System.out.println("Exception: " + e.getMessage());
-            System.out.println("writing default settings");
-            writeDefaultSettings();
-            try {
-                readSettings();
-            } catch (Exception e2) {
-                System.out.println("Something went wrong while writing default settings");
+            if (counter > 2) {
+                System.out.println("Exception while reading setting files. Program will exit");
+                System.exit(0);
             }
+            counter++;
         }
     }
     /**
@@ -74,6 +78,7 @@ public class FileSettingDao implements SettingDao {
                     writer.write(setting.getName() + ";" + setting.getDescription() + ";" + setting.getValue() + ";" + setting.getMin() + ";" + setting.getMax() + "\n");
                 }
             }
+        writer.close();
         }
     }
     /**
@@ -97,7 +102,6 @@ public class FileSettingDao implements SettingDao {
         Scanner reader = new Scanner(new File(filepath));
         VisualizationType type = VisualizationType.BARS;
         if (!reader.hasNextLine()) {
-            System.out.println("settings file seems empty");
             throw new Exception();
         }
         while (reader.hasNextLine()) {
@@ -142,17 +146,43 @@ public class FileSettingDao implements SettingDao {
             for (VisualizationType type : VisualizationType.values()) {
                 //DEFAULT SETTINGS
                 writer.write("type;" + type + "\n");
-                writer.write("threshold;spectrum threshold;-90.0;-110;-60\n");
-                writer.write("color offset;how much color is offset;0;0;360\n");
-                writer.write("frequency color offset;how much color is offset based on frequency;144;0;360\n");
-                writer.write("magnitude color offset;how much color is offset based on magnitude;86;0;360\n");
-                writer.write("acceleration;how fast bars move;4;1;10\n");
-                writer.write("height;height of bars;1;0.5;8\n");
-                writer.write("bloom;bloom strength;0.3;0;1\n");
-                writer.write("analyzer rate;controls the spectrum analyzer interval;41.1;41;41.2\n");
+                writer.write(defaultSettingNames.get(0) + ";spectrum threshold;-90.0;-110;-60\n");
+                writer.write(defaultSettingNames.get(1) + ";how much color is offset;0;0;360\n");
+                writer.write(defaultSettingNames.get(2) + ";how much color is offset based on frequency;144;0;360\n");
+                writer.write(defaultSettingNames.get(3) + ";how much color is offset based on magnitude;86;0;360\n");
+                writer.write(defaultSettingNames.get(4) + ";how fast bars move;4;1;10\n");
+                writer.write(defaultSettingNames.get(5) + ";height of bars;1;0.5;8\n");
+                writer.write(defaultSettingNames.get(6) + ";bloom strength;0.3;0;1\n");
+                writer.write(defaultSettingNames.get(7) + ";controls the spectrum analyzer interval;41.1;41;41.2\n");
             }
+            writer.close();
         } catch (Exception e) {
             System.out.println(e.getMessage());
+        }
+    }
+    
+    private ArrayList<String> parseDefaultNames(String defaultNames) {
+        ArrayList<String> list = new ArrayList();
+        String[] names = defaultNames.split(";");
+        for (String name : names) {
+            list.add(name);
+        }
+        return list;
+    }
+    
+    private void validate(Collection<Settings> newSettingsList) throws Exception {
+        //Check each instance of Settings in the newSettingsList
+        for (Settings settings : newSettingsList) {
+            
+            //Create a list of setting names in the Settings
+            List<String> newSettingNames = settings.getAll().stream().map(setting -> setting.getName()).collect(toList());
+            
+            //Check for each default name that it's in the new list
+            for (String settingName : defaultSettingNames) {
+                if (!newSettingNames.contains(settingName)) {
+                    throw new Exception("Invalid settings: missing '" + settingName + "'");
+                }
+            }
         }
     }
 }

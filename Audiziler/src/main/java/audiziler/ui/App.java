@@ -46,8 +46,9 @@ public class App extends Application {
         }
         String settingsFilePath = properties.getProperty("settingsFile");
         String audioFilePath = properties.getProperty("audioFiles");
+        String defaultSettingNames = properties.getProperty("defaultSettingNames");
         try {
-            settingdao = new FileSettingDao(settingsFilePath);
+            settingdao = new FileSettingDao(settingsFilePath, defaultSettingNames);
         } catch (IOException ioe) {
             System.out.println("Failed to load settings from settings file");
             System.exit(0);
