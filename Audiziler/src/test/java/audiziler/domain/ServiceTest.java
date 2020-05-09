@@ -5,7 +5,7 @@
  */
 package audiziler.domain;
 
-import audiziler.domain.Service;
+import audiziler.domain.PlaybackService;
 import audiziler.domain.SettingsService;
 import audiziler.dao.FileSettingDao;
 import audiziler.dao.SettingDao;
@@ -28,7 +28,7 @@ import static org.junit.Assert.*;
  * @author vesuvesu
  */
 public class ServiceTest {
-        Service service;
+        PlaybackService service;
         static SettingDao settingdao;
         static SettingsService settingsService;
         static File file;
@@ -69,7 +69,7 @@ public class ServiceTest {
     @Before
     public void setUp() {
         
-        service = new Service(settingsService, windowSize);
+        service = new PlaybackService(settingsService, windowSize);
         
     }
     

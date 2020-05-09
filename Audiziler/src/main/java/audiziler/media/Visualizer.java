@@ -7,7 +7,7 @@ package audiziler.media;
 
 import audiziler.domain.Settings;
 import audiziler.media.visualizer.Bars;
-import audiziler.media.visualizer.FlameParticle;
+import audiziler.media.visualizer.Particles;
 import audiziler.media.visualizer.Phases;
 import audiziler.media.visualizer.Visualization;
 import audiziler.media.visualizer.VisualizationType;
@@ -35,7 +35,7 @@ public class Visualizer {
         visualizer = new Pane();
         visualizer.setViewOrder(10);
         
-        flame = new FlameParticle(windowSize);
+        flame = new Particles(windowSize);
     
         bars = new Bars(windowSize);
        

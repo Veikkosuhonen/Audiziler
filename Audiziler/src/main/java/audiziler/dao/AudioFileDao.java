@@ -17,7 +17,7 @@ public interface AudioFileDao {
     
     public ArrayList<File> getFiles();
     
-    public void save() throws IOException;
+    public void save(ArrayList<File> files) throws IOException;
     
-    public void setFiles(ArrayList<File> files);
+    //public void setFiles(ArrayList<File> files);
 }

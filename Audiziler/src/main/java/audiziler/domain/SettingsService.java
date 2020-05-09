@@ -23,6 +23,7 @@ public class SettingsService {
         settings = settingdao.getSettings(type);
     }
     public void save() throws IOException {
+        settingsdao.setSettings(this.type, settings);
         settingsdao.save();
     }
     public void setSettings(VisualizationType type) {

@@ -41,13 +41,9 @@ public class FileAudioFileDao implements AudioFileDao {
     }
 
     @Override
-    public void save() throws IOException {
-        writeFiles();
-    }
-    
-    @Override
-    public void setFiles(ArrayList<File> files) {
+    public void save(ArrayList<File> files) throws IOException {
         this.files = files;
+        writeFiles();
     }
     
     private void readFiles() {

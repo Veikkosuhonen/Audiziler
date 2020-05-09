@@ -80,8 +80,7 @@ public class FileService {
         }
     }
     public void save() throws IOException {
-        audioFileDao.setFiles(files);
-        audioFileDao.save();
+        audioFileDao.save(files);
     }
     /**
      * Tests whether the given file has an extension of one of the supported formats

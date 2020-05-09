@@ -7,7 +7,7 @@ package audiziler.ui;
 
 import audiziler.dao.FileAudioFileDao;
 import audiziler.domain.FileService;
-import audiziler.domain.Service;
+import audiziler.domain.PlaybackService;
 import audiziler.domain.SettingsService;
 import audiziler.dao.FileSettingDao;
 import java.io.FileInputStream;
@@ -28,7 +28,7 @@ import javafx.stage.Stage;
 public class App extends Application {
     FileSettingDao settingdao;
     SettingsService settingsService;
-    Service service;
+    PlaybackService service;
     FileAudioFileDao audioFileDao;
     FileService filemanager;
     Player player;
@@ -56,7 +56,7 @@ public class App extends Application {
         audioFileDao = new FileAudioFileDao(audioFilePath);
         filemanager = new FileService(audioFileDao);
         windowSize = new WindowSize();
-        service = new Service(settingsService, windowSize);
+        service = new PlaybackService(settingsService, windowSize);
         player = new Player(service, filemanager);
     }
     

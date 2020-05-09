@@ -16,14 +16,14 @@ import javafx.scene.layout.Pane;
  * A class to abstract the handling of MPlayer and Visualizer from the user interface classes
  * @author vesuvesu
  */
-public class Service {
+public class PlaybackService {
     private final SettingsService settingsService;
     private final WindowSize windowSize;
     private MPlayer mediaplayer;
     private Visualizer visualizer;
     private File file;
     
-    public Service(SettingsService settingsService, WindowSize windowSize) {
+    public PlaybackService(SettingsService settingsService, WindowSize windowSize) {
         this.settingsService = settingsService;
         this.windowSize = windowSize;
         
@@ -64,8 +64,9 @@ public class Service {
     public void selectVisualization(VisualizationType type) {
         visualizer.setType(type);
         settingsService.setSettings(type);
-        mediaplayer.bindSettings(settingsService.getSettings());
-        visualizer.bindSettings(settingsService.getSettings());
+        Settings settings = settingsService.getSettings();
+        mediaplayer.bindSettings(settings);
+        visualizer.bindSettings(settings);
     }
     /**
      * Toggles the playback of the audio file. 

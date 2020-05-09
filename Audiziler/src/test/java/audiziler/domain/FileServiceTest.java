@@ -156,7 +156,11 @@ public class FileServiceTest {
         files.add(unsupportedFile);
         files.add(new File("a_nice_file.jar"));
         
-        audioFileDao.setFiles(files);
+        try {
+        audioFileDao.save(files);
+        } catch (IOException ioe) {
+            fail(ioe.getMessage());
+        }
         //Dao now has both a supported and an unsupported file
         //Constructor tries to add those files, first checking if they are supported.
         fileService = new FileService(audioFileDao);

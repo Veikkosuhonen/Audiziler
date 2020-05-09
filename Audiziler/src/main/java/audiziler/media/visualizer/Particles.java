@@ -18,7 +18,7 @@ import javafx.scene.transform.Scale;
  *
  * @author vesuvesu
  */
-public class FlameParticle implements Visualization {
+public class Particles implements Visualization {
     WindowSize windowSize;
     Group group;
     Canvas canvas;
@@ -32,7 +32,7 @@ public class FlameParticle implements Visualization {
     Scale transform;
     Settings settings;
     
-    public FlameParticle(WindowSize windowSize) {
+    public Particles(WindowSize windowSize) {
         this.windowSize = windowSize;
         canvas = new Canvas(1280, 720);
         group = new Group(canvas);

@@ -78,8 +78,7 @@ public class FileAudioFileDaoTest {
      */
     @Test
     public void testSave() throws Exception {
-        audioFileDao.setFiles(files);
-        audioFileDao.save();
+        audioFileDao.save(files);
         audioFileDao = new FileAudioFileDao(filepath);
         
         assertTrue(2 == audioFileDao.getFiles().size());
@@ -91,14 +90,22 @@ public class FileAudioFileDaoTest {
      * Test of setFiles method, of class FileAudioFileDao.
      */
     @Test
-    public void testSetFiles() {
-        audioFileDao.setFiles(files);
+    public void testSaveFiles() {
+        try {
+            audioFileDao.save(files);
+        } catch (IOException ioe) {
+            fail(ioe.getMessage());
+        }
         assertEquals(files, audioFileDao.getFiles());
     }
     
     @Test
-    public void testFilesContainSetFiles() {
-        audioFileDao.setFiles(files);
+    public void testFilesContainSavedFiles() {
+        try {
+            audioFileDao.save(files);
+        } catch (IOException ioe) {
+            fail(ioe.getMessage());
+        }
         assertTrue(2 == audioFileDao.getFiles().size());
         assertTrue(audioFileDao.getFiles().contains(file1));
         assertTrue(audioFileDao.getFiles().contains(file2));

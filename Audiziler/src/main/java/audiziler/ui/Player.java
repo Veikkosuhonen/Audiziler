@@ -10,7 +10,7 @@ import audiziler.ui.components.SidePane;
 import audiziler.ui.components.SettingSlider;
 import audiziler.ui.components.VisualizationSelector;
 import audiziler.domain.FileService;
-import audiziler.domain.Service;
+import audiziler.domain.PlaybackService;
 import audiziler.media.visualizer.VisualizationType;
 import java.io.File;
 import javafx.beans.value.ChangeListener;
@@ -41,7 +41,7 @@ import javafx.stage.Stage;
  */
 public class Player {
     
-    Service playbackService;
+    PlaybackService playbackService;
     FileService fileService;
     
     FileChooser filechooser;
@@ -67,7 +67,7 @@ public class Player {
     VisualizationSelector selector;
     
     Label help;
-    Player(Service service, FileService fileService) {
+    Player(PlaybackService service, FileService fileService) {
         this.fileService = fileService;
         this.playbackService = service;
         
