@@ -71,6 +71,6 @@ In general,
 The app creates files in its parent directory. It is a good idea to have it in its own directory. 
 
 The app saves the settings to a text file defined by the config file. Default would be `settings.txt`. 
-This file can be edited, for example the min and max values of settings could be changed. Lines starting with `#` are ignored.
+~~This file can be edited, for example the min and max values of settings could be changed. Lines starting with `#` are ignored.~~ Editing the settings file is not yet supported, but nothing stops you from changing some values. Dont touch the names tho. Delete the settings file if things go wrong.
 
 The audio file filepaths are saved to a text file defined by the config file.
