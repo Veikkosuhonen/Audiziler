@@ -1,10 +1,12 @@
-Repositorio sisältää Helsingin yliopiston ohjelmistotekniikan kurssin harjoitustyön ja laskarit.
+Repositorio sisältää Helsingin yliopiston ohjelmistotekniikan kurssin harjoitustyönä tehdyn sovelluksen.
 
 ![](https://github.com/Veikkosuhonen/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/visualisaatio.png)
 
 # Harjoitustyö
 
 Harjoitustyö on äänen visualisointisovellus. Sovellukseen valitaan äänitiedosto ja sovellus piirtää äänen taajuusmagnitudeihin reagoivan visualisaation.
+
+[Latest release](https://github.com/Veikkosuhonen/ot-harjoitustyo/releases/tag/v0.1-alpha)
 
 ## Dokumentaatio
 
@@ -14,9 +16,9 @@ Harjoitustyö on äänen visualisointisovellus. Sovellukseen valitaan äänitied
 
 [Arkkitehtuuri](https://github.com/Veikkosuhonen/ot-harjoitustyo/blob/master/dokumentaatio/arkkitehtuuri.md)
 
-[Työaikakirjanpito](https://github.com/Veikkosuhonen/ot-harjoitustyo/blob/master/dokumentaatio/tyoaikakirjanpito.md)
+[Testausraportti](https://github.com/Veikkosuhonen/ot-harjoitustyo/blob/master/dokumentaatio/testausraportti.md)
 
-[Latest release](https://github.com/Veikkosuhonen/ot-harjoitustyo/releases/tag/v0.1-alpha)
+[Työaikakirjanpito](https://github.com/Veikkosuhonen/ot-harjoitustyo/blob/master/dokumentaatio/tyoaikakirjanpito.md)
 
 ## Komentorivitoiminnot
 ### Testaus
@@ -29,25 +31,19 @@ Testikattavuusraportti luodaan komennolla
 
 `mvn test jacoco:report`
 
-Kattavuusraporttia voi tarkastella avaamalla selaimella tiedosto target/site/jacoco/index.html
-### Suoritettavan jarin generointi
-
-Komento
+Kattavuusraportti avataan tiedostosta target/site/jacoco/index.html
+### Jar-tiedoston generointi
 
 `mvn package`
 
 generoi hakemistoon target suoritettavan jar-tiedoston Audiziler-1.0-SNAPSHOT.jar
-### JavaDoc
-
-JavaDoc generoidaan komennolla
+### JavaDocin generointi
 
 `mvn javadoc:javadoc`
 
-JavaDocia voi tarkastella avaamalla selaimella tiedosto target/site/apidocs/index.html
+JavaDoc avataan tiedostosta target/site/apidocs/index.html
 ### Checkstyle
-
-Tiedostoon checkstyle.xml määrittelemät tarkistukset suoritetaan komennolla
 
  `mvn checkstyle:checkstyle`
 
-Mahdolliset virheilmoitukset selviävät avaamalla selaimella tiedosto target/site/checkstyle.html
+Checkstyle-raportti avataan tiedostosta target/site/checkstyle.html
