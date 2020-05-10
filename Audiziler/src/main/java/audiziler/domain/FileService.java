@@ -19,6 +19,10 @@ import java.util.Optional;
 public class FileService {
     private final ArrayList<File> files;
     private final AudioFileDao audioFileDao;
+    /**
+     * Retrieves files from the <code>AudioFileDao</code>
+     * @param audioFileDao 
+     */
     public FileService(AudioFileDao audioFileDao) {
         this.audioFileDao = audioFileDao; 
         files = new ArrayList();

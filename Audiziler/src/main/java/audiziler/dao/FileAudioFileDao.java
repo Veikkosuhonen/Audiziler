@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- *
+ * Reads and writes audio file paths to and from a text file
  * @author vesuvesu
  */
 public class FileAudioFileDao implements AudioFileDao {
@@ -21,6 +21,10 @@ public class FileAudioFileDao implements AudioFileDao {
     private Scanner reader;
     private FileWriter writer;
     private ArrayList<File> files;
+    /**
+     * Attempts to read files from the given file path
+     * @param filepath 
+     */
     public FileAudioFileDao(String filepath) {
         
         files = new ArrayList();
@@ -39,7 +43,11 @@ public class FileAudioFileDao implements AudioFileDao {
     public ArrayList<File> getFiles() {
         return files;
     }
-
+    /**
+     * Writes the given files file paths to the file given to constructor
+     * @param files
+     * @throws IOException 
+     */
     @Override
     public void save(ArrayList<File> files) throws IOException {
         this.files = files;

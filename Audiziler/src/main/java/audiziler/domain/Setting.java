@@ -9,7 +9,7 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
 /**
- *
+ * Represents a single setting that can be bound to a UI-component and be used to control media-classes
  * @author vesuvesu
  */
 public class Setting {

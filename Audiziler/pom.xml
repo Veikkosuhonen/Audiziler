@@ -42,6 +42,8 @@
                         <exclude>audiziler/ui/components/*</exclude>
                         <exclude>audiziler/media/*</exclude>
                         <exclude>audiziler/media/visualizer/*</exclude>
+                        
+                        <exclude>audiziler/Main.*</exclude>
                     </excludes>
                 </configuration>
                 <executions>

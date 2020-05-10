@@ -17,6 +17,7 @@ public class SettingsService {
     Settings settings;
     SettingDao settingsdao;
     VisualizationType type;
+    
     public SettingsService(SettingDao settingdao) {
         this.settingsdao = settingdao;
         type = VisualizationType.BARS;

@@ -10,14 +10,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- *
+ * DAO interface for classes handling the storing of audio file paths
  * @author vesuvesu
  */
 public interface AudioFileDao {
-    
+    /**
+     * 
+     * @return <code>ArrayList</code> containing the files
+     */
     public ArrayList<File> getFiles();
-    
+    /**
+     * Writes the file paths to a text file
+     * @param files
+     * @throws IOException 
+     */
     public void save(ArrayList<File> files) throws IOException;
-    
-    //public void setFiles(ArrayList<File> files);
 }

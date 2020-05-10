@@ -33,6 +33,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 
 /**
@@ -67,9 +68,14 @@ public class Player {
     VisualizationSelector selector;
     
     Label help;
-    Player(PlaybackService service, FileService fileService) {
+    /**
+     * Constructs the main UI-scene
+     * @param playbackService
+     * @param fileService 
+     */
+    Player(PlaybackService playbackService, FileService fileService) {
         this.fileService = fileService;
-        this.playbackService = service;
+        this.playbackService = playbackService;
         
         // --------------Layout----------
         
@@ -165,6 +171,13 @@ public class Player {
                 leftPane.add(createFileItem(file));
             }
         });
+        
+        //Fullscreen event handler
+        this.scene.setOnKeyPressed((KeyEvent e) -> {
+            if (e.getCode() == KeyCode.F) {
+                stage.setFullScreen(true);
+            }
+        });
     }
     
     private void handleFileSelection(String filename) {
@@ -253,15 +266,31 @@ public class Player {
         rightPane.clearAdditionalChildren();
         rightPane.add(new Label("Select a file"));
     }
-    
+    /**
+     * Create and show a help popup
+     */
+    public void showPopup() {
+        Popup helpPopup = new Popup();
+        helpPopup.setX(300);
+        helpPopup.setY(200);
+        Label helptext = new Label("Hover mouse over left opener to access file manager and select an audiofile to be played"
+                + "\nPress f to go fullscreen"
+                + "\nControl playback from bottom opener or click screen"
+                + "\nControl parameters from left opener");
+        Button closebutton = new Button("close");
+        closebutton.setOnAction((ActionEvent ae) -> {
+            helpPopup.hide();
+        });
+        VBox box = new VBox(helptext, closebutton);
+        box.setAlignment(Pos.CENTER);
+        helpPopup.getContent().add(box);
+        helpPopup.show(stage);
+    }
+    /**
+     * @param stage 
+     */
     public void setStage(Stage stage) {
         this.stage = stage;
-        //Fullscreen event handler
-        this.scene.setOnKeyPressed((KeyEvent e) -> {
-            if (e.getCode() == KeyCode.F) {
-                stage.setFullScreen(true);
-            }
-        });
     }
     public Scene getScene() {
         return scene;

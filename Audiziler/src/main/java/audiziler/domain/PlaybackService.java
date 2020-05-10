@@ -26,7 +26,6 @@ public class PlaybackService {
     public PlaybackService(SettingsService settingsService, WindowSize windowSize) {
         this.settingsService = settingsService;
         this.windowSize = windowSize;
-        
     }
     /**
      * 
@@ -49,9 +48,7 @@ public class PlaybackService {
         mediaplayer = new MPlayer(file);
         visualizer = new Visualizer(windowSize);
         mediaplayer.setAudioSpectrumListener(
-            visualizer.createListener(
-                mediaplayer.getBands()
-            )
+            visualizer.createListener()
         );
     }
     /**

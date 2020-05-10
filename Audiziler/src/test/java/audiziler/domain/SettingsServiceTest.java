@@ -5,8 +5,6 @@
  */
 package audiziler.domain;
 
-import audiziler.domain.SettingsService;
-import audiziler.domain.Setting;
 import audiziler.dao.FileSettingDao;
 import audiziler.dao.SettingDao;
 import audiziler.media.visualizer.VisualizationType;
@@ -101,5 +99,26 @@ public class SettingsServiceTest {
         }
         assertTrue(found);
     }
-    
+    /**
+     * Integration test of save method
+     */
+    @Test
+    public void testSave() {
+        try {
+            service.save();
+        } catch (IOException ioe) {
+            fail("failure in settingdao save method");
+        }
+        service.setSettings(VisualizationType.BARS);
+        
+        String expectedToContain = "color offset";
+        List<Setting> settingArray = service.getSettings().getAll();
+        boolean found = false;
+        for (Setting setting : settingArray) {
+            if (setting.getName().equals(expectedToContain)) {
+                found = true;
+            }
+        }
+        assertTrue(found);
+    }
 }

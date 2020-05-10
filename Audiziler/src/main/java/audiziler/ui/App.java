@@ -33,7 +33,9 @@ public class App extends Application {
     FileService filemanager;
     Player player;
     WindowSize windowSize;
-    
+    /**
+     * Called when the Application launches. Constructs the application logic and DAO.
+     */
     @Override
     public void init() {
         Properties properties = new Properties();
@@ -60,7 +62,11 @@ public class App extends Application {
         service = new PlaybackService(settingsService, windowSize);
         player = new Player(service, filemanager);
     }
-    
+    /**
+     * Called after init. Constructs the UI.
+     * @param stage
+     * @throws Exception 
+     */
     @Override
     public void start(Stage stage) throws Exception {
         windowSize.bind(stage.widthProperty(), stage.heightProperty());
@@ -68,24 +74,11 @@ public class App extends Application {
         stage.setTitle("Audilizer");
         stage.setScene(player.getScene());
         stage.show();
-        
-        //TODO: move out of App
-        Popup helpPopup = new Popup();
-        helpPopup.setX(300);
-        helpPopup.setY(200);
-        Label helptext = new Label("Hover mouse over left opener to access file manager and select an audiofile to be played"
-                + "\nPress f to go fullscreen"
-                + "\nControl playback from bottom opener or click screen"
-                + "\nControl parameters from left opener");
-        Button closebutton = new Button("close");
-        closebutton.setOnAction((ActionEvent ae) -> {
-            helpPopup.hide();
-        });
-        VBox box = new VBox(helptext, closebutton);
-        box.setAlignment(Pos.CENTER);
-        helpPopup.getContent().add(box);
-        helpPopup.show(stage);
+        player.showPopup();
     }
+    /**
+     * Called when the Application stops. Invokes <code>save()</code> on DAO-classes.
+     */
     @Override
     public void stop() {
         try {

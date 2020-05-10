@@ -10,6 +10,7 @@ import audiziler.domain.Settings;
 import audiziler.media.visualizer.VisualizationType;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Properties;
 import org.junit.After;
@@ -62,18 +63,78 @@ public class FileSettingDaoTest {
     public void tearDown() {
     }
     
+    /**
+     * Integration test for constructing SettingDao when no file exists 
+     */
     @Test
     public void testConstructorWhenFileDoesNotExist() {
-        File file = new File(settingsFile);
-        file.delete();
         try {
             settingdao = new FileSettingDao(settingsFile, defaultSettingNames);
         } catch (IOException ioe) {
             fail("failed construction when no file existed: " + ioe.getMessage());
         }
     }
-    
-
+    /**
+     * Integration test for constructing SettingDao when file is empty
+     */
+    @Test
+    public void testConstructorWhenFileEmpty() {
+        try {
+            FileWriter writer = new FileWriter(new File(settingsFile));
+            writer.write("");
+            writer.close();
+        } catch (IOException ioe) {
+            fail("Fail in test method");
+        }
+        
+        try {
+            settingdao = new FileSettingDao(settingsFile, defaultSettingNames);
+        } catch (IOException ioe) {
+            fail("failed construction when file empty: " + ioe.getMessage());
+        }
+        
+        assertTrue(!settingdao.getSettings(bars).getAll().isEmpty());
+    }
+    /**
+     * Integration test for constructing SettingDao when file is appended with gibberish
+     */
+    @Test
+    public void testConstructorWhenValidFileAppendedWithGibberish() {
+        try {
+            FileWriter writer = new FileWriter(new File(settingsFile));
+            writer.append("ja näin");
+            writer.close();
+        } catch (IOException ioe) {
+            fail("Fail in test method");
+        }
+        
+        try {
+            settingdao = new FileSettingDao(settingsFile, defaultSettingNames);
+        } catch (IOException ioe) {
+            fail("failed construction when file empty: " + ioe.getMessage());
+        }
+        assertTrue(!settingdao.getSettings(bars).getAll().isEmpty());
+    }
+    /**
+     * Integration test for constructing SettingDao when file is missing some setting
+     */
+    @Test
+    public void testConstructorWhenMissingSomeSetting() {
+        Settings settings = new Settings();
+        settingdao.setSettings(bars, settings);
+        try {
+            settingdao.save();
+        } catch (IOException ioe) {
+            fail("Failed to save");
+        }
+        
+        try {
+            settingdao = new FileSettingDao(settingsFile, defaultSettingNames);
+        } catch (IOException ioe) {
+            fail("failed construction when file was missing some setting");
+        }
+        assertTrue(!settingdao.getSettings(bars).getAll().isEmpty());
+    }
     /**
      * Test of getSettings method, of class FileSettingDao.
      */
@@ -90,9 +151,6 @@ public class FileSettingDaoTest {
      */
     @Test
     public void testSave() throws Exception {
-        //Reset file to default
-        File file = new File(settingsFile);
-        file.delete();
         try {
             System.out.println("Creating settings file");
             settingdao = new FileSettingDao(settingsFile, defaultSettingNames);
