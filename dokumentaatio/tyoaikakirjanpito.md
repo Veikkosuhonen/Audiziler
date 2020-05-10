@@ -14,4 +14,7 @@ Sovelluksen laajentamista ja rakenteen parantelua: **10 h**
 #### 21.4 - 28.4
 Sovellukseen lisätty tietojen pysyväistalletus, testausta laajennettu ja javadoc aloitettu: **8 h**
 
-## 28.4 yhteensä: 38 h
+#### 28.4 - 10.5
+Sovellusta refaktoroitu, virheiden käsittelyä parannettu, dokumentaatio ja testaus tehty loppuun: **16 h**
+
+## 10.5 yhteensä:  54 h
