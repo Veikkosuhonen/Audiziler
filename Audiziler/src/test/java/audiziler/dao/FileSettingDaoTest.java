@@ -64,8 +64,6 @@ public class FileSettingDaoTest {
     
     @Test
     public void testConstructorWhenFileDoesNotExist() {
-        File file = new File(settingsFile);
-        file.delete();
         try {
             settingdao = new FileSettingDao(settingsFile, defaultSettingNames);
         } catch (IOException ioe) {
@@ -90,9 +88,6 @@ public class FileSettingDaoTest {
      */
     @Test
     public void testSave() throws Exception {
-        //Reset file to default
-        File file = new File(settingsFile);
-        file.delete();
         try {
             System.out.println("Creating settings file");
             settingdao = new FileSettingDao(settingsFile, defaultSettingNames);
