@@ -10,7 +10,7 @@ Harjoitustyö on äänen visualisointisovellus. Sovellukseen valitaan äänitied
 
 [Pre-release](https://github.com/Veikkosuhonen/ot-harjoitustyo/releases/tag/v0.1-alpha)
 
-[Harjoitustyö toimivuudesta laitoksen koneilla](https://github.com/Veikkosuhonen/ot-harjoitustyo/blob/master/dokumentaatio/toimivuus_laitoksen_koneilla.md)
+[Harjoitustyön toimivuudesta laitoksen koneilla](https://github.com/Veikkosuhonen/ot-harjoitustyo/blob/master/dokumentaatio/toimivuus_laitoksen_koneilla.md)
 
 ## Dokumentaatio
 
