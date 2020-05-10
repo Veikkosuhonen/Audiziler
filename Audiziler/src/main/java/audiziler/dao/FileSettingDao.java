@@ -78,7 +78,7 @@ public class FileSettingDao implements SettingDao {
                     writer.write(setting.getName() + ";" + setting.getDescription() + ";" + setting.getValue() + ";" + setting.getMin() + ";" + setting.getMax() + "\n");
                 }
             }
-        writer.close();
+            writer.close();
         }
     }
     /**
