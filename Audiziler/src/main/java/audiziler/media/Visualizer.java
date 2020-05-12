@@ -8,7 +8,7 @@ package audiziler.media;
 import audiziler.domain.Settings;
 import audiziler.media.visualizer.Bars;
 import audiziler.media.visualizer.Particles;
-import audiziler.media.visualizer.Phases;
+import audiziler.media.visualizer.Symmetric;
 import audiziler.media.visualizer.Visualization;
 import audiziler.media.visualizer.VisualizationType;
 import audiziler.ui.WindowSize;
@@ -28,7 +28,7 @@ public class Visualizer {
     
     Visualization flame;
     Visualization bars;
-    Visualization phase;
+    Visualization symmetric;
     
     public Visualizer(WindowSize windowSize) {
         this.windowSize = windowSize;
@@ -38,11 +38,10 @@ public class Visualizer {
         flame = new Particles(windowSize);
     
         bars = new Bars(windowSize);
-       
-        phase = new Phases(windowSize);
         
+        symmetric = new Symmetric(windowSize);
         
-        visualizer.getChildren().addAll(bars.getVisualization(), flame.getVisualization(), phase.getVisualization());
+        visualizer.getChildren().addAll(bars.getVisualization(), flame.getVisualization(), symmetric.getVisualization());
     }
     public AudioSpectrumListener createListener(int bands) {
         listener = new AudioSpectrumListener() {
@@ -50,7 +49,7 @@ public class Visualizer {
             public void spectrumDataUpdate(double timestamp, double duration, float[] magnitudes, float[] phases) {
                 flame.update(magnitudes);
                 bars.update(magnitudes);
-                phase.update(magnitudes, phases);
+                symmetric.update(magnitudes);
             }
         };
         return listener;
@@ -65,7 +64,7 @@ public class Visualizer {
         this.type = type;
         bars.setVisible(false);
         flame.setVisible(false);
-        phase.setVisible(false);
+        symmetric.setVisible(false);
         switch (type) {
             case BARS: 
                 bars.setVisible(true);
@@ -73,13 +72,13 @@ public class Visualizer {
             case FLAME: 
                 flame.setVisible(true);
                 break;
-            case PHASE: 
-                phase.setVisible(true);
+            case SYMMETRY:
+                symmetric.setVisible(true);
         }
     }
     public void bindSettings(Settings settings) {
         flame.setSettings(settings);
         bars.setSettings(settings);
-        phase.setSettings(settings);
+        symmetric.setSettings(settings);
     }
 }

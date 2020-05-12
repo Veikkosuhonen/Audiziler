@@ -6,7 +6,7 @@
 package audiziler.media.visualizer;
 
 import audiziler.domain.Settings;
-import javafx.scene.Group;
+import javafx.scene.canvas.Canvas;
 
 /**
  *
@@ -14,8 +14,7 @@ import javafx.scene.Group;
  */
 public interface Visualization {
     public void update(float[] magnitudes);
-    public void update(float[] magnitudes, float[] phases);
-    public Group getVisualization();
+    public Canvas getVisualization();
     public void setVisible(boolean visible);
     public void setSettings(Settings settings);
 }

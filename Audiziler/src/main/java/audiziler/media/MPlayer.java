@@ -19,7 +19,7 @@ import javafx.util.Duration;
  *
  * @author vesuvesu
  */
-public class MPlayer {
+public class MPlayer implements AudioPlayer{
     MediaPlayer player;
     boolean isPlaying;
     public MPlayer(File file) {
@@ -34,39 +34,42 @@ public class MPlayer {
             isPlaying = false;
         });
     }
-    public boolean toggle() {
-        if (isPlaying) {
-            player.pause();
-            isPlaying = false;
-        } else {
-            player.play();
-            isPlaying = true;
-        }
-        return isPlaying;
+    @Override
+    public void play() {
+        player.play();
     }
+    @Override
+    public void pause() {
+        player.pause();
+    }
+    @Override
     public void stop() {
-        if (player.getStatus() == Status.PLAYING) {
+        if (isPlaying()) {
             player.stop();
         }
         player.dispose();
     }
+    @Override
     public void toStart() {
         player.seek(Duration.ZERO);
     }
+    @Override
+    public boolean isPlaying() {
+        return player.getStatus() == Status.PLAYING;
+    }
+    @Override
     public void setOnEndOfMedia(Runnable e) {
         player.setOnEndOfMedia(() -> {
             e.run();
             player.stop();
         });
     }
-    public int getBands() {
-        return player.getAudioSpectrumNumBands();
-    }
+    @Override
     public void setAudioSpectrumListener(AudioSpectrumListener listener) {
         player.setAudioSpectrumNumBands(1024);
         player.setAudioSpectrumListener(listener);
-        
     }
+    @Override
     public void bindSettings(Settings settings) {
         player.audioSpectrumThresholdProperty().bind(settings.get("threshold").getProperty());
         player.audioSpectrumIntervalProperty().bind(new SimpleDoubleProperty(1).divide(settings.get("analyzer rate").getProperty()));

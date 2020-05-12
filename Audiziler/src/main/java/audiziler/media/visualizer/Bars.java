@@ -91,8 +91,8 @@ public class Bars implements Visualization {
     }
 
     @Override
-    public Group getVisualization() {
-        return group;
+    public Canvas getVisualization() {
+        return canvas;
     }
 
     @Override
@@ -103,10 +103,5 @@ public class Bars implements Visualization {
     @Override
     public void setSettings(Settings settings) {
         this.settings = settings;
-    }
-
-    @Override
-    public void update(float[] magnitudes, float[] phases) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

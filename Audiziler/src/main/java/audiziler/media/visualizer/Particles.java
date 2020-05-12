@@ -11,7 +11,9 @@ import java.util.ArrayList;
 import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Label;
 import javafx.scene.effect.Bloom;
+import javafx.scene.effect.Reflection;
 import javafx.scene.transform.Scale;
 
 /**
@@ -24,6 +26,7 @@ public class Particles implements Visualization {
     Canvas canvas;
     GraphicsContext gc;
     Bloom bloom;
+    Reflection reflection;
     boolean visible;
     ArrayList<Particle> particles;
     float rootHeight;
@@ -32,26 +35,36 @@ public class Particles implements Visualization {
     Scale transform;
     Settings settings;
     
+    Label frametime;
+    
     public Particles(WindowSize windowSize) {
         this.windowSize = windowSize;
-        canvas = new Canvas(1280, 720);
+        canvas = new Canvas(1920, 1080);
         group = new Group(canvas);
         gc = canvas.getGraphicsContext2D();
         bloom = new Bloom();
-        canvas.setEffect(bloom);
+        reflection = new Reflection();
+        reflection.setInput(bloom);
+        canvas.setEffect(reflection);
         visible = false;
         particles = new ArrayList();
-        rootHeight = 0.8f * (float) canvas.getHeight();
+        rootHeight = 0.5f * (float) canvas.getHeight();
+        reflection.setTopOffset(-2*rootHeight);
+        reflection.setTopOpacity(1.0);
+        reflection.setBottomOpacity(0.0);
         bars = 128;
-        barWidth = 8;
+        barWidth = 10;
         canvas.translateXProperty().bind(windowSize.widthProperty().subtract(bars * barWidth).divide(2));
-        canvas.translateYProperty().bind(windowSize.heightProperty().subtract(720).divide(2));
+        canvas.translateYProperty().bind(windowSize.heightProperty().subtract(canvas.getHeight()).divide(2));
+        frametime = new Label();
+        group.getChildren().add(frametime);
     }
     @Override
     public void update(float[] magnitudes) {
         if (!visible) {
             return;
         }
+        long start = System.nanoTime();
         gc.clearRect(0,  0, canvas.getWidth(), canvas.getHeight());
         for (int i = 0; i < bars; i++) {
             float mag = magnitudes[i] - (float) settings.get("threshold").getValue();
@@ -67,16 +80,17 @@ public class Particles implements Visualization {
             particle.update();
             gc.setFill(particle.getColor());
             gc.fillRect(particle.getX(), particle.getY(), particle.getStrength(), particle.getStrength());
-            if (particle.getAge() > 30) {
+            if (particle.getAge() > 50) {
                 particles.remove(i);
             }
         }
-        
+        long end = System.nanoTime();
+        frametime.setText((end - start) / 1e6 + " ms");
     }
 
     @Override
-    public Group getVisualization() {
-        return group;
+    public Canvas getVisualization() {
+        return canvas;
     }
     
     private Particle createParticle(float mag, int i) {
@@ -85,7 +99,7 @@ public class Particles implements Visualization {
                 new Vector2D(0f, -mag * (float) settings.get("height").getValue() / 2), 
                 new Vector2D(0f, 1f - (float) settings.get("acceleration").getValue() / 2),
                 (float) settings.get("color offset").getValue()
-                + (float) settings.get("magnitude color offset").getValue() * mag / 50
+                + (float) settings.get("magnitude color offset").getValue() * mag / 10
                 + i * 1.0f / bars * (float) settings.get("frequency color offset").getValue(),
                 mag
         );
@@ -100,10 +114,5 @@ public class Particles implements Visualization {
     @Override
     public void setSettings(Settings settings) {
         this.settings = settings;
-    }
-
-    @Override
-    public void update(float[] magnitudes, float[] phases) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

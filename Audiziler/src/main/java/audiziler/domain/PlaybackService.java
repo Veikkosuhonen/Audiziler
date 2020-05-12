@@ -5,6 +5,7 @@
  */
 package audiziler.domain;
 
+import audiziler.media.AudioPlayer;
 import audiziler.media.MPlayer;
 import audiziler.media.visualizer.VisualizationType;
 import audiziler.media.Visualizer;
@@ -19,7 +20,7 @@ import javafx.scene.layout.Pane;
 public class PlaybackService {
     private final SettingsService settingsService;
     private final WindowSize windowSize;
-    private MPlayer mediaplayer;
+    private AudioPlayer mediaplayer;
     private Visualizer visualizer;
     private File file;
     
@@ -50,7 +51,7 @@ public class PlaybackService {
         visualizer = new Visualizer(windowSize);
         mediaplayer.setAudioSpectrumListener(
             visualizer.createListener(
-                mediaplayer.getBands()
+                1024
             )
         );
     }
@@ -73,11 +74,15 @@ public class PlaybackService {
      * @return a Boolean indicating whether the MPlayer is playing audio after the toggle
      */
     public boolean togglePlayback() {
-        if (mediaplayer != null) {
-            return mediaplayer.toggle();
-        } else {
+        if (mediaplayer == null) {
             return false;
         }
+        if (mediaplayer.isPlaying()) {
+            mediaplayer.pause();
+            return false;
+        }
+        mediaplayer.play();
+        return true;
     }
     public void toStart() {
         mediaplayer.toStart();

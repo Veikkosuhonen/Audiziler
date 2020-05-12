@@ -10,5 +10,5 @@ package audiziler.media.visualizer;
  * @author vesuvesu
  */
 public enum VisualizationType {
-    BARS, FLAME, PHASE
+    BARS, FLAME, SYMMETRY
 }
