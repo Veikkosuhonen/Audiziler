@@ -5,8 +5,6 @@
  */
 package audiziler.domain;
 
-import audiziler.domain.Settings;
-import audiziler.domain.Setting;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

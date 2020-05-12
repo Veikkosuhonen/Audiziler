@@ -72,16 +72,16 @@ public class Bars implements Visualization {
                             i * 1.0 / length * settings.get("frequency color offset").getValue() + 
                             settings.get("magnitude color offset").getValue() * normalHeight +
                             settings.get("color offset").getValue()
-                            , 1.0, normalHeight + 0.1));
+                            , 1.0, normalHeight));
             float x = bars[i].getPos().x;
             float y = rootHeight - newHeight;
             gc.fillRect(x, y, bars[i].getSize().x, newHeight);
         }
     }
     private float normalized(float f) {
-        float n = f / 100;
-        if (n > 0.9f) {
-            n = 0.9f;
+        float n = f / 170;
+        if (n > 0.99f) {
+            n = 0.99f;
         }
         return n;
     }

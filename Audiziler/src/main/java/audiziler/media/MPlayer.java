@@ -16,12 +16,16 @@ import javafx.scene.media.MediaPlayer.Status;
 import javafx.util.Duration;
 
 /**
- *
+ * Handles the initialization and playback of a JavaFX <code>MediaPlayer</code>
  * @author vesuvesu
  */
 public class MPlayer implements AudioPlayer{
     MediaPlayer player;
     boolean isPlaying;
+    /**
+     * Creates a <code>Media</code>-object from the given file and constructs the <code>MediaPlayer</code> with the <code>Media</code>
+     * @param file 
+     */
     public MPlayer(File file) {
         isPlaying = false;
         try {
@@ -42,21 +46,34 @@ public class MPlayer implements AudioPlayer{
     public void pause() {
         player.pause();
     }
+    /**
+     * Stops and disposes the <code>MediaPlayer</code>
+     */
     @Override
     public void stop() {
         if (isPlaying()) {
             player.stop();
+            isPlaying = false;
         }
         player.dispose();
     }
-    @Override
-    public void toStart() {
-        player.seek(Duration.ZERO);
-    }
+    
     @Override
     public boolean isPlaying() {
         return player.getStatus() == Status.PLAYING;
     }
+    
+    /**
+     * Invokes <code>seek(Duration.ZERO)</code> on the <code>MediaPlayer</code>
+     */
+    @Override
+    public void toStart() {
+        player.seek(Duration.ZERO);
+    }
+    /**
+     * Set the event handler of <code>MediaPlayer</code> on end of media.
+     * @param e
+     */
     @Override
     public void setOnEndOfMedia(Runnable e) {
         player.setOnEndOfMedia(() -> {
@@ -64,11 +81,19 @@ public class MPlayer implements AudioPlayer{
             player.stop();
         });
     }
+    /**
+     * Set the listener and set the number of audio spectrum bands to 1024
+     * @param listener 
+     */
     @Override
     public void setAudioSpectrumListener(AudioSpectrumListener listener) {
         player.setAudioSpectrumNumBands(1024);
         player.setAudioSpectrumListener(listener);
     }
+    /**
+     * Binds the the audio spectrum threshold to a Setting named "threshold" and Binds the spectrum update interval to the inverse of a Setting named "analyzer rate"
+     * @param settings 
+     */
     @Override
     public void bindSettings(Settings settings) {
         player.audioSpectrumThresholdProperty().bind(settings.get("threshold").getProperty());

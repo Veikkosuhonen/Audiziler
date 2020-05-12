@@ -16,7 +16,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.media.AudioSpectrumListener;
 
 /**
- *
+ * A class for initializing and handling of <code>Visualization</code> objects
  * @author vesuvesu
  */
 public class Visualizer {
@@ -29,7 +29,11 @@ public class Visualizer {
     Visualization flame;
     Visualization bars;
     Visualization symmetric;
-    
+    /**
+     * Constructs the visualizer <code>Pane</code>-component
+     * and constructs the <code>Visualization</code> objects with the given WindowSize
+     * @param windowSize 
+     */
     public Visualizer(WindowSize windowSize) {
         this.windowSize = windowSize;
         visualizer = new Pane();
@@ -43,7 +47,11 @@ public class Visualizer {
         
         visualizer.getChildren().addAll(bars.getVisualization(), flame.getVisualization(), symmetric.getVisualization());
     }
-    public AudioSpectrumListener createListener(int bands) {
+    /**
+     * Creates a listener which updates the visualizations with relevant data
+     * @return an <code>AudioSpectrumListener</code> to be bound to the <code>MediaPlayer</code>
+     */
+    public AudioSpectrumListener createListener() {
         listener = new AudioSpectrumListener() {
             @Override
             public void spectrumDataUpdate(double timestamp, double duration, float[] magnitudes, float[] phases) {
@@ -57,9 +65,16 @@ public class Visualizer {
     public Pane getVisualizer() {
         return visualizer;
     }
+    /**
+     * Clear the visualizer Pane component
+     */
     public void clear() {
         visualizer.getChildren().clear();
     }
+    /**
+     * Set the correct type of <code>Visualization</code> visible and hide the other
+     * @param type 
+     */
     public void setType(VisualizationType type) {
         this.type = type;
         bars.setVisible(false);
@@ -76,6 +91,10 @@ public class Visualizer {
                 symmetric.setVisible(true);
         }
     }
+    /**
+     * Binds the Settings of the <code>Visualization</code>-objects to the given Settings
+     * @param settings 
+     */
     public void bindSettings(Settings settings) {
         flame.setSettings(settings);
         bars.setSettings(settings);

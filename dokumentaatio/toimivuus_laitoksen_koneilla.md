@@ -7,4 +7,4 @@ sen pystyy buildaamaan ja suoritettava buildi käynnistyy normaalisti, mutta kä
 ![käyttöliittymä_hajoaa](https://github.com/Veikkosuhonen/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/app_breaking.png)
 
 Kaikki UI-elementit kyllä löytyvät sovelluksesta, esimerkiksi sliderit ovat näkymättömiä mutta kuitenkin vedettävissä, ja 
-css on latautunut jotenkuten.
+css on latautunut jotenkuten. Myös sovelluslogiikka vaikuttaa toimivan täysin normaalisti samoin kuin tietojen talletus tiedostoihin.

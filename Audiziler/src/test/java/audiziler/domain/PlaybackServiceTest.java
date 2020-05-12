@@ -5,8 +5,6 @@
  */
 package audiziler.domain;
 
-import audiziler.domain.PlaybackService;
-import audiziler.domain.SettingsService;
 import audiziler.dao.FileSettingDao;
 import audiziler.dao.SettingDao;
 import audiziler.ui.WindowSize;
@@ -27,7 +25,7 @@ import static org.junit.Assert.*;
  * The methods would therefore require a framework for testing JavaFX applications, which is why the testing is skipped for now.
  * @author vesuvesu
  */
-public class ServiceTest {
+public class PlaybackServiceTest {
         PlaybackService service;
         static SettingDao settingdao;
         static SettingsService settingsService;
@@ -35,7 +33,7 @@ public class ServiceTest {
         static File unsupportedFile;
         static WindowSize windowSize;
         static String defaultSettingNames;
-        public ServiceTest() {
+        public PlaybackServiceTest() {
     }
     
     @BeforeClass

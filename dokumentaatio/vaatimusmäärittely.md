@@ -43,7 +43,9 @@ Useita erilaisia visualisaatioita, joista voidaan valita sivupalkin valikolla (t
 Tällä hetkellä kaikilla visualisaatiotyypeillä on samanlainen joukko parametrejä (jokaisella tyypillä kuitenkin uniikit arvot). Parempi olisi, jos jokaisella tyypillä olisi omainlainen joukko parametreja, jolloin parametrien nimet olisivat intuitiivisempia ja tyypeille spesifisiä ominaisuuksia voitaisiin kontrolloida paremmin. Lisäksi jokaiselle parametrille voitaisiin lisätä yksikkö. (Esimerkiksi `threshold` -parametrille dB ja `analyzer rate` -parametrille Hz).
 
 #### Settings- (eli parametri-) tiedoston kustomointi
-Tällä hetkellä tiedoston muuttaminen rikkoo sovelluksen varsin helposti. Esimerkiksi jos jokin Setting (parametri) puuttuu tietyn visualisaatiotyypin listasta, tapahtuu NullPointerException ja kyseistä visualisaatiota ei voida piirtää. Settingien sitomista visualisaatioihin tulisi muuttaa siten, että visualisaatioilla on tietty joukko kontrolloitavia lukuarvoja, ja tiedostossa määritellyissä Settingeissä on mukana tieto siitä, mihin arvoon Setting sidotaan. 
+Tällä hetkellä settings-tiedostoa voi kustomoida hyvin rajoitetusti: vain Settingien minimi- ja maksimiarvoja
+voi muuttaa, muut muutokset todennäköisesti eivät pääse tiedoston validoinnista läpi. Esimerkiksi jos jokin Setting (parametri) puuttuu tietyn visualisaatiotyypin listasta, tiedosto tunnistetaan kelvottomaksi ja päälle kirjoitetaan
+kovakoodatut vakio-Settingit. Settingien sitomista visualisaatioihin tulisi muuttaa siten, että visualisaatioilla on tietty joukko kontrolloitavia lukuarvoja, ja tiedostossa määritellyissä Settingeissä on mukana tieto siitä, mihin arvoon Setting sidotaan. 
 
 #### Asetukset -valikko
 Tämä aukeaisi yläreunalla olevasta napista, ja tästä voitaisiin vaihtaa ainakin: Visualisaation kanvaasin kokoa (tällä hetkellä 1280x720) 

@@ -5,7 +5,6 @@
  */
 package audiziler.domain;
 
-import audiziler.domain.Setting;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import org.junit.After;
