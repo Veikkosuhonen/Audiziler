@@ -8,6 +8,7 @@ package audiziler.media;
 import audiziler.domain.Settings;
 import java.io.File;
 import java.net.MalformedURLException;
+import java.util.function.Consumer;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.media.AudioSpectrumListener;
 import javafx.scene.media.Media;
@@ -19,7 +20,7 @@ import javafx.util.Duration;
  * Handles the initialization and playback of a JavaFX <code>MediaPlayer</code>
  * @author vesuvesu
  */
-public class MPlayer implements AudioPlayer{
+public class MPlayer implements AudiPlayer{
     MediaPlayer player;
     boolean isPlaying;
     /**
@@ -50,7 +51,7 @@ public class MPlayer implements AudioPlayer{
      * Stops and disposes the <code>MediaPlayer</code>
      */
     @Override
-    public void stop() {
+    public void stopPlayer() {
         if (isPlaying()) {
             player.stop();
             isPlaying = false;
@@ -86,9 +87,15 @@ public class MPlayer implements AudioPlayer{
      * @param listener 
      */
     @Override
-    public void setAudioSpectrumListener(AudioSpectrumListener listener) {
+    public void setAudioSpectrumListener(Consumer<float[]> listener) {
         player.setAudioSpectrumNumBands(1024);
-        player.setAudioSpectrumListener(listener);
+        player.setAudioSpectrumListener(new AudioSpectrumListener() {
+            @Override
+            public void spectrumDataUpdate(double d, double d1, float[] floats, float[] floats1) {
+                listener.accept(floats);
+            }
+            
+        });
     }
     /**
      * Binds the the audio spectrum threshold to a Setting named "threshold" and Binds the spectrum update interval to the inverse of a Setting named "analyzer rate"

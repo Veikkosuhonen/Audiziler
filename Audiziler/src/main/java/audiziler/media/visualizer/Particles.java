@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Label;
 import javafx.scene.effect.Bloom;
 import javafx.scene.effect.Reflection;
 import javafx.scene.transform.Scale;
@@ -35,12 +34,9 @@ public class Particles implements Visualization {
     Scale transform;
     Settings settings;
     
-    Label frametime;
-    
     public Particles(WindowSize windowSize) {
         this.windowSize = windowSize;
         canvas = new Canvas(1920, 1080);
-        group = new Group(canvas);
         gc = canvas.getGraphicsContext2D();
         bloom = new Bloom();
         reflection = new Reflection();
@@ -56,15 +52,13 @@ public class Particles implements Visualization {
         barWidth = 10;
         canvas.translateXProperty().bind(windowSize.widthProperty().subtract(bars * barWidth).divide(2));
         canvas.translateYProperty().bind(windowSize.heightProperty().subtract(canvas.getHeight()).divide(2));
-        frametime = new Label();
-        group.getChildren().add(frametime);
+        group = new Group(canvas);
     }
     @Override
     public void update(float[] magnitudes) {
         if (!visible) {
             return;
         }
-        long start = System.nanoTime();
         gc.clearRect(0,  0, canvas.getWidth(), canvas.getHeight());
         for (int i = 0; i < bars; i++) {
             float mag = magnitudes[i] - (float) settings.get("threshold").getValue();
@@ -80,17 +74,15 @@ public class Particles implements Visualization {
             particle.update();
             gc.setFill(particle.getColor());
             gc.fillRect(particle.getX(), particle.getY(), particle.getStrength(), particle.getStrength());
-            if (particle.getAge() > 50) {
+            if (particle.getAge() > 70) {
                 particles.remove(i);
             }
         }
-        long end = System.nanoTime();
-        frametime.setText((end - start) / 1e6 + " ms");
     }
 
     @Override
-    public Canvas getVisualization() {
-        return canvas;
+    public Group getVisualization() {
+        return group;
     }
     
     private Particle createParticle(float mag, int i) {
@@ -109,7 +101,7 @@ public class Particles implements Visualization {
     @Override
     public void setVisible(boolean visible) {
         this.visible = visible;
-        canvas.setVisible(visible);
+        group.setVisible(visible);
     }
     @Override
     public void setSettings(Settings settings) {

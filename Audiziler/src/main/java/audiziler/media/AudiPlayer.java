@@ -6,19 +6,19 @@
 package audiziler.media;
 
 import audiziler.domain.Settings;
-import javafx.scene.media.AudioSpectrumListener;
+import java.util.function.Consumer;
 
 /**
  *
  * @author Veikko
  */
-public interface AudioPlayer {
+public interface AudiPlayer {
     public void play();
     public void pause();
-    public void stop();
+    public void stopPlayer();
     public void toStart();
     public boolean isPlaying();
     public void setOnEndOfMedia(Runnable r);
-    public void setAudioSpectrumListener(AudioSpectrumListener listener);
+    public void setAudioSpectrumListener(Consumer<float[]> listener);
     public void bindSettings(Settings settings);
 }

@@ -8,7 +8,7 @@ and open the template in the editor.
     Author     : vesuvesu
 */
 .root{
-    -fx-background-color: #0b2021;
+    -fx-background-color: #000000;
     -fx-font-family: "Helvetica-Light";
     -fx-font-weight: lighter;
     -fx-font-size: 20px;
@@ -35,7 +35,7 @@ and open the template in the editor.
 .label{
     -fx-text-fill: #e6efff;
     /*-fx-background-color: #113436;*/
-    -fx-border-color: #133c3d;
+    -fx-border-color: #000000;
     -fx-border-width: 1px;
     -fx-border-radius: 4px;
 }
@@ -53,9 +53,17 @@ and open the template in the editor.
 .toggle-button:hover{
     -fx-background-color: #2aa36f;
 }
-.opener{
-    -fx-background-color: #113638;
-    -fx-border-color: #125357;
+.combo-box-base{
+    -fx-text-fill: #e6efff;
+    -fx-background-color: #2b7a58;
+    -fx-border-color: #2b7a58;
+    -fx-display: inline-block;
+    -fx-cursor: hand;
+    -fx-transition-duration: 0.3s;
+}
+.slider{
+    -fx-text-fill: #e6efff;
+    -fx-background-color: #2b7a58;
 }
 
 

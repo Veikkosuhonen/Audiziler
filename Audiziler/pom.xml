@@ -5,13 +5,23 @@
     <artifactId>Audiziler</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
+    
+    <repositories>
+        <repository>
+            <id>xuggle repo</id>
+            <url>https://files.liferay.com/mirrors/xuggle.googlecode.com/svn/trunk/repo/share/java/</url>
+        </repository>
+    </repositories>
+    
     <dependencies>
+        
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>
             <scope>test</scope>
         </dependency>
+        
         <!-- https://mvnrepository.com/artifact/org.testfx/testfx-junit5 -->
         <dependency>
             <groupId>org.testfx</groupId>
@@ -19,16 +29,19 @@
             <version>4.0.16-alpha</version>
             <scope>test</scope>
         </dependency>
+        
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
             <version>12.0.2</version>
         </dependency>
+        
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-media</artifactId>
             <version>12.0.2</version>
         </dependency>
+        
     </dependencies>
     <build>
         <plugins>
@@ -42,7 +55,6 @@
                         <exclude>audiziler/ui/components/*</exclude>
                         <exclude>audiziler/media/*</exclude>
                         <exclude>audiziler/media/visualizer/*</exclude>
-                        
                         <exclude>audiziler/Main.*</exclude>
                     </excludes>
                 </configuration>

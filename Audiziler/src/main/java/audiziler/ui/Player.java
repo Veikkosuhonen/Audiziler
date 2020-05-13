@@ -12,6 +12,7 @@ import audiziler.ui.components.VisualizationSelector;
 import audiziler.domain.FileService;
 import audiziler.domain.PlaybackService;
 import audiziler.media.visualizer.VisualizationType;
+import audiziler.ui.components.FPSCounter;
 import java.io.File;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -31,6 +32,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Popup;
@@ -68,6 +71,8 @@ public class Player {
     VisualizationSelector selector;
     
     Label help;
+    
+    FPSCounter fpsLabel;
     /**
      * Constructs the main UI-scene
      * @param playbackService
@@ -125,6 +130,11 @@ public class Player {
         selector = new VisualizationSelector();
         initRightPane();
         borderLayout.setRight(rightPane);
+        
+        //-fps at top-
+        fpsLabel = new FPSCounter();
+        fpsLabel.start();
+        borderLayout.setTop(fpsLabel.getLabel());
         
         //------Scene------
         scene = new Scene(finalLayout, 1280, 720);

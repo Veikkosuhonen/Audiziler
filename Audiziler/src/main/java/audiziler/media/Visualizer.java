@@ -12,8 +12,13 @@ import audiziler.media.visualizer.Symmetric;
 import audiziler.media.visualizer.Visualization;
 import audiziler.media.visualizer.VisualizationType;
 import audiziler.ui.WindowSize;
+import java.util.function.Consumer;
+import javafx.geometry.Insets;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
-import javafx.scene.media.AudioSpectrumListener;
+import javafx.scene.paint.Color;
 
 /**
  * A class for initializing and handling of <code>Visualization</code> objects
@@ -22,7 +27,6 @@ import javafx.scene.media.AudioSpectrumListener;
 public class Visualizer {
 
     WindowSize windowSize;
-    AudioSpectrumListener listener;
     Pane visualizer;
     VisualizationType type;
     
@@ -37,6 +41,7 @@ public class Visualizer {
     public Visualizer(WindowSize windowSize) {
         this.windowSize = windowSize;
         visualizer = new Pane();
+        visualizer.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
         visualizer.setViewOrder(10);
         
         flame = new Particles(windowSize);
@@ -49,12 +54,12 @@ public class Visualizer {
     }
     /**
      * Creates a listener which updates the visualizations with relevant data
-     * @return an <code>AudioSpectrumListener</code> to be bound to the <code>MediaPlayer</code>
+     * @return a <code>Consumer</code> to be run by the <code>MediaPlayer</code>
      */
-    public AudioSpectrumListener createListener() {
-        listener = new AudioSpectrumListener() {
+    public Consumer<float[]> createListener() {
+        Consumer listener = new Consumer<float[]>() {
             @Override
-            public void spectrumDataUpdate(double timestamp, double duration, float[] magnitudes, float[] phases) {
+            public void accept(float[] magnitudes) {
                 flame.update(magnitudes);
                 bars.update(magnitudes);
                 symmetric.update(magnitudes);

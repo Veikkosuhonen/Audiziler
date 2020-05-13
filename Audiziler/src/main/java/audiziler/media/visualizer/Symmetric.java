@@ -31,17 +31,18 @@ public class Symmetric implements Visualization {
     boolean visible;
     Settings settings;
     float[] heights;
+    float[] lazyHeights;
     float[] offsetter;
     int length;
     float width;
     float rootHeight;
     float centerX;
-    
+    float[] controls;
     public Symmetric(WindowSize windowSize) {
         canvas = new Canvas();
         canvas.widthProperty().setValue(1920);
         canvas.heightProperty().setValue(1080);
-        group = new Group(canvas);
+        canvas.setCache(true);
         gc = canvas.getGraphicsContext2D();
         bloom = new Bloom();
         reflection = new Reflection();
@@ -52,6 +53,7 @@ public class Symmetric implements Visualization {
         offsetter = offsettingMap(length);
         this.windowSize = windowSize;
         heights = new float[length];
+        lazyHeights = new float[length];
         width = 4;
         rootHeight = 0.5f * (float) canvas.getHeight();
         reflection.setTopOffset(-2*rootHeight);
@@ -60,26 +62,34 @@ public class Symmetric implements Visualization {
         centerX = 0.5f * (float) canvas.getWidth();
         canvas.translateXProperty().bind(windowSize.widthProperty().subtract(canvas.getWidth()).divide(2));
         canvas.translateYProperty().bind(windowSize.heightProperty().subtract(canvas.getHeight()).divide(2));
+        controls = new float[6];
+        group = new Group(canvas);
     }
+    
     @Override
     public void update(float[] magnitudes) {
         if (!visible) {
             return;
         }
-        bloom.setThreshold(settings.get("bloom").getValue());
-        double heightMult = settings.get("height").getValue() / 2;
+        updateControls();
+        bloom.setThreshold(controls[3]);
+        double heightMult = controls[2] / 2;
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        float avg = normalized( (float) avg(Arrays.copyOf(magnitudes, length)));
         
         gc.setStroke(Color.hsb(
-                normalized( (float) avg(Arrays.copyOf(magnitudes, length))) * settings.get("magnitude color offset").getValue() + settings.get("color offset").getValue(),
+                avg * controls[4] + controls[5],
                 1.0,
                 1.0
         ));
+        gc.setLineWidth(avg * 6);
+        
         gc.beginPath();
         for (int i = length - 1; i >= 0; i--) {
             float oldHeight = heights[i];
-            float newHeight = oldHeight - (oldHeight - height(magnitudes[i])) / (float) settings.get("acceleration").getValue();
+            float newHeight = oldHeight - (oldHeight - (height(magnitudes[i]))) / controls[1];
             heights[i] = newHeight;
+            lazyHeights[i] = newHeight > lazyHeights[i] ? newHeight : lazyHeights[i] * 0.99f;
             newHeight *= heightMult;
             float x = centerX - width * offsetter[i];
             float y = rootHeight - newHeight;
@@ -92,7 +102,29 @@ public class Symmetric implements Visualization {
         }
         gc.stroke();
         gc.closePath();
+        
+        gc.setStroke(Color.hsb(
+                avg * controls[4] * 0.9 + controls[5],
+                1.0,
+                0.3
+        ));
+        gc.setLineWidth(avg * 1);
+        
+        gc.beginPath();
+        for (int i = length - 1; i >= 0; i--) {
+            float x = centerX - width * offsetter[i];
+            float y = rootHeight - lazyHeights[i] * (float) heightMult;
+            gc.lineTo(x, y);
+        }
+        for (int i = 0; i < length; i++) {
+            float x = centerX + width * offsetter[i];
+            float y = rootHeight - lazyHeights[i] * (float) heightMult;
+            gc.lineTo(x, y);
+        }
+        gc.stroke();
+        gc.closePath();
     }
+    
     private float normalized(float f) {
         float n = f / 100;
         if (n > 0.99f) {
@@ -100,6 +132,7 @@ public class Symmetric implements Visualization {
         }
         return n;
     }
+    
     private float height(float magnitude) {
         float f = (float) Math.pow(magnitude + 90, 2.3) / 40;
         return f > 0 ? f : 0;
@@ -117,17 +150,27 @@ public class Symmetric implements Visualization {
         }
         return map;
     }
-
+    
+    private void updateControls() {
+        controls[0] = (float) settings.get("threshold").getValue();
+        controls[1] = (float) settings.get("acceleration").getValue();
+        controls[2] = (float) settings.get("height").getValue();
+        controls[3] = (float) settings.get("bloom").getValue();
+        controls[4] = (float) settings.get("magnitude color offset").getValue();
+        controls[5] = (float) settings.get("color offset").getValue();
+    }
+    
     @Override
-    public Canvas getVisualization() {
-        return canvas;
+    public Group getVisualization() {
+        return group;
     }
 
     @Override
     public void setVisible(boolean visible) {
         this.visible = visible;
-        canvas.setVisible(visible);
+        group.setVisible(visible);
     }
+    
     @Override
     public void setSettings(Settings settings) {
         this.settings = settings;

@@ -4,3 +4,5 @@
 /Audiziler/target/
 /Audiziler/nbproject/
 *.txt
+/Audiziler/src/main/java/audiziler/media/ImajPlayer.java
+/Audiziler/lib/

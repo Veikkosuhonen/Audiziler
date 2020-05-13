@@ -5,13 +5,13 @@
  */
 package audiziler.domain;
 
-import audiziler.media.AudioPlayer;
-import audiziler.media.MPlayer;
 import audiziler.media.visualizer.VisualizationType;
 import audiziler.media.Visualizer;
 import audiziler.ui.WindowSize;
 import java.io.File;
 import javafx.scene.layout.Pane;
+import audiziler.media.AudiPlayer;
+import audiziler.media.MPlayer;
 
 /**
  * A class to abstract the handling of MPlayer and Visualizer from the user interface classes
@@ -20,7 +20,7 @@ import javafx.scene.layout.Pane;
 public class PlaybackService {
     private final SettingsService settingsService;
     private final WindowSize windowSize;
-    private AudioPlayer mediaplayer;
+    private AudiPlayer mediaplayer;
     private Visualizer visualizer;
     private File file;
     
@@ -86,7 +86,7 @@ public class PlaybackService {
     }
     public void stop() {
         if (mediaplayer != null) {
-            mediaplayer.stop();
+            mediaplayer.stopPlayer();
         }
         if (visualizer != null) {
             visualizer.clear();
