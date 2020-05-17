@@ -22,6 +22,7 @@ import javafx.scene.paint.Color;
  */
 
 public class Symmetric implements Visualization {
+    
     WindowSize windowSize;
     Group group;
     Canvas canvas;
@@ -38,7 +39,9 @@ public class Symmetric implements Visualization {
     float rootHeight;
     float centerX;
     float[] controls;
+    
     public Symmetric(WindowSize windowSize) {
+        
         canvas = new Canvas();
         canvas.widthProperty().setValue(1920);
         canvas.heightProperty().setValue(1080);
@@ -59,6 +62,7 @@ public class Symmetric implements Visualization {
         reflection.setTopOffset(-2*rootHeight);
         reflection.setTopOpacity(1.0);
         reflection.setBottomOpacity(0.0);
+        reflection.setFraction(0.9);
         centerX = 0.5f * (float) canvas.getWidth();
         canvas.translateXProperty().bind(windowSize.widthProperty().subtract(canvas.getWidth()).divide(2));
         canvas.translateYProperty().bind(windowSize.heightProperty().subtract(canvas.getHeight()).divide(2));

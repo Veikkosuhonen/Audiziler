@@ -6,6 +6,7 @@
 package audiziler.media;
 
 import audiziler.domain.Settings;
+import audiziler.media.visualizer.Areas;
 import audiziler.media.visualizer.Bars;
 import audiziler.media.visualizer.Particles;
 import audiziler.media.visualizer.Symmetric;
@@ -33,6 +34,7 @@ public class Visualizer {
     Visualization flame;
     Visualization bars;
     Visualization symmetric;
+    Visualization areas;
     /**
      * Constructs the visualizer <code>Pane</code>-component
      * and constructs the <code>Visualization</code> objects with the given WindowSize
@@ -50,7 +52,9 @@ public class Visualizer {
         
         symmetric = new Symmetric(windowSize);
         
-        visualizer.getChildren().addAll(bars.getVisualization(), flame.getVisualization(), symmetric.getVisualization());
+        areas = new Areas(windowSize);
+        
+        visualizer.getChildren().addAll(bars.getVisualization(), flame.getVisualization(), symmetric.getVisualization(), areas.getVisualization());
     }
     /**
      * Creates a listener which updates the visualizations with relevant data
@@ -63,6 +67,7 @@ public class Visualizer {
                 flame.update(magnitudes);
                 bars.update(magnitudes);
                 symmetric.update(magnitudes);
+                areas.update(magnitudes);
             }
         };
         return listener;
@@ -85,6 +90,7 @@ public class Visualizer {
         bars.setVisible(false);
         flame.setVisible(false);
         symmetric.setVisible(false);
+        areas.setVisible(false);
         switch (type) {
             case BARS: 
                 bars.setVisible(true);
@@ -94,6 +100,9 @@ public class Visualizer {
                 break;
             case SYMMETRY:
                 symmetric.setVisible(true);
+                break;
+            case AREAS:
+                areas.setVisible(true);
         }
     }
     /**
@@ -104,5 +113,6 @@ public class Visualizer {
         flame.setSettings(settings);
         bars.setSettings(settings);
         symmetric.setSettings(settings);
+        areas.setSettings(settings);
     }
 }

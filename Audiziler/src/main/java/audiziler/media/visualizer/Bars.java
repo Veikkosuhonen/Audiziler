@@ -49,6 +49,7 @@ public class Bars implements Visualization {
         float barWidth = width * 0.75f;
         rootHeight = 0.5f * (float) canvas.getHeight();
         reflection.setTopOffset(-2*rootHeight);
+        reflection.setFraction(0.9);
         canvas.translateXProperty().bind(windowSize.widthProperty().subtract(canvas.getWidth()).divide(2));
         canvas.translateYProperty().bind(windowSize.heightProperty().subtract(canvas.getHeight()).divide(2));
         for (int i = 0; i < length; i++) {
