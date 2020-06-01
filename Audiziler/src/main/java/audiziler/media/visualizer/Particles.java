@@ -5,44 +5,23 @@
  */
 package audiziler.media.visualizer;
 
-import audiziler.domain.Settings;
 import audiziler.ui.WindowSize;
 import java.util.ArrayList;
-import javafx.scene.Group;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.effect.Bloom;
-import javafx.scene.effect.Reflection;
 import javafx.scene.transform.Scale;
 
 /**
  *
  * @author vesuvesu
  */
-public class Particles implements Visualization {
-    WindowSize windowSize;
-    Group group;
-    Canvas canvas;
-    GraphicsContext gc;
-    Bloom bloom;
-    Reflection reflection;
-    boolean visible;
+public class Particles extends Visualization {
     ArrayList<Particle> particles;
     float rootHeight;
     int bars;
     float barWidth;
     Scale transform;
-    Settings settings;
     
     public Particles(WindowSize windowSize) {
-        this.windowSize = windowSize;
-        canvas = new Canvas(1920, 1080);
-        gc = canvas.getGraphicsContext2D();
-        bloom = new Bloom();
-        reflection = new Reflection();
-        reflection.setInput(bloom);
-        canvas.setEffect(reflection);
-        visible = false;
+        super(windowSize);
         particles = new ArrayList();
         rootHeight = 0.5f * (float) canvas.getHeight();
         reflection.setTopOffset(-2*rootHeight);
@@ -50,13 +29,10 @@ public class Particles implements Visualization {
         reflection.setBottomOpacity(0.0);
         bars = 128;
         barWidth = 10;
-        canvas.translateXProperty().bind(windowSize.widthProperty().subtract(bars * barWidth).divide(2));
-        canvas.translateYProperty().bind(windowSize.heightProperty().subtract(canvas.getHeight()).divide(2));
-        group = new Group(canvas);
     }
     @Override
     public void update(float[] magnitudes) {
-        if (!visible) {
+        if (!this.isVisible()) {
             return;
         }
         gc.clearRect(0,  0, canvas.getWidth(), canvas.getHeight());
@@ -79,11 +55,6 @@ public class Particles implements Visualization {
             }
         }
     }
-
-    @Override
-    public Group getVisualization() {
-        return group;
-    }
     
     private Particle createParticle(float mag, int i) {
         Particle particle = new Particle(
@@ -97,14 +68,9 @@ public class Particles implements Visualization {
         );
         return particle;
     }
-
+    
     @Override
-    public void setVisible(boolean visible) {
-        this.visible = visible;
-        group.setVisible(visible);
-    }
-    @Override
-    public void setSettings(Settings settings) {
-        this.settings = settings;
+    public VisualizationType getType() {
+        return VisualizationType.FLAME;
     }
 }

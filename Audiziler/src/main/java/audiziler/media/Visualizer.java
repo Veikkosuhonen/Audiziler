@@ -13,6 +13,7 @@ import audiziler.media.visualizer.Symmetric;
 import audiziler.media.visualizer.Visualization;
 import audiziler.media.visualizer.VisualizationType;
 import audiziler.ui.WindowSize;
+import java.util.ArrayList;
 import java.util.function.Consumer;
 import javafx.geometry.Insets;
 import javafx.scene.layout.Background;
@@ -30,11 +31,8 @@ public class Visualizer {
     WindowSize windowSize;
     Pane visualizer;
     VisualizationType type;
+    ArrayList<Visualization> visualizations;
     
-    Visualization flame;
-    Visualization bars;
-    Visualization symmetric;
-    Visualization areas;
     /**
      * Constructs the visualizer <code>Pane</code>-component
      * and constructs the <code>Visualization</code> objects with the given WindowSize
@@ -46,29 +44,21 @@ public class Visualizer {
         visualizer.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
         visualizer.setViewOrder(10);
         
-        flame = new Particles(windowSize);
-    
-        bars = new Bars(windowSize);
+        visualizations = new ArrayList();
+        visualizations.add(new Bars(windowSize));
+        visualizations.add(new Particles(windowSize));
+        visualizations.add(new Symmetric(windowSize));
+        visualizations.add(new Areas(windowSize));
         
-        symmetric = new Symmetric(windowSize);
-        
-        areas = new Areas(windowSize);
-        
-        visualizer.getChildren().addAll(bars.getVisualization(), flame.getVisualization(), symmetric.getVisualization(), areas.getVisualization());
+        visualizer.getChildren().addAll(visualizations);
     }
     /**
      * Creates a listener which updates the visualizations with relevant data
      * @return a <code>Consumer</code> to be run by the <code>MediaPlayer</code>
      */
     public Consumer<float[]> createListener() {
-        Consumer listener = new Consumer<float[]>() {
-            @Override
-            public void accept(float[] magnitudes) {
-                flame.update(magnitudes);
-                bars.update(magnitudes);
-                symmetric.update(magnitudes);
-                areas.update(magnitudes);
-            }
+        Consumer listener = (Consumer<float[]>) (float[] magnitudes) -> {
+            visualizations.forEach(v -> v.update(magnitudes));
         };
         return listener;
     }
@@ -87,32 +77,19 @@ public class Visualizer {
      */
     public void setType(VisualizationType type) {
         this.type = type;
-        bars.setVisible(false);
-        flame.setVisible(false);
-        symmetric.setVisible(false);
-        areas.setVisible(false);
-        switch (type) {
-            case BARS: 
-                bars.setVisible(true);
-                break;
-            case FLAME: 
-                flame.setVisible(true);
-                break;
-            case SYMMETRY:
-                symmetric.setVisible(true);
-                break;
-            case AREAS:
-                areas.setVisible(true);
-        }
+        visualizations.forEach(v -> {
+            if (v.getType().equals(type)) {
+                v.setVisible(true);
+            } else {
+                v.setVisible(false);
+            }
+        });
     }
     /**
      * Binds the Settings of the <code>Visualization</code>-objects to the given Settings
      * @param settings 
      */
     public void bindSettings(Settings settings) {
-        flame.setSettings(settings);
-        bars.setSettings(settings);
-        symmetric.setSettings(settings);
-        areas.setSettings(settings);
+        visualizations.forEach(v -> v.setSettings(settings));
     }
 }

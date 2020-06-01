@@ -5,13 +5,7 @@
  */
 package audiziler.media.visualizer;
 
-import audiziler.domain.Settings;
 import audiziler.ui.WindowSize;
-import javafx.scene.Group;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.effect.Bloom;
-import javafx.scene.effect.Reflection;
 import javafx.scene.paint.Color;
 
 /**
@@ -19,29 +13,13 @@ import javafx.scene.paint.Color;
  * @author vesuvesu
  */
 
-public class Bars implements Visualization {
-    WindowSize windowSize;
-    Group group;
-    Canvas canvas;
-    GraphicsContext gc;
-    Bloom bloom;
-    Reflection reflection;
-    boolean visible;
-    Settings settings;
+public class Bars extends Visualization {
     Bar[] bars;
     int length;
     float rootHeight;
     float[] controls;
     public Bars(WindowSize windowSize) {
-        canvas = new Canvas();
-        canvas.widthProperty().setValue(1920);
-        canvas.heightProperty().setValue(1080);
-        gc = canvas.getGraphicsContext2D();
-        bloom = new Bloom();
-        reflection = new Reflection();
-        reflection.setInput(bloom);
-        canvas.setEffect(reflection);
-        visible = false;
+        super(windowSize);
         length = 128;
         this.windowSize = windowSize;
         bars = new Bar[length];
@@ -50,8 +28,6 @@ public class Bars implements Visualization {
         rootHeight = 0.5f * (float) canvas.getHeight();
         reflection.setTopOffset(-2*rootHeight);
         reflection.setFraction(0.9);
-        canvas.translateXProperty().bind(windowSize.widthProperty().subtract(canvas.getWidth()).divide(2));
-        canvas.translateYProperty().bind(windowSize.heightProperty().subtract(canvas.getHeight()).divide(2));
         for (int i = 0; i < length; i++) {
             bars[i] = new Bar(
                     new Vector2D(width * i, rootHeight),
@@ -59,11 +35,10 @@ public class Bars implements Visualization {
             );
         }
         controls = new float[7];
-        group = new Group(canvas);
     }
     @Override
     public void update(float[] magnitudes) {
-        if (!visible) {
+        if (!this.isVisible()) {
             return;
         }
         updateControls();
@@ -111,17 +86,7 @@ public class Bars implements Visualization {
     }
     
     @Override
-    public Group getVisualization() {
-        return group;
-    }
-
-    @Override
-    public void setVisible(boolean visible) {
-        this.visible = visible;
-        group.setVisible(visible);
-    }
-    @Override
-    public void setSettings(Settings settings) {
-        this.settings = settings;
+    public VisualizationType getType() {
+        return VisualizationType.BARS;
     }
 }

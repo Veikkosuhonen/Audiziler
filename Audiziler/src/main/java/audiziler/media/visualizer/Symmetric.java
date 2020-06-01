@@ -21,16 +21,7 @@ import javafx.scene.paint.Color;
  * @author vesuvesu
  */
 
-public class Symmetric implements Visualization {
-    
-    WindowSize windowSize;
-    Group group;
-    Canvas canvas;
-    GraphicsContext gc;
-    Bloom bloom;
-    Reflection reflection;
-    boolean visible;
-    Settings settings;
+public class Symmetric extends Visualization {
     float[] heights;
     float[] lazyHeights;
     float[] offsetter;
@@ -41,20 +32,9 @@ public class Symmetric implements Visualization {
     float[] controls;
     
     public Symmetric(WindowSize windowSize) {
-        
-        canvas = new Canvas();
-        canvas.widthProperty().setValue(1920);
-        canvas.heightProperty().setValue(1080);
-        canvas.setCache(true);
-        gc = canvas.getGraphicsContext2D();
-        bloom = new Bloom();
-        reflection = new Reflection();
-        reflection.setInput(bloom);
-        canvas.setEffect(reflection);
-        visible = false;
+        super(windowSize);
         length = 256;
         offsetter = offsettingMap(length);
-        this.windowSize = windowSize;
         heights = new float[length];
         lazyHeights = new float[length];
         width = 4;
@@ -64,15 +44,12 @@ public class Symmetric implements Visualization {
         reflection.setBottomOpacity(0.0);
         reflection.setFraction(0.9);
         centerX = 0.5f * (float) canvas.getWidth();
-        canvas.translateXProperty().bind(windowSize.widthProperty().subtract(canvas.getWidth()).divide(2));
-        canvas.translateYProperty().bind(windowSize.heightProperty().subtract(canvas.getHeight()).divide(2));
         controls = new float[6];
-        group = new Group(canvas);
     }
     
     @Override
     public void update(float[] magnitudes) {
-        if (!visible) {
+        if (!this.isVisible()) {
             return;
         }
         updateControls();
@@ -163,20 +140,9 @@ public class Symmetric implements Visualization {
         controls[4] = (float) settings.get("magnitude color offset").getValue();
         controls[5] = (float) settings.get("color offset").getValue();
     }
-    
-    @Override
-    public Group getVisualization() {
-        return group;
-    }
 
     @Override
-    public void setVisible(boolean visible) {
-        this.visible = visible;
-        group.setVisible(visible);
-    }
-    
-    @Override
-    public void setSettings(Settings settings) {
-        this.settings = settings;
+    public VisualizationType getType() {
+        return VisualizationType.SYMMETRIC;
     }
 }
