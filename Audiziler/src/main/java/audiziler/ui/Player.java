@@ -20,6 +20,7 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -32,8 +33,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Popup;
@@ -78,7 +77,8 @@ public class Player {
      * @param playbackService
      * @param fileService 
      */
-    Player(PlaybackService playbackService, FileService fileService) {
+    Player(PlaybackService playbackService, FileService fileService, WindowSize windowSize) {
+        
         this.fileService = fileService;
         this.playbackService = playbackService;
         
@@ -170,6 +170,7 @@ public class Player {
             leftPane.setVisible();
             bottomPane.setVisible();
             rightPane.setVisible();
+            scene.setCursor(Cursor.DEFAULT);
         });
         
         addFileButton.setOnAction((ActionEvent e) -> {

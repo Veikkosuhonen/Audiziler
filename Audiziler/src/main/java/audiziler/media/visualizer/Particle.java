@@ -21,10 +21,12 @@ public class Particle {
     private double b;
     
     private float strength;
+    private float opacity;
+    private float decay;
     
     private int age;
     
-    public Particle(Vector2D pos, Vector2D vel, Vector2D acc, float h, float strength) {
+    public Particle(Vector2D pos, Vector2D vel, Vector2D acc, float h, float strength, float opacity, float decay) {
         this.pos = pos;
         this.vel = vel;
         this.acc = acc;
@@ -32,15 +34,17 @@ public class Particle {
         s = 1.0f;
         b = 1.0f;
         this.strength = strength;
+        this.opacity = opacity;
+        this.decay = decay;
         age = 0;
     }
     public void update() {
         vel.add(acc);
         pos.add(vel);
         age++;
-        s *= 0.97;
-        b *= 0.97;
-        strength *= 0.95;
+        s *= decay;
+        b *= decay;
+        strength *= decay;
     }
     public float getX() {
         return pos.x;
@@ -51,11 +55,14 @@ public class Particle {
     public int getAge() {
         return age;
     }
+    public Vector2D getVel() {
+        return vel;
+    }
     public void setAcc(Vector2D acc) {
         this.acc = acc;
     }
     public Color getColor() {
-        return Color.hsb(h, s, b);
+        return Color.hsb(h, s, b, opacity);
     }
     public float getStrength() {
         return strength;

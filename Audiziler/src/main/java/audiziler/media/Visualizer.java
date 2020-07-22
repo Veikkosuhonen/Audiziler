@@ -8,6 +8,7 @@ package audiziler.media;
 import audiziler.domain.Settings;
 import audiziler.media.visualizer.Areas;
 import audiziler.media.visualizer.Bars;
+import audiziler.media.visualizer.DynamicSetting;
 import audiziler.media.visualizer.Particles;
 import audiziler.media.visualizer.Symmetric;
 import audiziler.media.visualizer.Visualization;
@@ -32,7 +33,7 @@ public class Visualizer {
     Pane visualizer;
     VisualizationType type;
     ArrayList<Visualization> visualizations;
-    
+    DynamicSetting[] dynamics;
     /**
      * Constructs the visualizer <code>Pane</code>-component
      * and constructs the <code>Visualization</code> objects with the given WindowSize
@@ -41,6 +42,8 @@ public class Visualizer {
     public Visualizer(WindowSize windowSize) {
         this.windowSize = windowSize;
         visualizer = new Pane();
+        
+        //visualizer.setBackground(new Background(new BackgroundImage(image,BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
         visualizer.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
         visualizer.setViewOrder(10);
         
@@ -51,6 +54,11 @@ public class Visualizer {
         visualizations.add(new Areas(windowSize));
         
         visualizer.getChildren().addAll(visualizations);
+        
+        dynamics = new DynamicSetting[3];
+        dynamics[0] = new DynamicSetting(1,5,50);
+        dynamics[1] = new DynamicSetting(7, 24, 40);
+        dynamics[2] = new DynamicSetting(30, 60, 30);
     }
     /**
      * Creates a listener which updates the visualizations with relevant data
@@ -58,7 +66,11 @@ public class Visualizer {
      */
     public Consumer<float[]> createListener() {
         Consumer listener = (Consumer<float[]>) (float[] magnitudes) -> {
-            visualizations.forEach(v -> v.update(magnitudes));
+            for (DynamicSetting d : dynamics) d.update(magnitudes);
+            visualizations.forEach(v -> {
+                v.update(magnitudes);
+                v.updateDynamics(dynamics);
+            });
         };
         return listener;
     }

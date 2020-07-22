@@ -153,7 +153,7 @@ public class FileSettingDao implements SettingDao {
                 writer.write(defaultSettingNames.get(4) + ";how fast bars move;4;1;10\n");
                 writer.write(defaultSettingNames.get(5) + ";height of bars;1;0.5;8\n");
                 writer.write(defaultSettingNames.get(6) + ";bloom strength;0.3;0;1\n");
-                writer.write(defaultSettingNames.get(7) + ";controls the spectrum analyzer interval;41.1;41;41.2\n");
+                writer.write(defaultSettingNames.get(7) + ";fill opacity;0.5;0;1\n");
             }
             writer.close();
         } catch (Exception e) {

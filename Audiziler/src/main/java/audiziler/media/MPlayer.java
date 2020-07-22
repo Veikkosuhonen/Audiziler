@@ -104,6 +104,6 @@ public class MPlayer implements AudiPlayer{
     @Override
     public void bindSettings(Settings settings) {
         player.audioSpectrumThresholdProperty().bind(settings.get("threshold").getProperty());
-        player.audioSpectrumIntervalProperty().bind(new SimpleDoubleProperty(1).divide(settings.get("analyzer rate").getProperty()));
+        player.setAudioSpectrumInterval(1.0/60);
     }
 }

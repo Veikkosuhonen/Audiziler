@@ -21,7 +21,6 @@ import javafx.util.Duration;
  * @author vesuvesu
  */
 public class SidePane extends StackPane {
-    private final Pos pos;
     private Rectangle opener;
     private VBox vbox;
     private HBox hbox;
@@ -38,7 +37,6 @@ public class SidePane extends StackPane {
     public SidePane(Pos pos) {
         super();
         determineAlignment(pos);
-        this.pos = pos;
         
         openerShowingTime = new PauseTransition(Duration.seconds(4));
         openerShowingTime.setOnFinished((ActionEvent e) -> {

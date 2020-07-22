@@ -26,15 +26,13 @@ public class Bars extends Visualization {
         float width = (float) canvas.getWidth() / length;
         float barWidth = width * 0.75f;
         rootHeight = 0.5f * (float) canvas.getHeight();
-        reflection.setTopOffset(-2*rootHeight);
-        reflection.setFraction(0.9);
         for (int i = 0; i < length; i++) {
             bars[i] = new Bar(
                     new Vector2D(width * i, rootHeight),
                     new Vector2D(barWidth, 0)
             );
         }
-        controls = new float[7];
+        controls = new float[8];
     }
     @Override
     public void update(float[] magnitudes) {
@@ -57,7 +55,9 @@ public class Bars extends Visualization {
                             i * 1.0 / length * controls[4] + 
                             controls[5] * normalHeight +
                             controls[6]
-                            , 1.0, normalHeight));
+                            , 1.0, normalHeight,
+                            controls[7]
+                            ));
             float x = bars[i].getPos().x;
             float y = rootHeight - newHeight;
             gc.fillRect(x, y, bars[i].getSize().x, newHeight);
@@ -83,6 +83,7 @@ public class Bars extends Visualization {
         controls[4] = (float) settings.get("frequency color offset").getValue();
         controls[5] = (float) settings.get("magnitude color offset").getValue();
         controls[6] = (float) settings.get("color offset").getValue();
+        controls[7] = (float) settings.get("opacity").getValue();
     }
     
     @Override

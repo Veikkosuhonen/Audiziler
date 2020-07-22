@@ -5,15 +5,9 @@
  */
 package audiziler.media.visualizer;
 
-import audiziler.domain.Settings;
 import audiziler.ui.WindowSize;
 import java.util.Arrays;
 import java.util.stream.IntStream;
-import javafx.scene.Group;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.effect.Bloom;
-import javafx.scene.effect.Reflection;
 import javafx.scene.paint.Color;
 
 /**
@@ -39,10 +33,6 @@ public class Symmetric extends Visualization {
         lazyHeights = new float[length];
         width = 4;
         rootHeight = 0.5f * (float) canvas.getHeight();
-        reflection.setTopOffset(-2*rootHeight);
-        reflection.setTopOpacity(1.0);
-        reflection.setBottomOpacity(0.0);
-        reflection.setFraction(0.9);
         centerX = 0.5f * (float) canvas.getWidth();
         controls = new float[6];
     }

@@ -6,6 +6,8 @@
 package audiziler.media.visualizer;
 
 import audiziler.ui.WindowSize;
+import java.util.ArrayList;
+import java.util.Random;
 import javafx.scene.paint.Color;
 
 /**
@@ -23,7 +25,6 @@ public class Areas extends Visualization {
     float[] controls;
     int areaCount;
     int areaLength;
-    
     public Areas(WindowSize windowSize)  {
         super(windowSize);
         length = 256;
@@ -32,12 +33,8 @@ public class Areas extends Visualization {
         areaLength = length / areaCount;
         width = (float) canvas.getWidth() / areaLength / 2;
         rootHeight = 0.5f * (float) canvas.getHeight();
-        reflection.setTopOffset(-2*rootHeight);
-        reflection.setTopOpacity(1.0);
-        reflection.setBottomOpacity(0.0);
-        reflection.setFraction(0.9);
         centerX = 0.5f * (float) canvas.getWidth();
-        controls = new float[7];
+        controls = new float[8];
     }
     
     @Override
@@ -54,7 +51,8 @@ public class Areas extends Visualization {
             gc.setFill(Color.hsb(
                 (1 + 1.0 * j / areaCount) * controls[5] + controls[6],
                 1.0,
-                1.0 - (controls[4] / 360) + ((controls[4] / 360) / areaCount) * j
+                1.0 - (controls[4] / 360) + ((controls[4] / 360) / areaCount) * j,
+                controls[7]
             ));
             gc.setStroke(Color.hsb(
                 (1 + 1.0 * j / areaCount) * controls[5] + controls[6],
@@ -88,18 +86,12 @@ public class Areas extends Visualization {
         controls[1] = (float) settings.get("acceleration").getValue();
         controls[2] = (float) settings.get("height").getValue();
         controls[3] = (float) settings.get("bloom").getValue();
-        controls[4] = (float) settings.get("magnitude color offset").getValue();
+        controls[4] = (float) (settings.get("magnitude color offset").getValue());
         controls[5] = (float) settings.get("frequency color offset").getValue();
-        controls[6] = (float) settings.get("color offset").getValue();
+        controls[6] = (float) settings.get("color offset").getValue() + low;
+        controls[7] = (float) settings.get("opacity").getValue();
     }
     
-    private float normalized(float f) {
-        float n = f / 100;
-        if (n > 0.99f) {
-            n = 0.99f;
-        }
-        return n;
-    }
     
     private float height(float magnitude) {
         float f = (float) Math.pow(magnitude + 90, 2.3) / 40;
@@ -110,5 +102,4 @@ public class Areas extends Visualization {
     public VisualizationType getType() {
         return VisualizationType.AREAS;
     }
-    
 }

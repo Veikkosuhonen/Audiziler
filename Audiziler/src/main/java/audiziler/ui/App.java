@@ -14,12 +14,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
 /**
  *
@@ -60,7 +54,7 @@ public class App extends Application {
         filemanager = new FileService(audioFileDao);
         windowSize = new WindowSize();
         service = new PlaybackService(settingsService, windowSize);
-        player = new Player(service, filemanager);
+        player = new Player(service, filemanager, windowSize);
     }
     /**
      * Called after init. Constructs the UI.
