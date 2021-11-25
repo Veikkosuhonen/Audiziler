@@ -24,11 +24,10 @@ public class SidePane extends StackPane {
     private Rectangle opener;
     private VBox vbox;
     private HBox hbox;
-    
     private boolean vertical;
     
     private final PauseTransition openerShowingTime;
-    private PauseTransition menuShowingTime;
+    private final PauseTransition menuShowingTime;
     /**
      * Creates the component with different layout depending on the <code>Pos</code> given.
      * Can be Left, Right, Bottom or Top.
@@ -38,7 +37,7 @@ public class SidePane extends StackPane {
         super();
         determineAlignment(pos);
         
-        openerShowingTime = new PauseTransition(Duration.seconds(4));
+        openerShowingTime = new PauseTransition(Duration.seconds(3));
         openerShowingTime.setOnFinished((ActionEvent e) -> {
             if (opener.isVisible()) {
                 super.setVisible(false);
@@ -60,11 +59,12 @@ public class SidePane extends StackPane {
             opener = new Rectangle(40, 100);
             vbox = new VBox();
             vbox.setAlignment(pos);
-            vbox.setSpacing(4);
-            vbox.setVisible(false);
+            vbox.setSpacing(8);
             vbox.setOnMouseExited((MouseEvent e) -> {
                 menuShowingTime.playFromStart();
             });
+            
+           
             super.getChildren().addAll(opener, vbox);
             super.setAlignment(pos);
         } else {
@@ -118,7 +118,7 @@ public class SidePane extends StackPane {
                 vertical = false;
                 break;
             default:
-                System.out.println("Illegal alignment for SidePane: " + pos);
+                System.out.println("Illegal alignment for SidePane: " + pos.name());
                 break;
         }
     }

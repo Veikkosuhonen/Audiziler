@@ -6,8 +6,6 @@
 package audiziler.media.visualizer;
 
 import audiziler.ui.WindowSize;
-import java.util.ArrayList;
-import java.util.Random;
 import javafx.scene.paint.Color;
 
 /**
@@ -17,14 +15,14 @@ import javafx.scene.paint.Color;
 public class Areas extends Visualization {
     
     float[] heights;
-    int length;
+    final int length;
     int startingOffset;
-    float width;
-    float rootHeight;
-    float centerX;
+    final float width;
+    final float rootHeight;
+    final float centerX;
     float[] controls;
-    int areaCount;
-    int areaLength;
+    final int areaCount;
+    final int areaLength;
     public Areas(WindowSize windowSize)  {
         super(windowSize);
         length = 256;

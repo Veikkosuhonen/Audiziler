@@ -72,6 +72,8 @@ public class Player {
     Label help;
     
     FPSCounter fpsLabel;
+    
+    WindowSize windowSize;
     /**
      * Constructs the main UI-scene
      * @param playbackService
@@ -81,6 +83,7 @@ public class Player {
         
         this.fileService = fileService;
         this.playbackService = playbackService;
+        this.windowSize = windowSize;
         
         // --------------Layout----------
         
@@ -282,8 +285,8 @@ public class Player {
      */
     public void showPopup() {
         Popup helpPopup = new Popup();
-        helpPopup.setX(300);
-        helpPopup.setY(200);
+        helpPopup.setX(windowSize.width.get()/2);
+        helpPopup.setY(windowSize.height.get()/2);
         Label helptext = new Label("Hover mouse over left opener to access file manager and select an audiofile to be played"
                 + "\nPress f to go fullscreen"
                 + "\nControl playback from bottom opener or click screen"

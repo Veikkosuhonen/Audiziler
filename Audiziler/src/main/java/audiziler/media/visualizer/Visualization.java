@@ -52,12 +52,15 @@ public abstract class Visualization extends Group {
         reflection.setTopOpacity(1.0);
         reflection.setBottomOpacity(0.0);
         reflection.setFraction(0.9);
+        /**
         map = displacementMap();
         map.setInput(reflection);
         this.setEffect(map);
+        **/
+        this.setEffect(reflection);
         canvas.translateXProperty().bind(windowSize.widthProperty().subtract(canvas.getWidth()).divide(2));
         canvas.translateYProperty().bind(windowSize.heightProperty().subtract(canvas.getHeight()).divide(2));
-        
+        /**
         Image image = new Image(getClass().getResource("/images/sunset.jpg").toExternalForm());
         ImageView imageView = new ImageView(image);
         imageView.setCache(true);
@@ -66,6 +69,8 @@ public abstract class Visualization extends Group {
         imageView.fitWidthProperty().bind(windowSize.widthProperty());
         
         super.getChildren().addAll(imageView, canvas);
+        **/
+        super.getChildren().add(canvas);
     }
     
     public abstract void update(float[] magnitudes);

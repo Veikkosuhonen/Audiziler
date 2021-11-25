@@ -66,5 +66,8 @@ and open the template in the editor.
     -fx-background-color: #2b7a58;
 }
 
-
-
+.scroll-pane{
+    -fx-text-fill: #e6efff;
+    -fx-background-color: #2b7a58;
+    -fx-border-color: #2b7a58;
+}
